@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -21,7 +21,7 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel1" alignment="0" pref="400" max="32767" attributes="0"/>
+          <Component id="jPanel1" min="-2" pref="270" max="-2" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -29,7 +29,7 @@
     <Container class="javax.swing.JPanel" name="jPanel1">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="59" green="55" red="40" type="rgb"/>
+          <Color blue="41" green="41" red="41" type="rgb"/>
         </Property>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[650, 503]"/>
@@ -39,51 +39,48 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace pref="26" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
-                          <Component id="fechaDevolucion" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="comboClientes" min="-2" pref="123" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="comboClientes" min="-2" pref="75" max="-2" attributes="0"/>
-                              <Component id="botonAlquilar" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="botonAlquilar" min="-2" pref="88" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="fechaDevolucion" min="-2" pref="116" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="botonDevolver" min="-2" pref="88" max="-2" attributes="0"/>
                           </Group>
+                          <Component id="jScrollPane1" alignment="0" min="-2" pref="549" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="461" max="32767" attributes="0"/>
-              </Group>
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="botonDevolver" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="167" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="jScrollPane1" min="-2" pref="549" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
+                  <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
-                  <Component id="comboClientes" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" min="-2" pref="122" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-                  <Component id="botonAlquilar" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="fechaDevolucion" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="botonDevolver" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="60" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jLabel1" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                      <Component id="comboClientes" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+                  <Component id="jScrollPane1" min="-2" pref="39" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="fechaDevolucion" max="32767" attributes="0"/>
+                          <Component id="botonAlquilar" min="-2" pref="32" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="botonDevolver" min="-2" pref="32" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace pref="53" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -91,6 +88,15 @@
       <SubComponents>
         <Component class="javax.swing.JComboBox" name="comboClientes">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="1e" green="18" red="30" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="0"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="4">
                 <StringItem index="0" value="Item 1"/>
@@ -99,6 +105,10 @@
                 <StringItem index="3" value="Item 4"/>
               </StringArray>
             </Property>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="null"/>
+            </Property>
+            <Property name="focusable" type="boolean" value="false"/>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -117,11 +127,13 @@
                   <Font name="Calibri Light" size="11" style="0"/>
                 </Property>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="4" rowCount="1">
-                    <Column editable="true" title="Title 1" type="java.lang.Object"/>
-                    <Column editable="true" title="Title 2" type="java.lang.Object"/>
-                    <Column editable="true" title="Title 3" type="java.lang.Object"/>
-                    <Column editable="true" title="Title 4" type="java.lang.Object"/>
+                  <Table columnCount="6" rowCount="1">
+                    <Column editable="true" title="Nombre" type="java.lang.String"/>
+                    <Column editable="true" title="Apellido" type="java.lang.String"/>
+                    <Column editable="true" title="C&#xe9;dula" type="java.lang.Object"/>
+                    <Column editable="true" title="ID Pel&#xed;cula" type="java.lang.Object"/>
+                    <Column editable="true" title="Fecha Alquiler" type="java.lang.Object"/>
+                    <Column editable="true" title="Fecha Devolucion" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -150,7 +162,10 @@
                 </Property>
                 <Property name="focusable" type="boolean" value="false"/>
                 <Property name="gridColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="cc" green="cc" red="cc" type="rgb"/>
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="selectionBackground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="1e" green="18" red="46" type="rgb"/>
                 </Property>
                 <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                   <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
@@ -162,16 +177,66 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JButton" name="botonAlquilar">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Alquilar"/>
-          </Properties>
-        </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="fechaDevolucion">
+          <Properties>
+            <Property name="dateFormatString" type="java.lang.String" value="dd/MMM/yyyy"/>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="0"/>
+            </Property>
+          </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="botonDevolver">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="1e" green="18" red="46" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="0"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Devolver"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
+                <BevelBorder/>
+              </Border>
+            </Property>
+            <Property name="focusPainted" type="boolean" value="false"/>
+            <Property name="focusable" type="boolean" value="false"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="botonAlquilar">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="1e" green="18" red="46" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="0"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Alquilar"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
+                <BevelBorder/>
+              </Border>
+            </Property>
+            <Property name="focusPainted" type="boolean" value="false"/>
+            <Property name="focusable" type="boolean" value="false"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel1">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="24" style="2"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Cliente"/>
           </Properties>
         </Component>
       </SubComponents>

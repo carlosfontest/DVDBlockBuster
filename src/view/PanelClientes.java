@@ -1,7 +1,6 @@
 package view;
 
 import controller.Controlador;
-import javax.swing.JOptionPane;
 
 public class PanelClientes extends javax.swing.JPanel {
     private Controlador controlador;
@@ -9,6 +8,7 @@ public class PanelClientes extends javax.swing.JPanel {
     public PanelClientes(Controlador controlador) {
         this.controlador = controlador;
         initComponents();
+        tableClientes.getTableHeader().setReorderingAllowed(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -18,12 +18,12 @@ public class PanelClientes extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableClientes = new javax.swing.JTable();
+        comboEditarCliente = new javax.swing.JComboBox<>();
         botonAgregarCliente = new javax.swing.JButton();
         botonEditarCliente = new javax.swing.JButton();
-        comboEditarCliente = new javax.swing.JComboBox<>();
         botonEliminarCliente = new javax.swing.JButton();
 
-        jPanel1.setBackground(new java.awt.Color(64, 85, 89));
+        jPanel1.setBackground(new java.awt.Color(65, 65, 65));
 
         tableClientes = new javax.swing.JTable(){
             public boolean isCellEditable(int rowIndex, int colIndex){
@@ -43,49 +43,71 @@ public class PanelClientes extends javax.swing.JPanel {
             }
         ));
         tableClientes.setFocusable(false);
-        tableClientes.setGridColor(new java.awt.Color(204, 204, 204));
+        tableClientes.setGridColor(new java.awt.Color(255, 255, 255));
+        tableClientes.setSelectionBackground(new java.awt.Color(70, 24, 30));
         jScrollPane1.setViewportView(tableClientes);
 
-        botonAgregarCliente.setText("Agregar");
-
-        botonEditarCliente.setText("Editar");
-
+        comboEditarCliente.setBackground(new java.awt.Color(48, 24, 30));
+        comboEditarCliente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        comboEditarCliente.setForeground(new java.awt.Color(255, 255, 255));
         comboEditarCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboEditarCliente.setFocusable(false);
 
+        botonAgregarCliente.setBackground(new java.awt.Color(70, 24, 30));
+        botonAgregarCliente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        botonAgregarCliente.setForeground(new java.awt.Color(255, 255, 255));
+        botonAgregarCliente.setText("Agregar");
+        botonAgregarCliente.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        botonAgregarCliente.setFocusPainted(false);
+        botonAgregarCliente.setFocusable(false);
+
+        botonEditarCliente.setBackground(new java.awt.Color(70, 24, 30));
+        botonEditarCliente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        botonEditarCliente.setForeground(new java.awt.Color(255, 255, 255));
+        botonEditarCliente.setText("Editar");
+        botonEditarCliente.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        botonEditarCliente.setFocusPainted(false);
+        botonEditarCliente.setFocusable(false);
+
+        botonEliminarCliente.setBackground(new java.awt.Color(70, 24, 30));
+        botonEliminarCliente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        botonEliminarCliente.setForeground(new java.awt.Color(255, 255, 255));
         botonEliminarCliente.setText("Eliminar");
+        botonEliminarCliente.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        botonEliminarCliente.setFocusPainted(false);
+        botonEliminarCliente.setFocusable(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(25, 25, 25)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 551, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(55, 55, 55)
-                        .addComponent(botonAgregarCliente)
-                        .addGap(52, 52, 52)
+                        .addComponent(botonAgregarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(92, 92, 92)
+                        .addComponent(botonEditarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(comboEditarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(botonEditarCliente)
-                        .addGap(84, 84, 84)
-                        .addComponent(botonEliminarCliente))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(47, 47, 47)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(101, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botonEliminarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(46, 46, 46)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonAgregarCliente)
-                    .addComponent(botonEditarCliente)
-                    .addComponent(comboEditarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botonEliminarCliente))
-                .addContainerGap(162, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(botonEliminarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(comboEditarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(botonEditarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(botonAgregarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -98,9 +120,7 @@ public class PanelClientes extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
