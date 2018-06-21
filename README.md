@@ -1,2 +1,2 @@
-# DVDBlockBuster
-Proyecto N° 2 Organizacion del Computador. Unimet, Caracas. Index &amp; Hashing
+﻿# DVDBlockBuster
+Proyecto N° 2 Organizacion del Computador. Unimet, Caracas. Index y Hashing
