@@ -11,43 +11,28 @@ import javax.swing.JPanel;
 
 public class FramePrincipal extends javax.swing.JFrame {
     private Controlador controlador;
-    int x,y;
+    private int x,y;
 
     // Dynamic Panel
-    GridBagLayout layout = new GridBagLayout();
-    PanelPrincipal pPrincipal;
-    PanelClientes pClientes;
-    PanelPeliculas pPeliculas;
+    public GridBagLayout layout = new GridBagLayout();
+    public PanelPrincipal pPrincipal;
+    public PanelClientes pClientes;
+    public PanelPeliculas pPeliculas;
     
 
-    public FramePrincipal(Controlador controlador) {
-        setIconImage(new ImageIcon(getClass().getResource("/images/logoBlackBuster.png")).getImage());
-        this.controlador = controlador;
+    public FramePrincipal(Controlador controlador) {       
+        this.controlador = controlador;       
+        initComponents();
         this.setLocation(220, 185);
         this.setResizable(false);
-        this.setSize(600, 100);
-        initComponents();
-        pPrincipal = new PanelPrincipal(controlador);
-        pClientes = new PanelClientes(controlador);
-        pPeliculas = new PanelPeliculas(controlador);
-        panelDinamico.setLayout(layout);
-        GridBagConstraints c = new GridBagConstraints();
-        c.gridx = 0;
-        c.gridy = 0;
-        panelDinamico.add(pPrincipal, c);
-        c.gridx = 0;
-        c.gridy = 0;
-        panelDinamico.add(pClientes, c);
-        c.gridx = 0;
-        c.gridy = 0;
-        panelDinamico.add(pPeliculas, c);
+        this.inicioDePaneles();
         
-        pPrincipal.setVisible(true);
-        pClientes.setVisible(false);
-        pPeliculas.setVisible(false);
+        //Se inician las tablas
+        this.controlador.iniciarTablas(pPrincipal, pClientes, pPeliculas);
+        //Se pone el ícono del programa
+        setIconImage(new ImageIcon(getClass().getResource("/images/logoBlackBuster.png")).getImage());
     }
 
-    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -64,13 +49,14 @@ public class FramePrincipal extends javax.swing.JFrame {
         labelPeliculas = new javax.swing.JLabel();
         indicador3 = new javax.swing.JPanel();
         iconoPeliculas = new javax.swing.JLabel();
+        info = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         panelDinamico = new javax.swing.JPanel();
         separador = new javax.swing.JPanel();
         panelHerramientas = new javax.swing.JPanel();
-        botonMinimizar = new javax.swing.JLabel();
-        botonCerrar = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        iconoMinimizar = new javax.swing.JLabel();
+        iconoCerrar = new javax.swing.JLabel();
+        labelTitulo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -94,7 +80,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         indicador1.setLayout(indicador1Layout);
         indicador1Layout.setHorizontalGroup(
             indicador1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 3, Short.MAX_VALUE)
+            .addGap(0, 5, Short.MAX_VALUE)
         );
         indicador1Layout.setVerticalGroup(
             indicador1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -110,7 +96,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         botonPrincipalLayout.setHorizontalGroup(
             botonPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(botonPrincipalLayout.createSequentialGroup()
-                .addComponent(indicador1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(indicador1, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
                 .addComponent(iconoPrincipal)
                 .addGap(12, 12, 12)
@@ -142,7 +128,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         indicador2.setLayout(indicador2Layout);
         indicador2Layout.setHorizontalGroup(
             indicador2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 3, Short.MAX_VALUE)
+            .addGap(0, 5, Short.MAX_VALUE)
         );
         indicador2Layout.setVerticalGroup(
             indicador2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -158,7 +144,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         botonClientesLayout.setHorizontalGroup(
             botonClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(botonClientesLayout.createSequentialGroup()
-                .addComponent(indicador2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(indicador2, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
                 .addComponent(labelClientes)
                 .addGap(12, 12, 12)
@@ -193,7 +179,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         indicador3.setLayout(indicador3Layout);
         indicador3Layout.setHorizontalGroup(
             indicador3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 3, Short.MAX_VALUE)
+            .addGap(0, 5, Short.MAX_VALUE)
         );
         indicador3Layout.setVerticalGroup(
             indicador3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -209,7 +195,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         botonPeliculasLayout.setHorizontalGroup(
             botonPeliculasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(botonPeliculasLayout.createSequentialGroup()
-                .addComponent(indicador3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(indicador3, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
                 .addComponent(iconoPeliculas)
                 .addGap(12, 12, 12)
@@ -226,12 +212,14 @@ public class FramePrincipal extends javax.swing.JFrame {
             .addComponent(iconoPeliculas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/info.png"))); // NOI18N
-        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+        info.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/info.png"))); // NOI18N
+        info.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel1MouseClicked(evt);
+                infoMouseClicked(evt);
             }
         });
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logoBlackBuster.png"))); // NOI18N
 
         javax.swing.GroupLayout sidePaneLayout = new javax.swing.GroupLayout(sidePane);
         sidePane.setLayout(sidePaneLayout);
@@ -241,22 +229,29 @@ public class FramePrincipal extends javax.swing.JFrame {
             .addComponent(botonClientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(botonPeliculas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(sidePaneLayout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addComponent(jLabel1)
+                .addGroup(sidePaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(sidePaneLayout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addComponent(info))
+                    .addGroup(sidePaneLayout.createSequentialGroup()
+                        .addGap(54, 54, 54)
+                        .addComponent(jLabel1)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         sidePaneLayout.setVerticalGroup(
             sidePaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(sidePaneLayout.createSequentialGroup()
-                .addGap(60, 60, 60)
+                .addGap(27, 27, 27)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(botonPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(botonClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(botonPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(6, 6, 6))
+                .addGap(109, 109, 109)
+                .addComponent(info)
+                .addGap(8, 8, 8))
         );
 
         panelDinamico.setBackground(new java.awt.Color(65, 65, 65));
@@ -265,11 +260,11 @@ public class FramePrincipal extends javax.swing.JFrame {
         panelDinamico.setLayout(panelDinamicoLayout);
         panelDinamicoLayout.setHorizontalGroup(
             panelDinamicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
+            .addGap(0, 620, Short.MAX_VALUE)
         );
         panelDinamicoLayout.setVerticalGroup(
             panelDinamicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 270, Short.MAX_VALUE)
+            .addGap(0, 385, Short.MAX_VALUE)
         );
 
         separador.setBackground(new java.awt.Color(204, 204, 204));
@@ -298,23 +293,23 @@ public class FramePrincipal extends javax.swing.JFrame {
             }
         });
 
-        botonMinimizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/MinimizarBlanca.png"))); // NOI18N
-        botonMinimizar.addMouseListener(new java.awt.event.MouseAdapter() {
+        iconoMinimizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/MinimizarBlanca.png"))); // NOI18N
+        iconoMinimizar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                botonMinimizarMouseClicked(evt);
+                iconoMinimizarMouseClicked(evt);
             }
         });
 
-        botonCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/EquisBlanca.png"))); // NOI18N
-        botonCerrar.addMouseListener(new java.awt.event.MouseAdapter() {
+        iconoCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/EquisBlanca.png"))); // NOI18N
+        iconoCerrar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                botonCerrarMouseClicked(evt);
+                iconoCerrarMouseClicked(evt);
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("I Am Awake", 0, 36)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Titulo.png"))); // NOI18N
+        labelTitulo.setFont(new java.awt.Font("I Am Awake", 0, 36)); // NOI18N
+        labelTitulo.setForeground(new java.awt.Color(204, 204, 204));
+        labelTitulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Titulo.png"))); // NOI18N
 
         javax.swing.GroupLayout panelHerramientasLayout = new javax.swing.GroupLayout(panelHerramientas);
         panelHerramientas.setLayout(panelHerramientasLayout);
@@ -322,11 +317,11 @@ public class FramePrincipal extends javax.swing.JFrame {
             panelHerramientasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelHerramientasLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2)
+                .addComponent(labelTitulo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(botonMinimizar)
+                .addComponent(iconoMinimizar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(botonCerrar)
+                .addComponent(iconoCerrar)
                 .addGap(11, 11, 11))
         );
         panelHerramientasLayout.setVerticalGroup(
@@ -334,10 +329,10 @@ public class FramePrincipal extends javax.swing.JFrame {
             .addGroup(panelHerramientasLayout.createSequentialGroup()
                 .addContainerGap(20, Short.MAX_VALUE)
                 .addGroup(panelHerramientasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(botonCerrar, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(botonMinimizar))
+                    .addComponent(iconoCerrar, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(iconoMinimizar))
                 .addGap(16, 16, 16))
-            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(labelTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -348,14 +343,15 @@ public class FramePrincipal extends javax.swing.JFrame {
                 .addComponent(sidePane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelDinamico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelHerramientas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, 0)
+                    .addComponent(panelHerramientas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(panelDinamico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addComponent(separador, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(separador, javax.swing.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE)
+            .addComponent(separador, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(sidePane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -370,50 +366,24 @@ public class FramePrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonPrincipalMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonPrincipalMousePressed
-        setColor(botonPrincipal); 
-        indicador1.setOpaque(true);
-        resetColor(new JPanel[]{botonClientes, botonPeliculas}, new JPanel[]{indicador2, indicador3});
-        
-        pPrincipal.setVisible(true);
-        pPeliculas.setVisible(false);
-        pClientes.setVisible(false);
+        controlador.abrirPanelPrincipal(pPrincipal, pClientes, pPeliculas, this);
     }//GEN-LAST:event_botonPrincipalMousePressed
 
     private void botonClientesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonClientesMousePressed
-        setColor(botonClientes); 
-        indicador2.setOpaque(true);
-        resetColor(new JPanel[]{botonPrincipal, botonPeliculas}, new JPanel[]{indicador1, indicador3});
-        
-        pPrincipal.setVisible(false);
-        pPeliculas.setVisible(false);
-        pClientes.setVisible(true);
+        controlador.abrirPanelClientes(pPrincipal, pClientes, pPeliculas, this);
     }//GEN-LAST:event_botonClientesMousePressed
 
     private void botonPeliculasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonPeliculasMousePressed
-        setColor(botonPeliculas); 
-        indicador3.setOpaque(true);
-        resetColor(new JPanel[]{botonPrincipal, botonClientes}, new JPanel[]{indicador1, indicador2});
-        
-        pPrincipal.setVisible(false);
-        pPeliculas.setVisible(true);
-        pClientes.setVisible(false);
+        controlador.abrirPanelPeliculas(pPrincipal, pClientes, pPeliculas, this);
     }//GEN-LAST:event_botonPeliculasMousePressed
 
-    private void botonMinimizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonMinimizarMouseClicked
-        setState(this.ICONIFIED);
-    }//GEN-LAST:event_botonMinimizarMouseClicked
+    private void iconoMinimizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconoMinimizarMouseClicked
+        controlador.minimizar(this);
+    }//GEN-LAST:event_iconoMinimizarMouseClicked
 
-    private void botonCerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCerrarMouseClicked
-        try {
-            int dialogButton = JOptionPane.YES_NO_OPTION;
-            int result = JOptionPane.showConfirmDialog(null, "¿Desea cerrar el sistema?", "Salir", dialogButton);
-            if(result == 0){
-                System.exit(0);
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e);
-        }
-    }//GEN-LAST:event_botonCerrarMouseClicked
+    private void iconoCerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconoCerrarMouseClicked
+        controlador.cerrar(this);
+    }//GEN-LAST:event_iconoCerrarMouseClicked
 
     private void panelHerramientasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelHerramientasMousePressed
         x = evt.getX();
@@ -424,43 +394,49 @@ public class FramePrincipal extends javax.swing.JFrame {
         this.setLocation(this.getLocation().x + evt.getX() - x, this.getLocation().y + evt.getY() - y);
     }//GEN-LAST:event_panelHerramientasMouseDragged
 
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-        Icon icono = new ImageIcon(getClass().getResource("../images/logoCFRQ.png"));
-        JOptionPane.showMessageDialog(this, "Software elaborado por Carlos Fontes y Rafael Quintero\n "
-            + "Proyecto N° 2 - Organización del Computador - UNIMET\n                       ©CF&RQ - DVDBlockBuster\n "
-            + "                               2 de Julio de 2018", "Información", JOptionPane.INFORMATION_MESSAGE, icono);
-    }//GEN-LAST:event_jLabel1MouseClicked
-
-    private void setColor(JPanel pane){
-        pane.setBackground(new Color(48,24,30)); //Color SI seleccionado
-    }
+    private void infoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoMouseClicked
+        controlador.mostrarInfo(this);
+    }//GEN-LAST:event_infoMouseClicked
     
-    private void resetColor(JPanel [] boton, JPanel [] indicadores){
-        for(int i=0;i<boton.length;i++){
-           boton[i].setBackground(new Color(70,24,30)); //Color NO seleccionado
-           
-        } for(int i=0;i<indicadores.length;i++){
-           indicadores[i].setOpaque(false);           
-        }
+    private void inicioDePaneles(){
+        pPrincipal = new PanelPrincipal(controlador, this);
+        pClientes = new PanelClientes(controlador, this);
+        pPeliculas = new PanelPeliculas(controlador, this);
+        panelDinamico.setLayout(layout);
+        GridBagConstraints c = new GridBagConstraints();
+        c.gridx = 0;
+        c.gridy = 0;
+        panelDinamico.add(pPrincipal, c);
+        c.gridx = 0;
+        c.gridy = 0;
+        panelDinamico.add(pClientes, c);
+        c.gridx = 0;
+        c.gridy = 0;
+        panelDinamico.add(pPeliculas, c);
+        
+        pPrincipal.setVisible(true);
+        pClientes.setVisible(false);
+        pPeliculas.setVisible(false);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel botonCerrar;
-    private javax.swing.JPanel botonClientes;
-    private javax.swing.JLabel botonMinimizar;
-    private javax.swing.JPanel botonPeliculas;
-    private javax.swing.JPanel botonPrincipal;
+    public javax.swing.JPanel botonClientes;
+    public javax.swing.JPanel botonPeliculas;
+    public javax.swing.JPanel botonPrincipal;
+    private javax.swing.JLabel iconoCerrar;
     private javax.swing.JLabel iconoClientes;
+    private javax.swing.JLabel iconoMinimizar;
     private javax.swing.JLabel iconoPeliculas;
     private javax.swing.JLabel iconoPrincipal;
-    private javax.swing.JPanel indicador1;
-    private javax.swing.JPanel indicador2;
-    private javax.swing.JPanel indicador3;
+    public javax.swing.JPanel indicador1;
+    public javax.swing.JPanel indicador2;
+    public javax.swing.JPanel indicador3;
+    private javax.swing.JLabel info;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel labelClientes;
     private javax.swing.JLabel labelPeliculas;
     private javax.swing.JLabel labelPrincipal;
-    private javax.swing.JPanel panelDinamico;
+    private javax.swing.JLabel labelTitulo;
+    public javax.swing.JPanel panelDinamico;
     private javax.swing.JPanel panelHerramientas;
     private javax.swing.JPanel separador;
     private javax.swing.JPanel sidePane;
