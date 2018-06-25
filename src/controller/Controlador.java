@@ -309,12 +309,17 @@ public class Controlador {
         
         //Se añade al archivo de clientes
         try {
-            if(clientes.exists()){
-                fw = new FileWriter(clientes);
-                bw = 
-            }else{
-                
+            fw = new FileWriter(clientes, true);
+            bw = new BufferedWriter(fw);
+            fr = new FileReader(clientes);
+            br = new BufferedReader(fr);
+            long n = 0;
+            if(!(br.read() == -1)){
+                bw.newLine();
             }
+            bw.write(cedula + "/" + nombre + "/" + apellido + "/" + n );
+            bw.close();
+            fw.close();
         } catch (Exception e) {
         }
         
