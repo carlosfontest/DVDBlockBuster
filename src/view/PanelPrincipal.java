@@ -4,6 +4,8 @@ import com.toedter.calendar.JTextFieldDateEditor;
 import controller.Controlador;
 import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
+import model.DVD;
+import model.Pelicula;
 
 public class PanelPrincipal extends javax.swing.JPanel {
     private Controlador controlador;
@@ -321,15 +323,14 @@ public class PanelPrincipal extends javax.swing.JPanel {
     }//GEN-LAST:event_comboClientesActionPerformed
 
     private void botonAlquilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAlquilarActionPerformed
-        
+        System.out.println(controlador.almacen.size());
     }//GEN-LAST:event_botonAlquilarActionPerformed
 
     private void botonDevolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonDevolverActionPerformed
-        
+        controlador.almacen.add(new DVD(new Pelicula("sd", "ad", "sadf", 2, 5)));
     }//GEN-LAST:event_botonDevolverActionPerformed
 
     private void textFieldCedulaPKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldCedulaPKeyPressed
-        // TODO add your handling code here:
     }//GEN-LAST:event_textFieldCedulaPKeyPressed
 
 

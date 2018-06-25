@@ -10,6 +10,7 @@ public class Pelicula implements Serializable{
     private int precioDia;
     private int rating;
     private int stock;
+    private long RRN;
 
     public Pelicula(String titulo, String genero, String descripcion, int precioDia, int rating) {
         this.titulo = titulo;
@@ -17,17 +18,6 @@ public class Pelicula implements Serializable{
         this.descripcion = descripcion;
         this.precioDia = precioDia;
         this.rating = rating;
-    }
-    
-    public int getStock(){
-        int cont = 0;
-        
-        for (int i = 0; i < Controlador.almacen.size(); i++) {
-            if(this.titulo.equals(Controlador.almacen.get(i).getPelicula().getTitulo())){
-                cont++;
-            }
-        }
-        return cont;
     }
 
     public String getTitulo() {

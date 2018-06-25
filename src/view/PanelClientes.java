@@ -1,6 +1,7 @@
 package view;
 
 import controller.Controlador;
+import java.awt.event.KeyEvent;
 
 public class PanelClientes extends javax.swing.JPanel {
     private Controlador controlador;
@@ -19,12 +20,16 @@ public class PanelClientes extends javax.swing.JPanel {
         panel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableClientes = new javax.swing.JTable();
-        comboEditarCliente = new javax.swing.JComboBox<>();
+        comboEditarCliente = new javax.swing.JComboBox<String>();
         botonAgregarCliente = new javax.swing.JButton();
         botonEditarCliente = new javax.swing.JButton();
         botonEliminarCliente = new javax.swing.JButton();
         botonAux = new javax.swing.JToggleButton();
         separador2 = new javax.swing.JSeparator();
+        textFieldCedulaC = new javax.swing.JTextField();
+        separador1 = new javax.swing.JSeparator();
+        botonBuscarCedulaC = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         panel.setBackground(new java.awt.Color(65, 65, 65));
         panel.setPreferredSize(new java.awt.Dimension(620, 350));
@@ -52,7 +57,7 @@ public class PanelClientes extends javax.swing.JPanel {
                 "Nombre", "Apellido", "Cédula", "ID DVD", "Título Película"
             }
         ));
-        tableClientes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        tableClientes.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tableClientes.setFocusable(false);
         tableClientes.setGridColor(new java.awt.Color(204, 204, 204));
         tableClientes.setSelectionBackground(new java.awt.Color(70, 24, 30));
@@ -63,7 +68,7 @@ public class PanelClientes extends javax.swing.JPanel {
         comboEditarCliente.setBackground(new java.awt.Color(70, 24, 30));
         comboEditarCliente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         comboEditarCliente.setForeground(new java.awt.Color(255, 255, 255));
-        comboEditarCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Nombre", "Apellido" }));
+        comboEditarCliente.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione", "Nombre", "Apellido" }));
         comboEditarCliente.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         comboEditarCliente.setFocusable(false);
         comboEditarCliente.setMinimumSize(new java.awt.Dimension(73, 32));
@@ -113,29 +118,88 @@ public class PanelClientes extends javax.swing.JPanel {
         separador2.setBackground(new java.awt.Color(204, 204, 204));
         separador2.setForeground(new java.awt.Color(204, 204, 204));
 
+        textFieldCedulaC.setBackground(new java.awt.Color(65, 65, 65));
+        textFieldCedulaC.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        textFieldCedulaC.setForeground(new java.awt.Color(255, 255, 255));
+        textFieldCedulaC.setText("Cédula");
+        textFieldCedulaC.setBorder(null);
+        textFieldCedulaC.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                textFieldCedulaCFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                textFieldCedulaCFocusLost(evt);
+            }
+        });
+        textFieldCedulaC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textFieldCedulaCActionPerformed(evt);
+            }
+        });
+        textFieldCedulaC.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                textFieldCedulaCKeyTyped(evt);
+            }
+        });
+
+        separador1.setBackground(new java.awt.Color(70, 24, 30));
+        separador1.setForeground(new java.awt.Color(70, 24, 30));
+
+        botonBuscarCedulaC.setBackground(new java.awt.Color(70, 24, 30));
+        botonBuscarCedulaC.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        botonBuscarCedulaC.setForeground(new java.awt.Color(255, 255, 255));
+        botonBuscarCedulaC.setText("Buscar");
+        botonBuscarCedulaC.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        botonBuscarCedulaC.setFocusPainted(false);
+        botonBuscarCedulaC.setFocusable(false);
+        botonBuscarCedulaC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonBuscarCedulaCActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 568, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(panelLayout.createSequentialGroup()
-                        .addComponent(botonAgregarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(92, 92, 92)
-                        .addComponent(botonEditarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(comboEditarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(botonEliminarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(27, Short.MAX_VALUE))
-            .addGroup(panelLayout.createSequentialGroup()
                 .addComponent(botonAux, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(separador2)
+            .addGroup(panelLayout.createSequentialGroup()
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(separador2))
+                    .addGroup(panelLayout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 568, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 17, Short.MAX_VALUE))
+                    .addGroup(panelLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(panelLayout.createSequentialGroup()
+                                .addGap(4, 4, 4)
+                                .addComponent(textFieldCedulaC, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(separador1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(botonBuscarCedulaC, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(36, 36, 36)
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(botonAgregarCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(botonEliminarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(31, 31, 31)
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(botonEditarCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(comboEditarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(49, 49, 49)))
                 .addContainerGap())
         );
         panelLayout.setVerticalGroup(
@@ -143,16 +207,29 @@ public class PanelClientes extends javax.swing.JPanel {
             .addGroup(panelLayout.createSequentialGroup()
                 .addComponent(botonAux, javax.swing.GroupLayout.PREFERRED_SIZE, 7, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(separador2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonEditarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(comboEditarCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(botonAgregarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botonEliminarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28))
+                .addComponent(separador2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelLayout.createSequentialGroup()
+                        .addComponent(botonEditarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(botonBuscarCedulaC, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboEditarCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(panelLayout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(botonAgregarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(botonEliminarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelLayout.createSequentialGroup()
+                        .addComponent(textFieldCedulaC, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(separador1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1))))
+                .addGap(21, 21, 21))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -171,6 +248,7 @@ public class PanelClientes extends javax.swing.JPanel {
 
     private void panelMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelMousePressed
         controlador.limpiarSeleccion(tableClientes, botonAux);
+        this.textFieldCedulaC.setText("Cédula");
     }//GEN-LAST:event_panelMousePressed
 
     private void botonAgregarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarClienteActionPerformed
@@ -185,16 +263,51 @@ public class PanelClientes extends javax.swing.JPanel {
         controlador.editarCliente(this);
     }//GEN-LAST:event_botonEditarClienteActionPerformed
 
+    private void textFieldCedulaCFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textFieldCedulaCFocusGained
+        if(textFieldCedulaC.getText().trim().equals("Cédula") == true){
+            textFieldCedulaC.setText("");
+        }
+    }//GEN-LAST:event_textFieldCedulaCFocusGained
+
+    private void textFieldCedulaCFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textFieldCedulaCFocusLost
+        if(textFieldCedulaC.getText().trim().equals("") == true){
+            textFieldCedulaC.setText("Título");
+        }
+    }//GEN-LAST:event_textFieldCedulaCFocusLost
+
+    private void textFieldCedulaCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldCedulaCActionPerformed
+
+    }//GEN-LAST:event_textFieldCedulaCActionPerformed
+
+    private void textFieldCedulaCKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldCedulaCKeyTyped
+        char tecla = evt.getKeyChar();
+        if(tecla == KeyEvent.VK_ENTER){
+            botonBuscarCedulaC.doClick();
+        }
+        controlador.validarSoloNumeros(evt, this.frame);
+    }//GEN-LAST:event_textFieldCedulaCKeyTyped
+
+    private void botonBuscarCedulaCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarCedulaCActionPerformed
+    }//GEN-LAST:event_botonBuscarCedulaCActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        controlador.busquedaBinariaCliente(0);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAgregarCliente;
     private javax.swing.JToggleButton botonAux;
+    private javax.swing.JButton botonBuscarCedulaC;
     private javax.swing.JButton botonEditarCliente;
     private javax.swing.JButton botonEliminarCliente;
     public javax.swing.JComboBox<String> comboEditarCliente;
+    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panel;
+    private javax.swing.JSeparator separador1;
     private javax.swing.JSeparator separador2;
     public javax.swing.JTable tableClientes;
+    public javax.swing.JTextField textFieldCedulaC;
     // End of variables declaration//GEN-END:variables
 }

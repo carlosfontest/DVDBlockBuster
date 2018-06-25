@@ -1,19 +1,19 @@
 package model;
 
+import controller.Controlador;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Random;
 
 public class DVD implements Serializable{
-    private int ID;
+    private long ID;
     private Date fechaAlquiler;
     private Date fechaDevolucion;
     private Pelicula pelicula;
 
     public DVD(Pelicula pelicula) {
         Random r = new Random();
-        int num = r.nextInt(99999) + 1;
-        this.ID = num;
+        this.ID = Controlador.totales + 1;
         this.fechaAlquiler = null;
         this.fechaDevolucion = null;
         this.pelicula = pelicula;

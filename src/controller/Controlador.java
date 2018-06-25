@@ -3,42 +3,37 @@ package controller;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.*;
 import javax.swing.*;
 import javax.swing.table.*;
+import model.Cliente;
 import model.DVD;
 import view.*;
 
 public class Controlador {
     public static ArrayList<DVD> almacen = new ArrayList<>();
+    public static RandomAccessFile clientes;
+    public static File peliculas;
+    public static long alquilados;
+    public static long totales;
     //Para guardar el almacen
     FileOutputStream salida = null;
     FileInputStream entrada = null;
     ObjectOutputStream writer = null;
     ObjectInputStream reader = null;
 
-    public Controlador() {
+    public Controlador() throws FileNotFoundException {
+        File cli = new File("BaseDeDatos/Clientes.txt");
+        clientes = new RandomAccessFile(cli, "rw");
     }
     
     
     public void iniciarPrograma(){
         FramePrincipal principal = new FramePrincipal(this);
         //Login principal = new Login(this);
-        principal.setVisible(true);
+        principal.setVisible(true);      
         
-        //Leemos el almacen desde el archivo
-        try {
-            entrada = new FileInputStream("BaseDeDatos/Almacen.dat");
-            reader = new ObjectInputStream(entrada);
-            this.almacen = (ArrayList<DVD>) reader.readObject();
-        } catch (IOException | ClassNotFoundException ex) {
-            System.err.println(ex.getMessage());
-        } 
-        
-        this.guardarAlmacen(principal);
+        //$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$$#$#$#
         this.configurarCalendario(principal);
     }
     
@@ -88,6 +83,9 @@ public class Controlador {
         // Abre la ventana del JFrame Principal
         FramePrincipal principal = new FramePrincipal(this);
         principal.setVisible(true);
+        
+        //$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$$#$#$#
+        //this.configurarCalendario(principal);
     }
     
     public void iniciarTablas(PanelPrincipal pPri, PanelClientes pClien, PanelPeliculas pPeli){
@@ -256,7 +254,8 @@ public class Controlador {
                         flag2 = true;
                     }
             } catch (Exception e) {
-                return;
+                JOptionPane.showMessageDialog(panel, "Ingresó un número inválido\n  (De 1 millon a 30millones)", "Error", JOptionPane.ERROR_MESSAGE);
+                flag1 = true;
             }
         }while(flag1 == true || flag2 == true);
         
@@ -305,15 +304,26 @@ public class Controlador {
         frame.pPrincipal.comboClientes.addItem(String.valueOf(cedula));
         
         //Se añade al archivo de clientes
-        // ##
-        // ##
-        // ##
-        // ##
-        // ##
-        // ##
-        // ##
-        // ##
-        
+        try {
+            long filesize = clientes.length();
+            System.out.println(filesize);
+            clientes.seek(filesize); //Nos posicionamos al final de lo que está escrito
+            clientes.writeLong(cedula);
+            clientes.writeUTF(nombre);
+            for (int i = 0; i < (20 - nombre.length()); i++) {
+                clientes.writeByte(20);
+            }
+            clientes.writeUTF(apellido);
+            for (int i = 0; i < (20 - apellido.length()); i++) {
+                clientes.writeByte(20);
+            }
+            long n = 0;
+            clientes.writeLong(n);
+            clientes.writeLong( this.contarLineas(clientes,64) );
+            //System.out.println(this.contarLineas(clientes,64));
+            System.out.println(clientes.length());
+        } catch (Exception e) {
+        }
         
     }
     
@@ -458,19 +468,24 @@ public class Controlador {
                 return;
             }
         }while(flag1 == true || flag2 == true);
-        
+
         //Pedimos la descripción de la Película
-        String descripcion = JOptionPane.showInputDialog("     Ingrese una breve descripcion de la película\n        (No más de 20 caracteres)");
-        try {
-            if(titulo.length() > 20 || titulo.length() == 0){
+        do{
+            flag1 = false;
+            try {
+                String descripcion = JOptionPane.showInputDialog("     Ingrese una breve descripcion de la película\n        (No más de 20 caracteres)");
+                if(titulo.length() > 20 || titulo.length() == 0){
+                    flag1 = true;
+                    JOptionPane.showMessageDialog(panel, "Ingrese la descripcion de la película siguiendo las instrucciones", "Error", JOptionPane.ERROR_MESSAGE);
+                }else if(descripcion.equals("")){
+                    JOptionPane.showMessageDialog(panel, "Ingrese la descripcion de la película", "Error", JOptionPane.ERROR_MESSAGE);
+                    flag1 = true;
+                }
+            } catch (Exception e) {
                 JOptionPane.showMessageDialog(panel, "Ingrese la descripcion de la película siguiendo las instrucciones", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(panel, "Ingrese la descripcion de la película siguiendo las instrucciones", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        } 
-        
+                flag1 = true;
+            } 
+        }while(flag1 == true);
         //Se añade la película a la tabla de películas
         DefaultTableModel modelo = (DefaultTableModel) panel.tablePeliculas.getModel();
         
@@ -507,7 +522,7 @@ public class Controlador {
                     frame.pClientes.tableClientes.getValueAt(i, 0) + " " +  frame.pClientes.tableClientes.getValueAt(i, 1) + " | CI: " + 
                     frame.pClientes.tableClientes.getValueAt(i, 2)    , 
                     "Error", JOptionPane.ERROR_MESSAGE);
-                return;
+                    return;
             }
         }
         
@@ -747,21 +762,73 @@ public class Controlador {
             indicadore.setOpaque(false);           
         }
     }
-    //---------------------------------------------------------------------------------------------------
     
-    public void guardarAlmacen(FramePrincipal frame){
-        //Guardamos el Array del almacen en el archivo
-        try {
-            salida = new FileOutputStream("BaseDeDatos/Almacen.dat");
-            writer = new ObjectOutputStream(salida);
-            writer.writeObject(this.almacen);
-        } catch (IOException ex) {
-            System.err.println(ex.getMessage());
-        }
-        
-        //Refrescamos la barra de carga decorativa
-        frame.pPrincipal.barCantidadAlmacen.setValue(this.almacen.size());
-        frame.pPrincipal.labelCantidadAlmacen.setText(String.valueOf(this.almacen.size()));
+    //--------------------Métodos para el manejo de archivos de texto--------------------
+    public long contarLineas(RandomAccessFile file, int record) throws IOException{
+        return ((file.length()) / record);
     }
     
+    public Cliente busquedaBinariaCliente(long rrn){
+        long current = 0;
+        boolean encontrado = false;
+        String nombre = "", apellido = "";
+        long cedula = 0, ID = 0;
+        
+        try{
+        long low = 0;
+        long high = (clientes.length()/64) - 1;
+
+        while(high >= low){         
+            long mid = (low + high) / 2;
+            
+            clientes.seek(mid);
+            cedula = clientes.readLong();
+            
+            nombre = clientes.readUTF();
+            for (int i = 0; i < 20 - nombre.length(); i++) {
+                clientes.readByte();                
+            }
+            
+            apellido = clientes.readUTF();
+            for (int i = 0; i < 20 - nombre.length(); i++) {
+                clientes.readByte();                
+            }
+            ID = clientes.readLong();
+            
+            current = clientes.readLong();
+
+            if(rrn < current){
+                high = mid - 64;
+            }
+            else if(rrn == current){
+                encontrado = true;
+                break;
+            }
+            else{
+                low = mid + 64;
+            }
+        }
+
+        }
+        catch(FileNotFoundException e){
+            System.out.println(e);
+        }
+        catch (IOException e){
+            System.out.println(e);
+        }
+
+        if(encontrado == true){
+            System.out.println(nombre);
+            System.out.println(cedula);
+            return (new Cliente(cedula, nombre, apellido, null, current));
+            //HAY QUE BUSCAR EN EL INDEX DE LOS DVDs EL DVD ASOCIADO AL ID DE ESTE CLIENTE
+        }
+        else{
+            System.out.println("No se encontró");
+            return null;
+        }
+
+    }
+        
 }
+
