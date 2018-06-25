@@ -6,7 +6,7 @@ public class Cliente implements Serializable{
     private long cedula;
     private String nombre;
     private String apellido;
-    private DVD dvd;
+    private long ID;
     private long RRN;
 
     public Cliente(long cedula, String nombre, String apellido, long RRN) {
@@ -14,16 +14,26 @@ public class Cliente implements Serializable{
         this.nombre = nombre;
         this.apellido = apellido;
         this.RRN = RRN;
-        this.dvd = null;
+        this.ID = 0;
     }
 
-    public Cliente(long cedula, String nombre, String apellido, DVD dvd, long RRN) {
+    public Cliente(long cedula, String nombre, String apellido, long ID, long RRN) {
         this.cedula = cedula;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.dvd = dvd;
+        this.ID = ID;
         this.RRN = RRN;
     }
+
+    public Cliente(long cedula, long RRN) {
+        this.cedula = cedula;
+        this.RRN = RRN;
+        this.nombre = null;
+        this.apellido = null;
+        this.ID = 0;
+    }
+    
+    
     
     
     

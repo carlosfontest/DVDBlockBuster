@@ -7,6 +7,7 @@ import java.util.Random;
 
 public class DVD implements Serializable{
     private long ID;
+    private long RRN;
     private Date fechaAlquiler;
     private Date fechaDevolucion;
     private Pelicula pelicula;
@@ -17,6 +18,11 @@ public class DVD implements Serializable{
         this.fechaAlquiler = null;
         this.fechaDevolucion = null;
         this.pelicula = pelicula;
+    }
+
+    public DVD(long ID, long RRN) {
+        this.ID = ID;
+        this.RRN = RRN;
     }
 
     public Pelicula getPelicula() {

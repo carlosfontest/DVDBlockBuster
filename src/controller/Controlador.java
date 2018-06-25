@@ -8,23 +8,27 @@ import javax.swing.*;
 import javax.swing.table.*;
 import model.Cliente;
 import model.DVD;
+import model.Pelicula;
 import view.*;
 
 public class Controlador {
     public static ArrayList<DVD> almacen = new ArrayList<>();
-    public static RandomAccessFile clientes;
+    public static File clientes;
     public static File peliculas;
+    public static File dvds;
     public static long alquilados;
     public static long totales;
-    //Para guardar el almacen
-    FileOutputStream salida = null;
-    FileInputStream entrada = null;
-    ObjectOutputStream writer = null;
-    ObjectInputStream reader = null;
+    //Para guardar en los Archivos De Texto
+    private FileWriter fw;
+    private BufferedWriter bw;
+    private FileReader fr;
+    private BufferedReader br;
 
     public Controlador() throws FileNotFoundException {
-        File cli = new File("BaseDeDatos/Clientes.txt");
-        clientes = new RandomAccessFile(cli, "rw");
+        clientes = new File("BaseDeDatos/Clientes.txt");
+        peliculas = new File("BaseDeDatos/Peliculas.txt");
+        dvds = new File("BaseDeDatos/DVDs.txt");
+        
     }
     
     
@@ -305,23 +309,12 @@ public class Controlador {
         
         //Se añade al archivo de clientes
         try {
-            long filesize = clientes.length();
-            System.out.println(filesize);
-            clientes.seek(filesize); //Nos posicionamos al final de lo que está escrito
-            clientes.writeLong(cedula);
-            clientes.writeUTF(nombre);
-            for (int i = 0; i < (20 - nombre.length()); i++) {
-                clientes.writeByte(20);
+            if(clientes.exists()){
+                fw = new FileWriter(clientes);
+                bw = 
+            }else{
+                
             }
-            clientes.writeUTF(apellido);
-            for (int i = 0; i < (20 - apellido.length()); i++) {
-                clientes.writeByte(20);
-            }
-            long n = 0;
-            clientes.writeLong(n);
-            clientes.writeLong( this.contarLineas(clientes,64) );
-            //System.out.println(this.contarLineas(clientes,64));
-            System.out.println(clientes.length());
         } catch (Exception e) {
         }
         
@@ -764,69 +757,24 @@ public class Controlador {
     }
     
     //--------------------Métodos para el manejo de archivos de texto--------------------
-    public long contarLineas(RandomAccessFile file, int record) throws IOException{
-        return ((file.length()) / record);
+    
+    public Cliente busquedaBinariaCedula(long rrn){
+        
+
     }
     
-    public Cliente busquedaBinariaCliente(long rrn){
-        long current = 0;
-        boolean encontrado = false;
-        String nombre = "", apellido = "";
-        long cedula = 0, ID = 0;
+    public Pelicula busquedaBinariaTitulo(long rrn){
         
-        try{
-        long low = 0;
-        long high = (clientes.length()/64) - 1;
 
-        while(high >= low){         
-            long mid = (low + high) / 2;
-            
-            clientes.seek(mid);
-            cedula = clientes.readLong();
-            
-            nombre = clientes.readUTF();
-            for (int i = 0; i < 20 - nombre.length(); i++) {
-                clientes.readByte();                
-            }
-            
-            apellido = clientes.readUTF();
-            for (int i = 0; i < 20 - nombre.length(); i++) {
-                clientes.readByte();                
-            }
-            ID = clientes.readLong();
-            
-            current = clientes.readLong();
+    }
+    
+    public Pelicula busquedaBinariaGenero(long rrn){
+        
 
-            if(rrn < current){
-                high = mid - 64;
-            }
-            else if(rrn == current){
-                encontrado = true;
-                break;
-            }
-            else{
-                low = mid + 64;
-            }
-        }
-
-        }
-        catch(FileNotFoundException e){
-            System.out.println(e);
-        }
-        catch (IOException e){
-            System.out.println(e);
-        }
-
-        if(encontrado == true){
-            System.out.println(nombre);
-            System.out.println(cedula);
-            return (new Cliente(cedula, nombre, apellido, null, current));
-            //HAY QUE BUSCAR EN EL INDEX DE LOS DVDs EL DVD ASOCIADO AL ID DE ESTE CLIENTE
-        }
-        else{
-            System.out.println("No se encontró");
-            return null;
-        }
+    }
+    
+    public DVD busquedaBinariaID(long rrn){
+        
 
     }
         

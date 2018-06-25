@@ -20,6 +20,27 @@ public class Pelicula implements Serializable{
         this.rating = rating;
     }
 
+    public Pelicula(String titulo, long RRN) {
+        this.titulo = titulo;
+        this.RRN = RRN;
+        this.genero = null;
+        this.descripcion = null;
+        this.precioDia = 0;
+        this.rating = 0;
+    }
+    
+    public Pelicula(long RRN, String genero) {
+        this.genero = genero;
+        this.RRN = RRN;
+        this.titulo = null;
+        this.descripcion = null;
+        this.precioDia = 0;
+        this.rating = 0;
+    }
+    
+    
+    
+
     public String getTitulo() {
         return titulo;
     }
