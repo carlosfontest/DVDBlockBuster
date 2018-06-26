@@ -241,6 +241,28 @@ public class Controlador {
         JOptionPane.showMessageDialog(panel, "La Cédula que ingresó no pertenece a la de ningún Cliente", "Error", JOptionPane.ERROR_MESSAGE);
     }
     
+    public void buscarClienteC(PanelClientes panel){
+        // Se verifica si se ingresó alguna cédula
+        if(panel.textFieldCedulaC.getText().equals("Cédula")){
+            JOptionPane.showMessageDialog(panel, "Ingrese la cédula del Cliente que desee buscar", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        // Se verifica si la cédula ingresada pertenece al de algun Cliente
+        String cedulaBuscar = String.valueOf(panel.textFieldCedulaC.getText());
+        for (int i = 0; i < panel.tableClientes.getRowCount(); i++) {
+            if(String.valueOf(panel.tableClientes.getValueAt(i, 2)).contains(cedulaBuscar)){
+                panel.tableClientes.changeSelection(i, 2, false, false);
+                panel.textFieldCedulaC.setText("Cédula");
+                return;
+            }
+        }
+        
+       JOptionPane.showMessageDialog(panel, "La Cédula que ingresó no pertenece a la de ningún Cliente", "Error", JOptionPane.ERROR_MESSAGE);
+       panel.textFieldCedulaC.setText("Cédula"); 
+        
+    }
+    
     public void buscarClienteEnArchivo(PanelPrincipal panel){
         DefaultTableModel modelo = (DefaultTableModel) panel.tablePeliculaCliente.getModel();
         
@@ -357,6 +379,14 @@ public class Controlador {
             //----------------------------------------------------------------
             bw.close();
             fw.close();
+            fr.close();
+            br.close();
+            
+            System.out.println("Desordenado");
+            for (int i = 0; i < indexCedula.size(); i++) {
+                System.out.println(indexCedula.get(i).getRRN() + "  " + indexCedula.get(i).getCedula());
+            }
+            
         } catch (Exception e) {
         }
         
@@ -390,14 +420,36 @@ public class Controlador {
         }
         
         //Se elimina el cliente del archivo de texto
-        // ##
-        // ##
-        // ##
-        // ##
-        // ##
-        // ##
-        // ##
-        // ##
+        long RRN = this.busquedaRRNCedula(Long.parseLong(cedula));
+        
+        try {
+            fr = new FileReader(clientes);
+            br = new BufferedReader(fr);
+            fw = new FileWriter(clientes, true);
+            bw = new BufferedWriter(fw);
+            
+            for (int i = 0; i < RRN; i++) {
+                br.readLine();
+            }
+            String infoA = br.readLine();
+            String[] infoAux = infoA.split("#");
+            infoAux[0] = "-1";
+            String infoN = infoAux[0] + "#" + infoAux[1] + "#" + infoAux[2] + "#" + infoAux[3];
+            
+            modificarArchivo(clientes, infoA, infoN);
+            
+            fr.close();
+            br.close();
+            
+            bw.close();
+            fw.close();
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        
         
     }
     
@@ -548,6 +600,8 @@ public class Controlador {
             bw.write(titulo + "#" + genero + "#" + rating + "#" + precio + "#" + descripcion );
             bw.close();
             fw.close();
+            fr.close();
+            br.close();
         } catch (Exception e) {
         }
         
@@ -766,6 +820,8 @@ public class Controlador {
                 this.totales++;
                 bw.close();
                 fw.close();
+                fr.close();
+                br.close();
             } catch (Exception e) {
             }
         }
@@ -811,6 +867,95 @@ public class Controlador {
     
     
     
+    public void modificarArchivo(File FficheroAntiguo,String Satigualinea,String Snuevalinea){        
+        /*Obtengo un numero aleatorio*/
+        Random numaleatorio= new Random(3816L); 
+        /*Creo un nombre para el nuevo fichero apartir del
+         *numero aleatorio*/
+        String SnombFichNuev=FficheroAntiguo.getParent()+"/auxiliar"+String.valueOf(Math.abs(numaleatorio.nextInt()))+".txt";
+        /*Crea un objeto File para el fichero nuevo*/
+        File FficheroNuevo=new File(SnombFichNuev);
+        try {
+            /*Si existe el fichero inical*/
+            if(FficheroAntiguo.exists()){
+                /*Abro un flujo de lectura*/
+                BufferedReader Flee= new BufferedReader(new FileReader(FficheroAntiguo));
+                String Slinea;
+                /*Recorro el fichero de texto linea a linea*/
+                while((Slinea=Flee.readLine())!=null) { 
+                    /*Si la lia obtenida es igual al la bucada
+                     *para modificar*/
+                    if (Slinea.toUpperCase().trim().equals(Satigualinea.toUpperCase().trim())) {
+                       /*Escribo la nueva linea en vez de la que tenia*/
+                        escribirArchivo(FficheroNuevo,Snuevalinea);
+                    }else{
+                        /*Escribo la linea antigua*/
+                         escribirArchivo(FficheroNuevo,Slinea);
+                    }             
+                }
+                /*Obtengo el nombre del fichero inicial*/
+                String SnomAntiguo=FficheroAntiguo.getName();
+                /*Borro el fichero inicial*/
+                borrarArchivo(FficheroAntiguo);
+                /*renombro el nuevo fichero con el nombre del 
+                *fichero inicial*/
+                FficheroNuevo.renameTo(FficheroAntiguo);
+                /*Cierro el flujo de lectura*/
+                Flee.close();
+            }else{
+                System.out.println("Fichero No Existe");
+            }
+        } catch (Exception ex) {
+            /*Captura un posible error y le imprime en pantalla*/ 
+             System.out.println(ex.getMessage());
+        }
+    }
+    
+    
+    public void escribirArchivo(File Ffichero,String SCadena){
+      try {
+              //Si no Existe el fichero lo crea
+               if(!Ffichero.exists()){
+                   Ffichero.createNewFile();
+               }
+              /*Abre un Flujo de escritura,sobre el fichero con codificacion utf-8. 
+               *Además  en el pedazo de sentencia "FileOutputStream(Ffichero,true)",
+               *true es por si existe el fichero seguir añadiendo texto y no borrar lo que tenia*/
+              BufferedWriter Fescribe=new BufferedWriter(new OutputStreamWriter(new FileOutputStream(Ffichero,true), "utf-8"));
+              /*Escribe en el fichero la cadena que recibe la función. 
+               *el string "\r\n" significa salto de linea*/
+              Fescribe.write(SCadena + "\r\n");
+              //Cierra el flujo de escritura
+              Fescribe.close();
+           } catch (Exception ex) {
+              //Captura un posible error le imprime en pantalla 
+              System.out.println(ex.getMessage());
+           } 
+    }
+    
+    
+    public void borrarArchivo(File Ffichero){
+         
+        try {
+             /*Si existe el fichero*/
+             if(Ffichero.exists()){
+               /*Borra el fichero*/
+                 System.out.println(Ffichero.delete());
+               Ffichero.delete(); 
+               //System.out.println("Fichero Borrado con Exito");
+             }
+             
+         } catch (Exception ex) {
+             /*Captura un posible error y le imprime en pantalla*/ 
+              System.out.println(ex.getMessage());
+         }
+    }
+
+
+
+    
+    
+    
     //--------------------Métodos para cambiar el color a los botones de los paneles--------------------
     private void setColor(JPanel panel){
         panel.setBackground(new Color(48,24,30)); //Color SI seleccionado
@@ -829,11 +974,32 @@ public class Controlador {
     
     public Cliente busquedaCedula(long cedula){
         long RRN = busquedaRRNCedula(cedula);
+        Cliente cliente = null;
         
+        if(RRN == -1){return cliente;}
+        
+        try {
+            fr = new FileReader(clientes);
+            br = new BufferedReader(fr);
+            
+            for (int i = 0; i < RRN; i++) {
+                br.readLine();
+            }
+            String[] info = br.readLine().split("#");
+            cliente = new Cliente(Long.parseLong(info[0]), info[1], info[2], Long.parseLong(info[3]), RRN);
+            
+            fr.close();
+            br.close();
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return cliente;
     }
-    
     public long busquedaRRNCedula(long cedula){
-        
         int low = 0;
         int high = indexCedula.size()-1;
         int mid = -1;
@@ -864,10 +1030,6 @@ public class Controlador {
             System.out.println("No ta aquí xd");
             return -1;
         }
-        
-        
-        
-        
     }
     
     
@@ -917,22 +1079,25 @@ public class Controlador {
             fr = new FileReader(clientes);
             br = new BufferedReader(fr);
             
-            while ( (linea = br.readLine()) != null ) {                
-                String info[] = linea.split("#");
-                //Cargamos la tabla
-                DefaultTableModel modelo = (DefaultTableModel) frame.pClientes.tableClientes.getModel();
-                String titulo = "No Aplica";
-                if(!info[3].equals("0")){
-                    titulo = busquedaID(Long.parseLong(info[3])).getPelicula().getTitulo();
-                }
-                modelo.addRow(new Object[]{
-                        info[1], info[2], info[0], info[3], titulo});
-                
-                cedula = Long.parseLong(info[0]);
-                Cliente cliente = new Cliente(RRN, cedula);
-                indexCedula.add(cliente);
+            while ( (linea = br.readLine()) != null ) {         
+                String info[] = linea.split("#");  
+                if(!info[0].equals("-1")){
+                    //Cargamos la tabla
+                    DefaultTableModel modelo = (DefaultTableModel) frame.pClientes.tableClientes.getModel();
+                    String titulo = "No Aplica";
+                    if(!info[3].equals("0")){
+                        titulo = busquedaID(Long.parseLong(info[3])).getPelicula().getTitulo();
+                    }
+                    modelo.addRow(new Object[]{
+                            info[1], info[2], info[0], info[3], titulo});
+
+                    cedula = Long.parseLong(info[0]);
+                    Cliente cliente = new Cliente(RRN, cedula);
+                    indexCedula.add(cliente);
+                }   
                 RRN++;
             }
+            
             
 //            System.out.println("Desordenado");
 //            for (int i = 0; i < indexCedula.size(); i++) {
@@ -944,10 +1109,13 @@ public class Controlador {
                 @Override public int compare(Cliente c1, Cliente c2) {
                     return (int) (c1.getCedula() - c2.getCedula());}});
             
-//            System.out.println("Desordenado");
-//            for (int i = 0; i < indexCedula.size(); i++) {
-//                System.out.println(indexCedula.get(i).getRRN() + "  " + indexCedula.get(i).getCedula());
-//            }
+            System.out.println("Desordenado");
+            for (int i = 0; i < indexCedula.size(); i++) {
+                System.out.println(indexCedula.get(i).getRRN() + "  " + indexCedula.get(i).getCedula());
+            }
+            
+            fr.close();
+            br.close();
             
         } catch (IOException ex) {
             Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);

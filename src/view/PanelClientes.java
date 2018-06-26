@@ -2,6 +2,7 @@ package view;
 
 import controller.Controlador;
 import java.awt.event.KeyEvent;
+import model.Cliente;
 
 public class PanelClientes extends javax.swing.JPanel {
     private Controlador controlador;
@@ -285,9 +286,12 @@ public class PanelClientes extends javax.swing.JPanel {
     }//GEN-LAST:event_textFieldCedulaCKeyTyped
 
     private void botonBuscarCedulaCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarCedulaCActionPerformed
+        controlador.buscarClienteC(this);
     }//GEN-LAST:event_botonBuscarCedulaCActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        long n = 26476344;
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
