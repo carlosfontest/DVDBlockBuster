@@ -830,18 +830,20 @@ public class Controlador {
     public Cliente busquedaCedula(long cedula){
         long RRN = busquedaRRNCedula(cedula);
         
-        
     }
+    
     public long busquedaRRNCedula(long cedula){
         
-        long low = indexCedula.get(0).getCedula();
-        long high = indexCedula.get(indexCedula.size() - 1).getCedula();
+        int low = 0;
+        int high = indexCedula.size()-1;
+        int mid = -1;
         long cur = 0;
         boolean targetFound = false;
 
         while(high >= low){         
-            long mid = (high + low)/2;
-            cur = mid;
+            mid = (high + low)/2;
+            
+            cur=indexCedula.get(mid).getCedula();
 
             if(cedula < cur){
                 high = mid - 1;
@@ -854,13 +856,13 @@ public class Controlador {
                 low = mid + 1;
             }
         }
-
-
+        
         if(targetFound == true){
-            return 
+            return indexCedula.get(mid).getRRN(); 
         }
         else{
-            System.out.println("The number " + target + " is not in the file. It took " + searchCount + " tries to discover this.");
+            System.out.println("No ta aquí xd");
+            return -1;
         }
         
         
