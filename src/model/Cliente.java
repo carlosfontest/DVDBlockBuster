@@ -25,12 +25,32 @@ public class Cliente implements Serializable{
         this.RRN = RRN;
     }
 
-    public Cliente(long cedula, long RRN) {
+    public Cliente(long RRN, long cedula) {
         this.cedula = cedula;
         this.RRN = RRN;
         this.nombre = null;
         this.apellido = null;
         this.ID = 0;
+    }
+
+    public long getCedula() {
+        return cedula;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public long getID() {
+        return ID;
+    }
+
+    public long getRRN() {
+        return RRN;
     }
     
     

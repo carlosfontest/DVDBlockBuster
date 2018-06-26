@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.*;
 import model.Cliente;
@@ -12,12 +14,18 @@ import model.Pelicula;
 import view.*;
 
 public class Controlador {
-    public static ArrayList<DVD> almacen = new ArrayList<>();
+    //Archivos de texto
     public static File clientes;
     public static File peliculas;
     public static File dvds;
+    //Variables para saber el estado del almacen de DVDs
     public static long alquilados;
     public static long totales;
+    //Indexs de los archivos de texto
+    public ArrayList<Cliente> indexCedula;
+    public ArrayList<Pelicula> indexTitulo;
+    public ArrayList<Pelicula> indexGenero;
+    public ArrayList<DVD> indexID;
     //Para guardar en los Archivos De Texto
     private FileWriter fw;
     private BufferedWriter bw;
@@ -29,6 +37,14 @@ public class Controlador {
         peliculas = new File("BaseDeDatos/Peliculas.txt");
         dvds = new File("BaseDeDatos/DVDs.txt");
         
+        //Inicializamos los index
+        indexCedula = new ArrayList<>();
+        indexTitulo = new ArrayList<>();
+        indexGenero = new ArrayList<>();
+        indexID = new ArrayList<>();
+                
+        
+        
     }
     
     
@@ -39,6 +55,11 @@ public class Controlador {
         
         //$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$$#$#$#
         this.configurarCalendario(principal);
+        //Cargamos los index
+        this.cargarIndexCedula(principal);
+        this.cargarIndexTitulo(principal);
+        this.cargarIndexGenero(principal);
+        this.cargarIndexID(principal);
     }
     
     public void iniciarSesion(Login inicio){
@@ -90,6 +111,11 @@ public class Controlador {
         
         //$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$$#$#$#
         //this.configurarCalendario(principal);
+        //this.cargarIndexCedula(principal);
+        //this.cargarIndexTitulo(principal);
+        //this.cargarIndexGenero(principal);
+        //this.cargarIndexID(principal);
+        
     }
     
     public void iniciarTablas(PanelPrincipal pPri, PanelClientes pClien, PanelPeliculas pPeli){
@@ -275,6 +301,7 @@ public class Controlador {
         
         //Pedimos el nombre
         String nombre = JOptionPane.showInputDialog("     Ingrese el nombre del cliente\n        (No más de 20 caracteres)");
+        nombre = nombre.toUpperCase();
         try {
             if(nombre.length() > 20 || nombre.length() == 0){
                 JOptionPane.showMessageDialog(panel, "Ingrese el nombre del cliente siguiendo las instrucciones", "Error", JOptionPane.ERROR_MESSAGE);
@@ -287,6 +314,7 @@ public class Controlador {
         
         //Pedimos el apellido
         String apellido = JOptionPane.showInputDialog("     Ingrese el apellido del cliente\n        (No más de 20 caracteres)");
+        apellido = apellido.toUpperCase();
         try {
             if(apellido.length() > 20 || apellido.length() == 0){
                 JOptionPane.showMessageDialog(panel, "Ingrese el apellido del cliente siguiendo las instrucciones", "Error", JOptionPane.ERROR_MESSAGE);
@@ -317,7 +345,16 @@ public class Controlador {
             if(!(br.read() == -1)){
                 bw.newLine();
             }
-            bw.write(cedula + "/" + nombre + "/" + apellido + "/" + n );
+            bw.write(cedula + "#" + nombre + "#" + apellido + "#" + n );
+            //Agregamos y ordenamos el Cliente al IndexCedula
+            while ( br.readLine() != null ) {n++;}
+            Cliente cliente = new Cliente(n, cedula);
+            this.indexCedula.add(cliente);
+            //Ordenamos el index por cedula
+            Collections.sort(indexCedula, new Comparator<Cliente>() {
+                @Override public int compare(Cliente c1, Cliente c2) {
+                    return (int) (c1.getCedula() - c2.getCedula());}});
+            //----------------------------------------------------------------
             bw.close();
             fw.close();
         } catch (Exception e) {
@@ -376,7 +413,9 @@ public class Controlador {
             JOptionPane.showMessageDialog(panel, "Seleccione que desea modificar", "Error", JOptionPane.ERROR_MESSAGE);
         }else if(modificar.equals("Nombre")){
             String nombreViejo = String.valueOf( modelo.getValueAt(panel.tableClientes.getSelectedRow(), 0) );
+            nombreViejo = nombreViejo.toUpperCase();
             String nombreNuevo = (String)JOptionPane.showInputDialog(panel, "Escriba el nuevo nombre del cliente", "Modificación Nombre", JOptionPane.QUESTION_MESSAGE);
+            nombreNuevo = nombreNuevo.toUpperCase();
             if(nombreNuevo.length() > 20 || nombreNuevo.length() == 0){
                 JOptionPane.showMessageDialog(panel, "Ingrese el nombre del cliente siguiendo las instrucciones", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -396,7 +435,9 @@ public class Controlador {
             // ##
         }else if(modificar.equals("Apellido")){
             String apellidoViejo = String.valueOf( modelo.getValueAt(panel.tableClientes.getSelectedRow(), 1) );
+            apellidoViejo = apellidoViejo.toUpperCase();
             String apellidoNuevo = (String)JOptionPane.showInputDialog(panel, "Escriba el nuevo apellido del cliente", "Modificación Apellido", JOptionPane.QUESTION_MESSAGE);
+            apellidoNuevo = apellidoNuevo.toUpperCase();
             if(apellidoNuevo.length() > 20 || apellidoNuevo.length() == 0){
                 JOptionPane.showMessageDialog(panel, "Ingrese el nombre del cliente siguiendo las instrucciones", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -420,6 +461,7 @@ public class Controlador {
     public void agregarPelicula(PanelPeliculas panel, FramePrincipal frame){        
         //Pedimos el título
         String titulo = JOptionPane.showInputDialog("     Ingrese el título de la película\n        (No más de 30 caracteres)");
+        titulo = titulo.toUpperCase();
         try {
             if(titulo.length() > 30 || titulo.length() == 0){
                 JOptionPane.showMessageDialog(panel, "Ingrese el título de la película siguiendo las instrucciones", "Error", JOptionPane.ERROR_MESSAGE);
@@ -441,7 +483,7 @@ public class Controlador {
         //Pedimos el género
         String[] generos = {"Acción", "Amor", "Suspenso", "Aventura", "Terror", "Comedia"};
         String genero = (String)JOptionPane.showInputDialog(panel, "   Elija el género de la Película", "Selección Género", JOptionPane.QUESTION_MESSAGE, null, generos, generos[0]);
-        
+        genero = genero.toUpperCase();
         //Pedimos el Rating
         String[] ratings = {"1", "2", "3", "4", "5"};
         String rating = (String)JOptionPane.showInputDialog(panel, "   Elija el rating de la Película", "Selección Rating", JOptionPane.QUESTION_MESSAGE, null, ratings, ratings[0]);
@@ -468,11 +510,13 @@ public class Controlador {
         }while(flag1 == true || flag2 == true);
 
         //Pedimos la descripción de la Película
+        String descripcion = "";
         do{
             flag1 = false;
             try {
-                String descripcion = JOptionPane.showInputDialog("     Ingrese una breve descripcion de la película\n        (No más de 20 caracteres)");
-                if(titulo.length() > 20 || titulo.length() == 0){
+                descripcion = JOptionPane.showInputDialog("     Ingrese una breve descripcion de la película\n        (No más de 60 caracteres)");
+                descripcion = descripcion.toUpperCase();
+                if(descripcion.length() > 60 || descripcion.length() == 0){
                     flag1 = true;
                     JOptionPane.showMessageDialog(panel, "Ingrese la descripcion de la película siguiendo las instrucciones", "Error", JOptionPane.ERROR_MESSAGE);
                 }else if(descripcion.equals("")){
@@ -480,6 +524,7 @@ public class Controlador {
                     flag1 = true;
                 }
             } catch (Exception e) {
+                System.out.println("ERROR");
                 JOptionPane.showMessageDialog(panel, "Ingrese la descripcion de la película siguiendo las instrucciones", "Error", JOptionPane.ERROR_MESSAGE);
                 flag1 = true;
             } 
@@ -492,14 +537,19 @@ public class Controlador {
         });
         
         //Se añade al archivo de películas
-        // ##
-        // ##
-        // ##
-        // ##
-        // ##
-        // ##
-        // ##
-        // ##
+        try {
+            fw = new FileWriter(peliculas, true);
+            bw = new BufferedWriter(fw);
+            fr = new FileReader(peliculas);
+            br = new BufferedReader(fr);
+            if(!(br.read() == -1)){
+                bw.newLine();
+            }
+            bw.write(titulo + "#" + genero + "#" + rating + "#" + precio + "#" + descripcion );
+            bw.close();
+            fw.close();
+        } catch (Exception e) {
+        }
         
     }
     
@@ -512,7 +562,7 @@ public class Controlador {
         }
         
         String titulo = String.valueOf( modelo.getValueAt(panel.tablePeliculas.getSelectedRow(), 0) );
-        
+        titulo = titulo.toUpperCase();
         //Se verifica si algun cliente tiene esa película, si alguien la tiene no se puede eliminar
         for (int i = 0; i < frame.pClientes.tableClientes.getRowCount(); i++) {
             if(titulo.equals(frame.pClientes.tableClientes.getValueAt(i, 4))){
@@ -561,7 +611,9 @@ public class Controlador {
             JOptionPane.showMessageDialog(panel, "Seleccione que desea modificar", "Error", JOptionPane.ERROR_MESSAGE);
         }else if(modificar.equals("Título")){
             String nombreViejo = String.valueOf( modelo.getValueAt(panel.tablePeliculas.getSelectedRow(), 0) );
+            nombreViejo = nombreViejo.toUpperCase();
             String nombreNuevo = (String)JOptionPane.showInputDialog(panel, "Escriba el nuevo título de la película\n        (No más de 30 caracteres)", "Modificación Título", JOptionPane.QUESTION_MESSAGE);
+            nombreNuevo = nombreNuevo.toUpperCase();
             if(nombreNuevo.length() > 30 || nombreNuevo.length() == 0){
                 JOptionPane.showMessageDialog(panel, "Ingrese el título de la película siguiendo las instrucciones", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -582,7 +634,9 @@ public class Controlador {
         }else if(modificar.equals("Género")){
             String[] generos = {"Acción", "Amor", "Suspenso", "Aventura", "Terror", "Comedia"};
             String generoViejo = String.valueOf( modelo.getValueAt(panel.tablePeliculas.getSelectedRow(), 1) );
+            generoViejo = generoViejo.toUpperCase();
             String generoNuevo = (String)JOptionPane.showInputDialog(panel, "   Elija el género de la Película", "Selección Género", JOptionPane.QUESTION_MESSAGE, null, generos, generos[0]);
+            generoNuevo = generoNuevo.toUpperCase();
             panel.tablePeliculas.setValueAt(generoNuevo, panel.tablePeliculas.getSelectedRow(), 1);
             panel.tablePeliculas.clearSelection();
             panel.comboEditarPelicula.setSelectedIndex(0);
@@ -597,7 +651,6 @@ public class Controlador {
             // ##
         }else if(modificar.equals("Precio")){
             String precioViejo = String.valueOf( modelo.getValueAt(panel.tablePeliculas.getSelectedRow(), 3) );
-            
             boolean flag1, flag2;
         
             String precioNuevo;
@@ -661,6 +714,7 @@ public class Controlador {
         
         // Se verifica si el título ingresado pertenece a alguna película
         String tituloBuscar = String.valueOf(panel.textFieldCedulaP.getText());
+        tituloBuscar = tituloBuscar.toUpperCase();
         for (int i = 0; i < panel.tablePeliculas.getRowCount(); i++) {
             if(String.valueOf(panel.tablePeliculas.getValueAt(i, 0)).contains(tituloBuscar)){
                 panel.tablePeliculas.changeSelection(i, 1, false, false);
@@ -686,25 +740,35 @@ public class Controlador {
         }
         
         String tituloPelicula = String.valueOf(panel.tablePeliculas.getValueAt(panel.tablePeliculas.getSelectedRow(), 0));
+        tituloPelicula = tituloPelicula.toUpperCase();
+        int cant = panel.sliderStock.getValue();
         
         //Modificamos la tabla con el nuevo Stock
         int stock = Integer.parseInt(String.valueOf(panel.tablePeliculas.getValueAt(panel.tablePeliculas.getSelectedRow(), 4)));
-        int nuevoStock = stock + panel.sliderStock.getValue();
+        int nuevoStock = stock + cant;
         panel.tablePeliculas.setValueAt(nuevoStock, panel.tablePeliculas.getSelectedRow(), 4);
         
         panel.tablePeliculas.clearSelection();
         panel.sliderStock.setValue(0);
         
-        //Buscar en el archivo de texto cual es la película que hay que agregarle a los DVDs nuevos
-        // ##
-        // ##
-        // ##
-        // ##
-        // ##
-        // ##
-        // ##
-        // ##
-        
+        //Agregar al archivo de texto DVDs los nuevos DVDs
+        for (int i = 0; i < cant; i++) {
+            try {
+                fw = new FileWriter(dvds, true);
+                bw = new BufferedWriter(fw);
+                fr = new FileReader(dvds);
+                br = new BufferedReader(fr);
+                if(!(br.read() == -1)){
+                    bw.newLine();
+                }
+                DVD dvdAux = new DVD( this.busquedaTitulo(tituloPelicula) );
+                bw.write(dvdAux.getID() + "#" + "0" + "#" + "0" + "#" + tituloPelicula);
+                this.totales++;
+                bw.close();
+                fw.close();
+            } catch (Exception e) {
+            }
+        }
         //Crear la cantidad deseada de nuevos DVDs (Sabiendo ya que pelicula hay que agregarle) y agregarlos al array de DVDS
         
         
@@ -719,7 +783,7 @@ public class Controlador {
         }
         
         String titulo = String.valueOf(panel.tablePeliculas.getValueAt(panel.tablePeliculas.getSelectedRow(), 0));
-        
+        titulo = titulo.toUpperCase();
         //Buscar cual es la película que se desea ver la descripcion en el archivo de texto y mostrarla en un JOption
         // ##
         // ##
@@ -763,24 +827,143 @@ public class Controlador {
     
     //--------------------Métodos para el manejo de archivos de texto--------------------
     
-    public Cliente busquedaBinariaCedula(long rrn){
+    public Cliente busquedaCedula(long cedula){
+        long RRN = busquedaRRNCedula(cedula);
+        
+        
+    }
+    public long busquedaRRNCedula(long cedula){
+        
+        long low = indexCedula.get(0).getCedula();
+        long high = indexCedula.get(indexCedula.size() - 1).getCedula();
+        long cur = 0;
+        boolean targetFound = false;
+
+        while(high >= low){         
+            long mid = (high + low)/2;
+            cur = mid;
+
+            if(cedula < cur){
+                high = mid - 1;
+            }
+            else if(cedula == cur){
+                targetFound = true;
+                break;
+            }
+            else{
+                low = mid + 1;
+            }
+        }
+
+
+        if(targetFound == true){
+            return 
+        }
+        else{
+            System.out.println("The number " + target + " is not in the file. It took " + searchCount + " tries to discover this.");
+        }
+        
+        
+        
+        
+    }
+    
+    
+    
+    public Pelicula busquedaTitulo(String titulo){
+        long RRN = busquedaRRNTitulo(titulo);
+
+        
+    }
+    public long busquedaRRNTitulo(String titulo){
+        
+        
+    }
+    
+    
+    
+    public Pelicula busquedaGenero(String genero){
+        long RRN = busquedaRRNGenero(genero);
+
+        
+    }
+    public long busquedaRRNGenero(String genero){
         
 
     }
     
-    public Pelicula busquedaBinariaTitulo(long rrn){
+    
+    
+    public DVD busquedaID(long ID){
+        long RRN = busquedaRRNID(ID);
+
+        
+    }
+    public long busquedaRRNID(long ID){
         
 
     }
     
-    public Pelicula busquedaBinariaGenero(long rrn){
+    
+    public void cargarIndexCedula(FramePrincipal frame){
+        long cedula = 0;
+        long RRN = 0;
+        String linea = "";
         
-
+        try {
+            
+            fr = new FileReader(clientes);
+            br = new BufferedReader(fr);
+            
+            while ( (linea = br.readLine()) != null ) {                
+                String info[] = linea.split("#");
+                //Cargamos la tabla
+                DefaultTableModel modelo = (DefaultTableModel) frame.pClientes.tableClientes.getModel();
+                String titulo = "No Aplica";
+                if(!info[3].equals("0")){
+                    titulo = busquedaID(Long.parseLong(info[3])).getPelicula().getTitulo();
+                }
+                modelo.addRow(new Object[]{
+                        info[1], info[2], info[0], info[3], titulo});
+                
+                cedula = Long.parseLong(info[0]);
+                Cliente cliente = new Cliente(RRN, cedula);
+                indexCedula.add(cliente);
+                RRN++;
+            }
+            
+//            System.out.println("Desordenado");
+//            for (int i = 0; i < indexCedula.size(); i++) {
+//                System.out.println(indexCedula.get(i).getRRN() + "  " + indexCedula.get(i).getCedula());
+//            }
+            
+            //Ordenamos el indice de cedulas
+            Collections.sort(indexCedula, new Comparator<Cliente>() {
+                @Override public int compare(Cliente c1, Cliente c2) {
+                    return (int) (c1.getCedula() - c2.getCedula());}});
+            
+//            System.out.println("Desordenado");
+//            for (int i = 0; i < indexCedula.size(); i++) {
+//                System.out.println(indexCedula.get(i).getRRN() + "  " + indexCedula.get(i).getCedula());
+//            }
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
-    public DVD busquedaBinariaID(long rrn){
+    
+    
+    public void cargarIndexTitulo(FramePrincipal frame){
         
-
+    }
+    
+    public void cargarIndexGenero(FramePrincipal frame){
+        
+    }
+    
+    public void cargarIndexID(FramePrincipal frame){
+        
     }
         
 }

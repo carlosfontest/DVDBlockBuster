@@ -20,7 +20,7 @@ public class Pelicula implements Serializable{
         this.rating = rating;
     }
 
-    public Pelicula(String titulo, long RRN) {
+    public Pelicula(int RRN, String titulo) {
         this.titulo = titulo;
         this.RRN = RRN;
         this.genero = null;

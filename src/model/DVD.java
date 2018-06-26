@@ -20,12 +20,24 @@ public class DVD implements Serializable{
         this.pelicula = pelicula;
     }
 
-    public DVD(long ID, long RRN) {
+    public DVD(long RRN, long ID) {
         this.ID = ID;
         this.RRN = RRN;
     }
 
     public Pelicula getPelicula() {
         return pelicula;
+    }
+
+    public long getID() {
+        return ID;
+    }
+
+    public Date getFechaAlquiler() {
+        return fechaAlquiler;
+    }
+
+    public Date getFechaDevolucion() {
+        return fechaDevolucion;
     }
 }

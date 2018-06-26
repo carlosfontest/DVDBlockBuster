@@ -20,7 +20,7 @@ public class PanelClientes extends javax.swing.JPanel {
         panel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableClientes = new javax.swing.JTable();
-        comboEditarCliente = new javax.swing.JComboBox<String>();
+        comboEditarCliente = new javax.swing.JComboBox<>();
         botonAgregarCliente = new javax.swing.JButton();
         botonEditarCliente = new javax.swing.JButton();
         botonEliminarCliente = new javax.swing.JButton();
@@ -48,10 +48,7 @@ public class PanelClientes extends javax.swing.JPanel {
         tableClientes.setFont(new java.awt.Font("Calibri Light", 0, 15)); // NOI18N
         tableClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"Carlos", "Fontes", "26476344", "0", "No Aplica"},
-                {"Pepa", "Pig", "25369465", "5", "No Aplica"},
-                {"Fatima ", "Teixeira", "21159367", "65", "No Aplica"},
-                {"Augusto ", "Fontes", "6916283", "0", "No Aplica"}
+
             },
             new String [] {
                 "Nombre", "Apellido", "Cédula", "ID DVD", "Título Película"
@@ -68,7 +65,7 @@ public class PanelClientes extends javax.swing.JPanel {
         comboEditarCliente.setBackground(new java.awt.Color(70, 24, 30));
         comboEditarCliente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         comboEditarCliente.setForeground(new java.awt.Color(255, 255, 255));
-        comboEditarCliente.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione", "Nombre", "Apellido" }));
+        comboEditarCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Nombre", "Apellido" }));
         comboEditarCliente.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         comboEditarCliente.setFocusable(false);
         comboEditarCliente.setMinimumSize(new java.awt.Dimension(73, 32));
