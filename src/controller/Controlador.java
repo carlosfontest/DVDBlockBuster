@@ -324,6 +324,7 @@ public class Controlador {
         //Pedimos el nombre
         String nombre = JOptionPane.showInputDialog("     Ingrese el nombre del cliente\n        (No más de 20 caracteres)");
         nombre = nombre.toUpperCase();
+        nombre = nombre.trim();
         try {
             if(nombre.length() > 20 || nombre.length() == 0){
                 JOptionPane.showMessageDialog(panel, "Ingrese el nombre del cliente siguiendo las instrucciones", "Error", JOptionPane.ERROR_MESSAGE);
@@ -337,6 +338,7 @@ public class Controlador {
         //Pedimos el apellido
         String apellido = JOptionPane.showInputDialog("     Ingrese el apellido del cliente\n        (No más de 20 caracteres)");
         apellido = apellido.toUpperCase();
+        apellido = apellido.trim();
         try {
             if(apellido.length() > 20 || apellido.length() == 0){
                 JOptionPane.showMessageDialog(panel, "Ingrese el apellido del cliente siguiendo las instrucciones", "Error", JOptionPane.ERROR_MESSAGE);
@@ -382,10 +384,10 @@ public class Controlador {
             fr.close();
             br.close();
             
-            System.out.println("Desordenado");
-            for (int i = 0; i < indexCedula.size(); i++) {
-                System.out.println(indexCedula.get(i).getRRN() + "  " + indexCedula.get(i).getCedula());
-            }
+            //System.out.println("Desordenado");
+            //for (int i = 0; i < indexCedula.size(); i++) {
+            //    System.out.println(indexCedula.get(i).getRRN() + "  " + indexCedula.get(i).getCedula());
+            //}
             
         } catch (Exception e) {
         }
@@ -440,9 +442,18 @@ public class Controlador {
             
             fr.close();
             br.close();
-            
             bw.close();
             fw.close();
+            
+            int x=-1;
+            for (int i = 0; i < indexCedula.size(); i++) {
+                if(Long.parseLong(cedula) == indexCedula.get(i).getCedula()){
+                    x = i;
+                }
+            }
+            if(x != -1){
+            indexCedula.remove(x);
+            }
             
         } catch (IOException ex) {
             Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
@@ -466,8 +477,10 @@ public class Controlador {
         }else if(modificar.equals("Nombre")){
             String nombreViejo = String.valueOf( modelo.getValueAt(panel.tableClientes.getSelectedRow(), 0) );
             nombreViejo = nombreViejo.toUpperCase();
+            nombreViejo = nombreViejo.trim();
             String nombreNuevo = (String)JOptionPane.showInputDialog(panel, "Escriba el nuevo nombre del cliente", "Modificación Nombre", JOptionPane.QUESTION_MESSAGE);
             nombreNuevo = nombreNuevo.toUpperCase();
+            nombreNuevo = nombreNuevo.trim();
             if(nombreNuevo.length() > 20 || nombreNuevo.length() == 0){
                 JOptionPane.showMessageDialog(panel, "Ingrese el nombre del cliente siguiendo las instrucciones", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -488,8 +501,10 @@ public class Controlador {
         }else if(modificar.equals("Apellido")){
             String apellidoViejo = String.valueOf( modelo.getValueAt(panel.tableClientes.getSelectedRow(), 1) );
             apellidoViejo = apellidoViejo.toUpperCase();
+            apellidoViejo = apellidoViejo.trim();
             String apellidoNuevo = (String)JOptionPane.showInputDialog(panel, "Escriba el nuevo apellido del cliente", "Modificación Apellido", JOptionPane.QUESTION_MESSAGE);
             apellidoNuevo = apellidoNuevo.toUpperCase();
+            apellidoNuevo = apellidoNuevo.trim();
             if(apellidoNuevo.length() > 20 || apellidoNuevo.length() == 0){
                 JOptionPane.showMessageDialog(panel, "Ingrese el nombre del cliente siguiendo las instrucciones", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -514,6 +529,7 @@ public class Controlador {
         //Pedimos el título
         String titulo = JOptionPane.showInputDialog("     Ingrese el título de la película\n        (No más de 30 caracteres)");
         titulo = titulo.toUpperCase();
+        titulo = titulo.trim();
         try {
             if(titulo.length() > 30 || titulo.length() == 0){
                 JOptionPane.showMessageDialog(panel, "Ingrese el título de la película siguiendo las instrucciones", "Error", JOptionPane.ERROR_MESSAGE);
@@ -536,6 +552,7 @@ public class Controlador {
         String[] generos = {"Acción", "Amor", "Suspenso", "Aventura", "Terror", "Comedia"};
         String genero = (String)JOptionPane.showInputDialog(panel, "   Elija el género de la Película", "Selección Género", JOptionPane.QUESTION_MESSAGE, null, generos, generos[0]);
         genero = genero.toUpperCase();
+        genero = genero.trim();
         //Pedimos el Rating
         String[] ratings = {"1", "2", "3", "4", "5"};
         String rating = (String)JOptionPane.showInputDialog(panel, "   Elija el rating de la Película", "Selección Rating", JOptionPane.QUESTION_MESSAGE, null, ratings, ratings[0]);
@@ -568,6 +585,7 @@ public class Controlador {
             try {
                 descripcion = JOptionPane.showInputDialog("     Ingrese una breve descripcion de la película\n        (No más de 60 caracteres)");
                 descripcion = descripcion.toUpperCase();
+                descripcion = descripcion.trim();
                 if(descripcion.length() > 60 || descripcion.length() == 0){
                     flag1 = true;
                     JOptionPane.showMessageDialog(panel, "Ingrese la descripcion de la película siguiendo las instrucciones", "Error", JOptionPane.ERROR_MESSAGE);
@@ -617,6 +635,7 @@ public class Controlador {
         
         String titulo = String.valueOf( modelo.getValueAt(panel.tablePeliculas.getSelectedRow(), 0) );
         titulo = titulo.toUpperCase();
+        titulo = titulo.trim();
         //Se verifica si algun cliente tiene esa película, si alguien la tiene no se puede eliminar
         for (int i = 0; i < frame.pClientes.tableClientes.getRowCount(); i++) {
             if(titulo.equals(frame.pClientes.tableClientes.getValueAt(i, 4))){
@@ -666,8 +685,10 @@ public class Controlador {
         }else if(modificar.equals("Título")){
             String nombreViejo = String.valueOf( modelo.getValueAt(panel.tablePeliculas.getSelectedRow(), 0) );
             nombreViejo = nombreViejo.toUpperCase();
+            nombreViejo = nombreViejo.trim();
             String nombreNuevo = (String)JOptionPane.showInputDialog(panel, "Escriba el nuevo título de la película\n        (No más de 30 caracteres)", "Modificación Título", JOptionPane.QUESTION_MESSAGE);
             nombreNuevo = nombreNuevo.toUpperCase();
+            nombreNuevo = nombreNuevo.trim();
             if(nombreNuevo.length() > 30 || nombreNuevo.length() == 0){
                 JOptionPane.showMessageDialog(panel, "Ingrese el título de la película siguiendo las instrucciones", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -689,8 +710,10 @@ public class Controlador {
             String[] generos = {"Acción", "Amor", "Suspenso", "Aventura", "Terror", "Comedia"};
             String generoViejo = String.valueOf( modelo.getValueAt(panel.tablePeliculas.getSelectedRow(), 1) );
             generoViejo = generoViejo.toUpperCase();
+            generoViejo = generoViejo.trim();
             String generoNuevo = (String)JOptionPane.showInputDialog(panel, "   Elija el género de la Película", "Selección Género", JOptionPane.QUESTION_MESSAGE, null, generos, generos[0]);
             generoNuevo = generoNuevo.toUpperCase();
+            generoNuevo = generoNuevo.trim();
             panel.tablePeliculas.setValueAt(generoNuevo, panel.tablePeliculas.getSelectedRow(), 1);
             panel.tablePeliculas.clearSelection();
             panel.comboEditarPelicula.setSelectedIndex(0);
@@ -769,6 +792,7 @@ public class Controlador {
         // Se verifica si el título ingresado pertenece a alguna película
         String tituloBuscar = String.valueOf(panel.textFieldCedulaP.getText());
         tituloBuscar = tituloBuscar.toUpperCase();
+        tituloBuscar = tituloBuscar.trim();
         for (int i = 0; i < panel.tablePeliculas.getRowCount(); i++) {
             if(String.valueOf(panel.tablePeliculas.getValueAt(i, 0)).contains(tituloBuscar)){
                 panel.tablePeliculas.changeSelection(i, 1, false, false);
@@ -795,6 +819,7 @@ public class Controlador {
         
         String tituloPelicula = String.valueOf(panel.tablePeliculas.getValueAt(panel.tablePeliculas.getSelectedRow(), 0));
         tituloPelicula = tituloPelicula.toUpperCase();
+        tituloPelicula = tituloPelicula.trim();
         int cant = panel.sliderStock.getValue();
         
         //Modificamos la tabla con el nuevo Stock
@@ -840,6 +865,7 @@ public class Controlador {
         
         String titulo = String.valueOf(panel.tablePeliculas.getValueAt(panel.tablePeliculas.getSelectedRow(), 0));
         titulo = titulo.toUpperCase();
+        titulo = titulo.trim();
         //Buscar cual es la película que se desea ver la descripcion en el archivo de texto y mostrarla en un JOption
         // ##
         // ##
@@ -879,29 +905,53 @@ public class Controlador {
             /*Si existe el fichero inical*/
             if(FficheroAntiguo.exists()){
                 /*Abro un flujo de lectura*/
-                BufferedReader Flee= new BufferedReader(new FileReader(FficheroAntiguo));
+                BufferedReader Fleo= new BufferedReader(new FileReader(FficheroAntiguo));
                 String Slinea;
                 /*Recorro el fichero de texto linea a linea*/
+                int cantLineas = 0;
+                int lineaActual = 0;
+                while((Slinea=Fleo.readLine())!=null) {
+                    cantLineas++;
+                }
+                
+                Fleo.close();
+                BufferedReader Flee= new BufferedReader(new FileReader(FficheroAntiguo));
+                
                 while((Slinea=Flee.readLine())!=null) { 
+                    lineaActual++;
                     /*Si la lia obtenida es igual al la bucada
                      *para modificar*/
                     if (Slinea.toUpperCase().trim().equals(Satigualinea.toUpperCase().trim())) {
                        /*Escribo la nueva linea en vez de la que tenia*/
-                        escribirArchivo(FficheroNuevo,Snuevalinea);
+                       if(lineaActual == cantLineas){
+                        escribirArchivo(FficheroNuevo,Snuevalinea, true);
+                       }else{
+                           escribirArchivo(FficheroNuevo,Snuevalinea, false);
+                       }
                     }else{
                         /*Escribo la linea antigua*/
-                         escribirArchivo(FficheroNuevo,Slinea);
-                    }             
+                         if(lineaActual == cantLineas){
+                        escribirArchivo(FficheroNuevo,Slinea, true);
+                       }else{
+                           escribirArchivo(FficheroNuevo,Slinea, false);
+                       }
+                    }   
+                    
                 }
                 /*Obtengo el nombre del fichero inicial*/
                 String SnomAntiguo=FficheroAntiguo.getName();
+                /*Cierro el flujo de lectura*/
+                Flee.close();
+                bw.close();
+                fw.close();
+                br.close();
+                fr.close();
                 /*Borro el fichero inicial*/
                 borrarArchivo(FficheroAntiguo);
                 /*renombro el nuevo fichero con el nombre del 
                 *fichero inicial*/
                 FficheroNuevo.renameTo(FficheroAntiguo);
-                /*Cierro el flujo de lectura*/
-                Flee.close();
+                
             }else{
                 System.out.println("Fichero No Existe");
             }
@@ -912,7 +962,7 @@ public class Controlador {
     }
     
     
-    public void escribirArchivo(File Ffichero,String SCadena){
+    public void escribirArchivo(File Ffichero,String SCadena, boolean ult){
       try {
               //Si no Existe el fichero lo crea
                if(!Ffichero.exists()){
@@ -924,7 +974,12 @@ public class Controlador {
               BufferedWriter Fescribe=new BufferedWriter(new OutputStreamWriter(new FileOutputStream(Ffichero,true), "utf-8"));
               /*Escribe en el fichero la cadena que recibe la función. 
                *el string "\r\n" significa salto de linea*/
-              Fescribe.write(SCadena + "\r\n");
+              if(!ult){
+                Fescribe.write(SCadena + "\r\n"); 
+              }else{
+                  Fescribe.write(SCadena);
+              }  
+              
               //Cierra el flujo de escritura
               Fescribe.close();
            } catch (Exception ex) {
@@ -940,15 +995,15 @@ public class Controlador {
              /*Si existe el fichero*/
              if(Ffichero.exists()){
                /*Borra el fichero*/
-                 System.out.println(Ffichero.delete());
                Ffichero.delete(); 
                //System.out.println("Fichero Borrado con Exito");
              }
-             
          } catch (Exception ex) {
              /*Captura un posible error y le imprime en pantalla*/ 
               System.out.println(ex.getMessage());
          }
+        
+        
     }
 
 
@@ -1099,20 +1154,20 @@ public class Controlador {
             }
             
             
-//            System.out.println("Desordenado");
-//            for (int i = 0; i < indexCedula.size(); i++) {
-//                System.out.println(indexCedula.get(i).getRRN() + "  " + indexCedula.get(i).getCedula());
-//            }
+            System.out.println("Desordenado");
+            for (int i = 0; i < indexCedula.size(); i++) {
+                System.out.println(indexCedula.get(i).getRRN() + "  " + indexCedula.get(i).getCedula());
+            }
             
             //Ordenamos el indice de cedulas
             Collections.sort(indexCedula, new Comparator<Cliente>() {
                 @Override public int compare(Cliente c1, Cliente c2) {
                     return (int) (c1.getCedula() - c2.getCedula());}});
             
-            System.out.println("Desordenado");
-            for (int i = 0; i < indexCedula.size(); i++) {
-                System.out.println(indexCedula.get(i).getRRN() + "  " + indexCedula.get(i).getCedula());
-            }
+            //System.out.println("Desordenado");
+            //for (int i = 0; i < indexCedula.size(); i++) {
+            //    System.out.println(indexCedula.get(i).getRRN() + "  " + indexCedula.get(i).getCedula());
+            //}
             
             fr.close();
             br.close();

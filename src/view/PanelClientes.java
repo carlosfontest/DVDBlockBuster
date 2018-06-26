@@ -290,8 +290,10 @@ public class PanelClientes extends javax.swing.JPanel {
     }//GEN-LAST:event_botonBuscarCedulaCActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        long n = 26476344;
-        
+System.out.println("Desordenado");
+            for (int i = 0; i < controlador.indexCedula.size(); i++) {
+                System.out.println(controlador.indexCedula.get(i).getRRN() + "  " + controlador.indexCedula.get(i).getCedula());
+            }
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
