@@ -163,9 +163,8 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="2">
+              <StringArray count="1">
                 <StringItem index="0" value="Seleccione"/>
-                <StringItem index="1" value="26476344"/>
               </StringArray>
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -196,27 +195,27 @@
                   <Font name="Calibri Light" size="15" style="0"/>
                 </Property>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="6" rowCount="1">
-                    <Column editable="true" title="Nombre" type="java.lang.String">
-                      <Data value="Carlos"/>
-                    </Column>
-                    <Column editable="true" title="Apellido" type="java.lang.String">
-                      <Data value="Fontes"/>
-                    </Column>
-                    <Column editable="true" title="C&#xe9;dula" type="java.lang.Object">
-                      <Data value="26476344"/>
-                    </Column>
-                    <Column editable="true" title="ID DVD" type="java.lang.Object">
-                      <Data value="556"/>
-                    </Column>
-                    <Column editable="true" title="Alquiler" type="java.lang.Object">
-                      <Data value="13/05/2018"/>
-                    </Column>
+                  <Table columnCount="6" rowCount="0">
+                    <Column editable="true" title="Nombre" type="java.lang.String"/>
+                    <Column editable="true" title="Apellido" type="java.lang.String"/>
+                    <Column editable="true" title="C&#xe9;dula" type="java.lang.Object"/>
+                    <Column editable="true" title="ID DVD" type="java.lang.Object"/>
+                    <Column editable="true" title="Alquiler" type="java.lang.Object"/>
                     <Column editable="true" title="Devolucion" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                   <TableColumnModel selectionModel="0">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
                     <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                       <Title/>
                       <Editor/>

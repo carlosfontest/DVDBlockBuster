@@ -1,6 +1,5 @@
 package model;
 
-import controller.Controlador;
 import java.io.Serializable;
 
 public class Pelicula implements Serializable{
@@ -43,6 +42,30 @@ public class Pelicula implements Serializable{
 
     public String getTitulo() {
         return titulo;
+    }
+
+    public String getGenero() {
+        return genero;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public int getPrecioDia() {
+        return precioDia;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public long getRRN() {
+        return RRN;
     }
     
     

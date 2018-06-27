@@ -51,7 +51,7 @@ public class PanelPrincipal extends javax.swing.JPanel {
         comboClientes.setBackground(new java.awt.Color(70, 24, 30));
         comboClientes.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         comboClientes.setForeground(new java.awt.Color(255, 255, 255));
-        comboClientes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "26476344" }));
+        comboClientes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione" }));
         comboClientes.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         comboClientes.setFocusable(false);
         comboClientes.addActionListener(new java.awt.event.ActionListener() {
@@ -68,7 +68,7 @@ public class PanelPrincipal extends javax.swing.JPanel {
         tablePeliculaCliente.setFont(new java.awt.Font("Calibri Light", 0, 15)); // NOI18N
         tablePeliculaCliente.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"Carlos", "Fontes", "26476344", "556", "13/05/2018", null}
+
             },
             new String [] {
                 "Nombre", "Apellido", "Cédula", "ID DVD", "Alquiler", "Devolucion"
@@ -82,7 +82,7 @@ public class PanelPrincipal extends javax.swing.JPanel {
                 return types [columnIndex];
             }
         });
-        tablePeliculaCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        tablePeliculaCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tablePeliculaCliente.setFocusable(false);
         tablePeliculaCliente.setGridColor(new java.awt.Color(204, 204, 204));
         tablePeliculaCliente.setSelectionBackground(new java.awt.Color(70, 24, 30));
