@@ -1224,6 +1224,8 @@ public class Controlador {
         
         DVD dvd = null;
         
+        System.out.println("RRN " + RRN);
+        
         if(RRN == -1){return dvd;}
         
         try {

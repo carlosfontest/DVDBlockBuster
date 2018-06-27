@@ -290,9 +290,9 @@ public class PanelClientes extends javax.swing.JPanel {
     }//GEN-LAST:event_botonBuscarCedulaCActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        long n=25; 
+        long n=56; 
         DVD dvd = controlador.busquedaID(n);
-        //System.out.println(dvd.getPelicula().getTitulo());
+        System.out.println(dvd.getPelicula().getTitulo());
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
