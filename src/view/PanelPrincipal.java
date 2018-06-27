@@ -4,8 +4,6 @@ import com.toedter.calendar.JTextFieldDateEditor;
 import controller.Controlador;
 import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
-import model.DVD;
-import model.Pelicula;
 
 public class PanelPrincipal extends javax.swing.JPanel {
     private Controlador controlador;

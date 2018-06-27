@@ -2,6 +2,7 @@ package view;
 
 import controller.Controlador;
 import java.awt.event.KeyEvent;
+import javax.swing.table.DefaultTableModel;
 
 public class PanelPeliculas extends javax.swing.JPanel {
     private Controlador controlador;
@@ -20,7 +21,7 @@ public class PanelPeliculas extends javax.swing.JPanel {
         panel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablePeliculas = new javax.swing.JTable();
-        comboEditarPelicula = new javax.swing.JComboBox<String>();
+        comboEditarPelicula = new javax.swing.JComboBox<>();
         botonEditarPelicula = new javax.swing.JButton();
         botonEliminarPelicula = new javax.swing.JButton();
         botonAgregarPelicula = new javax.swing.JButton();
@@ -33,8 +34,8 @@ public class PanelPeliculas extends javax.swing.JPanel {
         textFieldCedulaP = new javax.swing.JTextField();
         botonBuscarTitulo = new javax.swing.JButton();
         separador2 = new javax.swing.JSeparator();
-        comboBuscarGenero = new javax.swing.JComboBox<String>();
-        comboBuscarRating = new javax.swing.JComboBox<String>();
+        comboBuscarGenero = new javax.swing.JComboBox<>();
+        comboBuscarRating = new javax.swing.JComboBox<>();
         labelCliente = new javax.swing.JLabel();
         labelCliente1 = new javax.swing.JLabel();
 
@@ -71,7 +72,7 @@ public class PanelPeliculas extends javax.swing.JPanel {
         comboEditarPelicula.setBackground(new java.awt.Color(70, 24, 30));
         comboEditarPelicula.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         comboEditarPelicula.setForeground(new java.awt.Color(255, 255, 255));
-        comboEditarPelicula.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione", "Título", "Género", "Precio", "Rating" }));
+        comboEditarPelicula.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Título", "Género", "Precio", "Rating" }));
         comboEditarPelicula.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         comboEditarPelicula.setFocusable(false);
         comboEditarPelicula.addActionListener(new java.awt.event.ActionListener() {
@@ -213,7 +214,7 @@ public class PanelPeliculas extends javax.swing.JPanel {
         comboBuscarGenero.setBackground(new java.awt.Color(70, 24, 30));
         comboBuscarGenero.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         comboBuscarGenero.setForeground(new java.awt.Color(255, 255, 255));
-        comboBuscarGenero.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione", "Acción", "Amor", "Suspenso", "Aventura", "Terror", "Comedia" }));
+        comboBuscarGenero.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Acción", "Amor", "Suspenso", "Aventura", "Terror", "Comedia" }));
         comboBuscarGenero.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         comboBuscarGenero.setFocusable(false);
         comboBuscarGenero.addItemListener(new java.awt.event.ItemListener() {
@@ -235,7 +236,7 @@ public class PanelPeliculas extends javax.swing.JPanel {
         comboBuscarRating.setBackground(new java.awt.Color(70, 24, 30));
         comboBuscarRating.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         comboBuscarRating.setForeground(new java.awt.Color(255, 255, 255));
-        comboBuscarRating.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione", "1", "2", "3", "4", "5" }));
+        comboBuscarRating.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "1", "2", "3", "4", "5" }));
         comboBuscarRating.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         comboBuscarRating.setFocusable(false);
         comboBuscarRating.addItemListener(new java.awt.event.ItemListener() {
@@ -371,6 +372,14 @@ public class PanelPeliculas extends javax.swing.JPanel {
 
     private void panelMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelMousePressed
         controlador.limpiarSeleccion(tablePeliculas, botonAux);
+        if(comboBuscarGenero.getSelectedIndex() != 0 || comboBuscarRating.getSelectedIndex() != 0){
+            ((DefaultTableModel)tablePeliculas.getModel()).setRowCount(0);
+            comboBuscarGenero.setSelectedIndex(0);
+            comboBuscarRating.setSelectedIndex(0);
+            controlador.cargarIndexPeliculas(frame);
+        }
+        ((DefaultTableModel)tablePeliculas.getModel()).setRowCount(0);
+            controlador.cargarIndexPeliculas(frame);
     }//GEN-LAST:event_panelMousePressed
 
     private void botonAgregarPelicula1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarPelicula1ActionPerformed
@@ -423,11 +432,13 @@ public class PanelPeliculas extends javax.swing.JPanel {
     }//GEN-LAST:event_botonBuscarTituloActionPerformed
 
     private void comboBuscarGeneroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBuscarGeneroActionPerformed
-        
+        tablePeliculas.clearSelection();
+        controlador.mostrarGenero(this, frame);
     }//GEN-LAST:event_comboBuscarGeneroActionPerformed
 
     private void comboBuscarRatingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBuscarRatingActionPerformed
-        
+        tablePeliculas.clearSelection();
+        controlador.mostrarRating(this, frame);
     }//GEN-LAST:event_comboBuscarRatingActionPerformed
 
     private void botonEditarPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarPeliculaActionPerformed
@@ -440,10 +451,14 @@ public class PanelPeliculas extends javax.swing.JPanel {
 
     private void comboBuscarRatingItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboBuscarRatingItemStateChanged
         this.comboBuscarGenero.setSelectedIndex(0);
+        ((DefaultTableModel)tablePeliculas.getModel()).setRowCount(0);
+            controlador.cargarIndexPeliculas(frame);
     }//GEN-LAST:event_comboBuscarRatingItemStateChanged
 
     private void comboBuscarGeneroItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboBuscarGeneroItemStateChanged
         this.comboBuscarRating.setSelectedIndex(0);
+        ((DefaultTableModel)tablePeliculas.getModel()).setRowCount(0);
+            controlador.cargarIndexPeliculas(frame);
     }//GEN-LAST:event_comboBuscarGeneroItemStateChanged
 
     private void comboBuscarGeneroMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboBuscarGeneroMousePressed
@@ -465,8 +480,8 @@ public class PanelPeliculas extends javax.swing.JPanel {
     private javax.swing.JButton botonEditarPelicula;
     private javax.swing.JButton botonEliminarPelicula;
     private javax.swing.JButton botonVerDescripcion;
-    private javax.swing.JComboBox<String> comboBuscarGenero;
-    private javax.swing.JComboBox<String> comboBuscarRating;
+    public javax.swing.JComboBox<String> comboBuscarGenero;
+    public javax.swing.JComboBox<String> comboBuscarRating;
     public javax.swing.JComboBox<String> comboEditarPelicula;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelCliente;

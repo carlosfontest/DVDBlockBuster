@@ -26,6 +26,7 @@ public class Controlador {
     public ArrayList<Cliente> indexCedula;
     public ArrayList<Pelicula> indexTitulo;
     public ArrayList<Pelicula> indexGenero;
+    public ArrayList<Pelicula> indexRating;
     public ArrayList<DVD> indexID;
     //Para guardar en los Archivos De Texto
     private FileWriter fw;
@@ -42,6 +43,7 @@ public class Controlador {
         indexCedula = new ArrayList<>();
         indexTitulo = new ArrayList<>();
         indexGenero = new ArrayList<>();
+        indexRating = new ArrayList<>();
         indexID = new ArrayList<>();
         
         this.totales = 0;
@@ -314,14 +316,10 @@ public class Controlador {
         }while(flag1 == true || flag2 == true);
         
         //Se valida que el cliente no exista
-        // ##
-        // ##
-        // ##
-        // ##
-        // ##
-        // ##
-        // ##
-        // ##
+        if( !(busquedaCedula(cedula) == null) ){
+            JOptionPane.showMessageDialog(panel, "La cedula que ingresó ya pertenece a la de un Cliente", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         
         //Pedimos el nombre
         String nombre = JOptionPane.showInputDialog("     Ingrese el nombre del cliente\n        (No más de 20 caracteres)");
@@ -824,6 +822,40 @@ public class Controlador {
         int nuevoStock = stock + cant;
         panel.tablePeliculas.setValueAt(nuevoStock, panel.tablePeliculas.getSelectedRow(), 4);
         
+        //Modificamos el archivo de texto de Peliculas con el nuevo stock
+        
+        long RRN = this.busquedaRRNTitulo(tituloPelicula);
+        
+        try {
+            fr = new FileReader(peliculas);
+            br = new BufferedReader(fr);
+            fw = new FileWriter(peliculas, true);
+            bw = new BufferedWriter(fw);
+            
+            for (int i = 0; i < RRN; i++) {
+                br.readLine();
+            }
+            String infoA = br.readLine();
+            String[] infoAux = infoA.split("#");
+            infoAux[5] = String.valueOf(nuevoStock);
+            String infoN = infoAux[0] + "#" + infoAux[1] + "#" + infoAux[2] + "#" + infoAux[3] + "#" + infoAux[4] + "#" + infoAux[5];
+            
+            modificarArchivo(peliculas, infoA, infoN);
+            
+            fr.close();
+            br.close();
+            bw.close();
+            fw.close();
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        
+        
+        
+        
         panel.tablePeliculas.clearSelection();
         panel.sliderStock.setValue(0);
         
@@ -864,14 +896,7 @@ public class Controlador {
         titulo = titulo.toUpperCase();
         titulo = titulo.trim();
         //Buscar cual es la película que se desea ver la descripcion en el archivo de texto y mostrarla en un JOption
-        // ##
-        // ##
-        // ##
-        // ##
-        // ##
-        // ##
-        // ##
-        // ##
+        JOptionPane.showMessageDialog(panel, busquedaTitulo(titulo).getDescripcion(), "Descripción", JOptionPane.INFORMATION_MESSAGE);
     }
     
     public void configurarCalendario(FramePrincipal frame){
@@ -886,6 +911,72 @@ public class Controlador {
         calendar.setTime(fecha); 
         calendar.add(Calendar.DAY_OF_YEAR, dias);  
         return calendar.getTime(); 
+    }
+    
+    public void mostrarGenero(PanelPeliculas panel, FramePrincipal frame){
+        if( String.valueOf(panel.comboBuscarGenero.getSelectedItem()).equals("Seleccione") ){
+            ((DefaultTableModel)panel.tablePeliculas.getModel()).setRowCount(0);
+            this.cargarIndexPeliculas(frame);
+            return;
+        }
+        
+        ArrayList<String> filas = new ArrayList<>();
+        String linea = "";
+        for (int i = 0; i < panel.tablePeliculas.getRowCount(); i++) {
+            if(String.valueOf(panel.tablePeliculas.getValueAt(i, 1)).equals( String.valueOf(panel.comboBuscarGenero.getSelectedItem()).toUpperCase() )){
+                linea = String.valueOf(panel.tablePeliculas.getValueAt(i, 0)) + "#" + String.valueOf(panel.tablePeliculas.getValueAt(i, 1)) + "#" + 
+                        String.valueOf(panel.tablePeliculas.getValueAt(i, 2)) + "#" + String.valueOf(panel.tablePeliculas.getValueAt(i, 3)) + "#" +
+                        String.valueOf(panel.tablePeliculas.getValueAt(i, 4));
+                filas.add(linea);
+            }
+        }
+        if(filas == null){
+           return; 
+        }
+        
+        ((DefaultTableModel)panel.tablePeliculas.getModel()).setRowCount(0);
+        
+        String[] l;
+        for (int i = 0; i < filas.size(); i++) {
+            l = filas.get(i).split("#");
+            ((DefaultTableModel)panel.tablePeliculas.getModel()).addRow(new Object[]{
+                            l[0], l[1], l[2], l[3], l[4]});
+            
+        }
+        
+    }
+    
+    public void mostrarRating(PanelPeliculas panel, FramePrincipal frame){
+        if( String.valueOf(panel.comboBuscarRating.getSelectedItem()).equals("Seleccione") ){
+            ((DefaultTableModel)panel.tablePeliculas.getModel()).setRowCount(0);
+            this.cargarIndexPeliculas(frame);
+            return;
+        }
+        
+        ArrayList<String> filas = new ArrayList<>();
+        String linea = "";
+        for (int i = 0; i < panel.tablePeliculas.getRowCount(); i++) {
+            if(String.valueOf(panel.tablePeliculas.getValueAt(i, 2)).equals( String.valueOf(panel.comboBuscarRating.getSelectedItem()) )){
+                linea = String.valueOf(panel.tablePeliculas.getValueAt(i, 0)) + "#" + String.valueOf(panel.tablePeliculas.getValueAt(i, 1)) + "#" + 
+                        String.valueOf(panel.tablePeliculas.getValueAt(i, 2)) + "#" + String.valueOf(panel.tablePeliculas.getValueAt(i, 3)) + "#" +
+                        String.valueOf(panel.tablePeliculas.getValueAt(i, 4));
+                filas.add(linea);
+            }
+        }
+        if(filas == null){
+           return; 
+        }
+        
+        ((DefaultTableModel)panel.tablePeliculas.getModel()).setRowCount(0);
+        
+        String[] l;
+        for (int i = 0; i < filas.size(); i++) {
+            l = filas.get(i).split("#");
+            ((DefaultTableModel)panel.tablePeliculas.getModel()).addRow(new Object[]{
+                            l[0], l[1], l[2], l[3], l[4]});
+            
+        }
+        
     }
     
     
@@ -1154,10 +1245,10 @@ public class Controlador {
     
     
     
-    public Pelicula busquedaGenero(String genero){
+    public Pelicula[] busquedaGenero(String genero){
         long RRN = busquedaRRNGenero(genero);
         
-        Pelicula pelicula = null;
+        Pelicula[] pelicula = null;
         
         if(RRN == -1){return pelicula;}
         
@@ -1169,7 +1260,6 @@ public class Controlador {
                 br.readLine();
             }
             String[] info = br.readLine().split("#");
-            pelicula = new Pelicula(info[0], info[1], info[4], Integer.parseInt(info[3]), Integer.parseInt(info[2]), Integer.parseInt(info[5]), RRN);
             
             fr.close();
             br.close();
@@ -1215,6 +1305,68 @@ public class Controlador {
         }
     }
     
+    
+    
+    
+    public Pelicula[] busquedaRating(String genero){
+        long RRN = busquedaRRNGenero(genero);
+        
+        Pelicula[] pelicula = null;
+        
+        if(RRN == -1){return pelicula;}
+        
+        try {
+            fr = new FileReader(peliculas);
+            br = new BufferedReader(fr);
+            
+            for (int i = 0; i < RRN; i++) {
+                br.readLine();
+            }
+            String[] info = br.readLine().split("#");
+            
+            fr.close();
+            br.close();
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return pelicula;
+    }
+    public long busquedaRRNRating(String rating){
+        int low = 0;
+        int high = indexRating.size()-1;
+        int mid = -1;
+        String cur = "";
+        boolean targetFound = false;
+
+        while(high >= low){         
+            mid = (high + low)/2;
+            
+            cur = indexRating.get(mid).getTitulo();
+
+            if(rating.compareTo(cur) < 0){
+                high = mid - 1;
+            }
+            else if(rating.equals(cur)){
+                targetFound = true;
+                break;
+            }
+            else{
+                low = mid + 1;
+            }
+        }
+        
+        if(targetFound == true){
+            return indexGenero.get(mid).getRRN(); 
+        }
+        else{
+            System.out.println("No ta aquí xd");
+            return -1;
+        }
+    }
     
     
     
@@ -1444,20 +1596,20 @@ public class Controlador {
             }
             
             
-            System.out.println("Desordenado");
-            for (int i = 0; i < indexID.size(); i++) {
-                System.out.println(indexID.get(i).getRRN() + "  " + indexID.get(i).getID());
-            }
+//            System.out.println("Desordenado");
+//            for (int i = 0; i < indexID.size(); i++) {
+//                System.out.println(indexID.get(i).getRRN() + "  " + indexID.get(i).getID());
+//            }
             
             //Ordenamos el indice de IDs
             Collections.sort(indexID, new Comparator<DVD>() {
                 @Override public int compare(DVD c1, DVD c2) {
                     return (int) (c1.getID()- c2.getID());}});
             
-            System.out.println("Desordenado");
-            for (int i = 0; i < indexID.size(); i++) {
-                System.out.println(indexID.get(i).getRRN() + "  " + indexID.get(i).getID());
-            }
+//            System.out.println("Desordenado");
+//            for (int i = 0; i < indexID.size(); i++) {
+//                System.out.println(indexID.get(i).getRRN() + "  " + indexID.get(i).getID());
+//            }
             
             fr.close();
             br.close();
