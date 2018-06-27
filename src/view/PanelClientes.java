@@ -2,7 +2,7 @@ package view;
 
 import controller.Controlador;
 import java.awt.event.KeyEvent;
-import model.Cliente;
+import model.DVD;
 
 public class PanelClientes extends javax.swing.JPanel {
     private Controlador controlador;
@@ -290,10 +290,9 @@ public class PanelClientes extends javax.swing.JPanel {
     }//GEN-LAST:event_botonBuscarCedulaCActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-System.out.println("Desordenado");
-            for (int i = 0; i < controlador.indexCedula.size(); i++) {
-                System.out.println(controlador.indexCedula.get(i).getRRN() + "  " + controlador.indexCedula.get(i).getCedula());
-            }
+        long n=25; 
+        DVD dvd = controlador.busquedaID(n);
+        //System.out.println(dvd.getPelicula().getTitulo());
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

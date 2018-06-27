@@ -142,6 +142,11 @@ public class Login extends javax.swing.JFrame {
                 passFocusLost(evt);
             }
         });
+        pass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passActionPerformed(evt);
+            }
+        });
         pass.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 passKeyTyped(evt);
@@ -353,6 +358,10 @@ public class Login extends javax.swing.JFrame {
     private void iconoMinimizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconoMinimizarMouseClicked
         setState(this.ICONIFIED);
     }//GEN-LAST:event_iconoMinimizarMouseClicked
+
+    private void passActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAcceder;

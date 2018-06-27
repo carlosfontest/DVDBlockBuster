@@ -11,12 +11,14 @@ public class Pelicula implements Serializable{
     private int stock;
     private long RRN;
 
-    public Pelicula(String titulo, String genero, String descripcion, int precioDia, int rating) {
+    public Pelicula(String titulo, String genero, String descripcion, int precioDia, int rating, int stock, long RRN) {
         this.titulo = titulo;
         this.genero = genero;
         this.descripcion = descripcion;
         this.precioDia = precioDia;
         this.rating = rating;
+        this.stock = stock;
+        this.RRN = RRN;
     }
 
     public Pelicula(int RRN, String titulo) {

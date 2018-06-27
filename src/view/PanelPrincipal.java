@@ -37,7 +37,6 @@ public class PanelPrincipal extends javax.swing.JPanel {
         botonAux = new javax.swing.JToggleButton();
         barCantidadAlmacen = new javax.swing.JProgressBar();
         labelCliente1 = new javax.swing.JLabel();
-        labelCantidadAlmacen = new javax.swing.JLabel();
         separador2 = new javax.swing.JSeparator();
 
         panel.setBackground(new java.awt.Color(65, 65, 65));
@@ -179,11 +178,7 @@ public class PanelPrincipal extends javax.swing.JPanel {
 
         labelCliente1.setFont(new java.awt.Font("Segoe UI", 2, 24)); // NOI18N
         labelCliente1.setForeground(new java.awt.Color(255, 255, 255));
-        labelCliente1.setText("Capacidad del almacen de DVDs:");
-
-        labelCantidadAlmacen.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
-        labelCantidadAlmacen.setForeground(new java.awt.Color(255, 255, 255));
-        labelCantidadAlmacen.setText("0");
+        labelCliente1.setText("¿Qué tan lleno está nuestro almacén?");
 
         separador2.setBackground(new java.awt.Color(204, 204, 204));
         separador2.setForeground(new java.awt.Color(204, 204, 204));
@@ -198,26 +193,6 @@ public class PanelPrincipal extends javax.swing.JPanel {
             .addGroup(panelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
-                        .addGap(0, 15, Short.MAX_VALUE)
-                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(panelLayout.createSequentialGroup()
-                                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(barCantidadAlmacen, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(panelLayout.createSequentialGroup()
-                                        .addComponent(labelCliente1)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(labelCantidadAlmacen, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(112, 112, 112)))
-                                .addGap(25, 25, 25))
-                            .addGroup(panelLayout.createSequentialGroup()
-                                .addGap(21, 21, 21)
-                                .addComponent(botonAlquilar, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(calendario, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(botonDevolver, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(51, 51, 51))))
                     .addGroup(panelLayout.createSequentialGroup()
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(separador2, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -236,7 +211,23 @@ public class PanelPrincipal extends javax.swing.JPanel {
                                         .addGap(36, 36, 36)
                                         .addComponent(botonBuscarClienteP, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
+                        .addGap(0, 15, Short.MAX_VALUE)
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(barCantidadAlmacen, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(panelLayout.createSequentialGroup()
+                                    .addGap(21, 21, 21)
+                                    .addComponent(botonAlquilar, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(calendario, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(botonDevolver, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(51, 51, 51))
+                                .addGroup(panelLayout.createSequentialGroup()
+                                    .addComponent(labelCliente1, javax.swing.GroupLayout.PREFERRED_SIZE, 526, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(69, 69, 69)))))))
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -263,11 +254,9 @@ public class PanelPrincipal extends javax.swing.JPanel {
                     .addComponent(botonDevolver, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addComponent(separador2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelCliente1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelCantidadAlmacen, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
+                .addComponent(labelCliente1)
+                .addGap(5, 5, 5)
                 .addComponent(barCantidadAlmacen, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24))
         );
@@ -341,7 +330,6 @@ public class PanelPrincipal extends javax.swing.JPanel {
     public com.toedter.calendar.JDateChooser calendario;
     public javax.swing.JComboBox<String> comboClientes;
     private javax.swing.JScrollPane jScrollPane1;
-    public javax.swing.JLabel labelCantidadAlmacen;
     private javax.swing.JLabel labelCliente;
     private javax.swing.JLabel labelCliente1;
     private javax.swing.JPanel panel;

@@ -3,6 +3,7 @@ package controller;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,6 +43,9 @@ public class Controlador {
         indexTitulo = new ArrayList<>();
         indexGenero = new ArrayList<>();
         indexID = new ArrayList<>();
+        
+        this.totales = 0;
+        this.alquilados = 0;
                 
         
         
@@ -57,7 +61,6 @@ public class Controlador {
         this.configurarCalendario(principal);
         //Cargamos los index
         this.cargarIndexCedula(principal);
-        //this.cargarIndexTitulo(principal);
         this.cargarIndexPeliculas(principal);
         this.cargarIndexID(principal);
     }
@@ -112,8 +115,7 @@ public class Controlador {
         //$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$$#$#$#
         //this.configurarCalendario(principal);
         //this.cargarIndexCedula(principal);
-        //this.cargarIndexTitulo(principal);
-        //this.cargarIndexGenero(principal);
+        //this.cargarIndexPeliculas(principal);
         //this.cargarIndexID(principal);
         
     }
@@ -1059,7 +1061,7 @@ public class Controlador {
         while(high >= low){         
             mid = (high + low)/2;
             
-            cur=indexCedula.get(mid).getCedula();
+            cur = indexCedula.get(mid).getCedula();
 
             if(cedula < cur){
                 high = mid - 1;
@@ -1084,37 +1086,213 @@ public class Controlador {
     
     
     
+    
+    
     public Pelicula busquedaTitulo(String titulo){
         long RRN = busquedaRRNTitulo(titulo);
-
+        
+        Pelicula pelicula = null;
+        
+        if(RRN == -1){return pelicula;}
+        
+        try {
+            fr = new FileReader(peliculas);
+            br = new BufferedReader(fr);
+            
+            for (int i = 0; i < RRN; i++) {
+                br.readLine();
+            }
+            String[] info = br.readLine().split("#");
+            pelicula = new Pelicula(info[0], info[1], info[4], Integer.parseInt(info[3]), Integer.parseInt(info[2]), Integer.parseInt(info[5]), RRN);
+            
+            fr.close();
+            br.close();
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return pelicula;
         
     }
     public long busquedaRRNTitulo(String titulo){
+        int low = 0;
+        int high = indexTitulo.size()-1;
+        int mid = -1;
+        String cur = "";
+        boolean targetFound = false;
+
+        while(high >= low){         
+            mid = (high + low)/2;
+            
+            cur = indexTitulo.get(mid).getTitulo();
+
+            if(titulo.compareTo(cur) < 0){
+                high = mid - 1;
+            }
+            else if(titulo.equals(cur)){
+                targetFound = true;
+                break;
+            }
+            else{
+                low = mid + 1;
+            }
+        }
         
-        
+        if(targetFound == true){
+            return indexTitulo.get(mid).getRRN(); 
+        }
+        else{
+            System.out.println("No ta aquí xd");
+            return -1;
+        }
     }
+    
+    
     
     
     
     public Pelicula busquedaGenero(String genero){
         long RRN = busquedaRRNGenero(genero);
-
         
+        Pelicula pelicula = null;
+        
+        if(RRN == -1){return pelicula;}
+        
+        try {
+            fr = new FileReader(peliculas);
+            br = new BufferedReader(fr);
+            
+            for (int i = 0; i < RRN; i++) {
+                br.readLine();
+            }
+            String[] info = br.readLine().split("#");
+            pelicula = new Pelicula(info[0], info[1], info[4], Integer.parseInt(info[3]), Integer.parseInt(info[2]), Integer.parseInt(info[5]), RRN);
+            
+            fr.close();
+            br.close();
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return pelicula;
     }
     public long busquedaRRNGenero(String genero){
-        
+        int low = 0;
+        int high = indexGenero.size()-1;
+        int mid = -1;
+        String cur = "";
+        boolean targetFound = false;
 
+        while(high >= low){         
+            mid = (high + low)/2;
+            
+            cur = indexGenero.get(mid).getTitulo();
+
+            if(genero.compareTo(cur) < 0){
+                high = mid - 1;
+            }
+            else if(genero.equals(cur)){
+                targetFound = true;
+                break;
+            }
+            else{
+                low = mid + 1;
+            }
+        }
+        
+        if(targetFound == true){
+            return indexGenero.get(mid).getRRN(); 
+        }
+        else{
+            System.out.println("No ta aquí xd");
+            return -1;
+        }
     }
+    
+    
     
     
     
     public DVD busquedaID(long ID){
         long RRN = busquedaRRNID(ID);
-
+        
+        DVD dvd = null;
+        
+        if(RRN == -1){return dvd;}
+        
+        try {
+            fr = new FileReader(dvds);
+            br = new BufferedReader(fr);
+            
+            for (int i = 0; i < RRN; i++) {
+                br.readLine();
+            }
+            String[] info = br.readLine().split("#");
+            
+            String fechaA = info[1];
+            String fechaD = info[2];
+            Date fechaAlquiler = null;
+            Date fechaDevolucion = null;
+            
+            SimpleDateFormat formatoDelTexto = new SimpleDateFormat("dd/MM/yyyy");
+            try {
+                fechaAlquiler = formatoDelTexto.parse(fechaA);
+                fechaDevolucion = formatoDelTexto.parse(fechaD);
+            } catch (Exception e) {
+                
+            }
+            
+            dvd = new DVD(Long.parseLong(info[0]), fechaAlquiler, fechaDevolucion, busquedaTitulo(info[3]), RRN);
+            
+            fr.close();
+            br.close();
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return dvd;
         
     }
     public long busquedaRRNID(long ID){
+        int low = 0;
+        int high = indexID.size()-1;
+        int mid = -1;
+        long cur = 0;
+        boolean targetFound = false;
+
+        while(high >= low){         
+            mid = (high + low)/2;
+            
+            cur = indexID.get(mid).getID();
+
+            if(ID < cur){
+                high = mid - 1;
+            }
+            else if(ID == cur){
+                targetFound = true;
+                break;
+            }
+            else{
+                low = mid + 1;
+            }
+        }
         
+        if(targetFound == true){
+            return indexID.get(mid).getRRN(); 
+        }
+        else{
+            System.out.println("No ta aquí xd");
+            return -1;
+        }
 
     }
     
@@ -1129,7 +1307,7 @@ public class Controlador {
             fr = new FileReader(clientes);
             br = new BufferedReader(fr);
             
-            while ( (linea = br.readLine()) != null ) {         
+            while ( (linea = br.readLine()) != null ) {  
                 String info[] = linea.split("#");  
                 if(!info[0].equals("-1")){
                     //Cargamos la tabla
@@ -1173,55 +1351,6 @@ public class Controlador {
         }
     }
     
-    
-    
-//    public void cargarIndexTitulo(FramePrincipal frame){
-//        String titulo = "";
-//        int RRN = 0;
-//        String linea = "";
-//        
-//        try {
-//            
-//            fr = new FileReader(peliculas);
-//            br = new BufferedReader(fr);
-//            
-//            while ( (linea = br.readLine()) != null ) {         
-//                String info[] = linea.split("#");  
-//                if(!info[0].equals("-1")){
-//                    //Cargamos la tabla
-//                    DefaultTableModel modelo = (DefaultTableModel) frame.pPeliculas.tablePeliculas.getModel();
-//                    
-//                    modelo.addRow(new Object[]{
-//                            info[0], info[1], info[2], info[3] + " $", info[5]});
-//                    
-//                    titulo = info[0];
-//                    Pelicula pelicula = new Pelicula(RRN, titulo);
-//                    indexTitulo.add(pelicula);
-//                }   
-//                RRN++;
-//            }
-//            
-//            //System.out.println("Desordenado");
-//            //for (int i = 0; i < indexTitulo.size(); i++) {
-//            //    System.out.println(indexTitulo.get(i).getRRN() + "  " + indexTitulo.get(i).getTitulo());
-//            //}
-//            
-//            //Ordenamos el indice de cedulas
-//            Collections.sort(indexTitulo, comparatorTitulo);
-//            
-//            //System.out.println("Ordenado");
-//            //for (int i = 0; i < indexTitulo.size(); i++) {
-//            //    System.out.println(indexTitulo.get(i).getRRN() + "  " + indexTitulo.get(i).getTitulo());
-//            //}
-//            
-//            fr.close();
-//            br.close();
-//            
-//        } catch (IOException ex) {
-//            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
-    
     public void cargarIndexPeliculas(FramePrincipal frame){
         String genero = "";
         String titulo = "";
@@ -1233,11 +1362,16 @@ public class Controlador {
             fr = new FileReader(peliculas);
             br = new BufferedReader(fr);
             
-            while ( (linea = br.readLine()) != null ) {         
+            while ( (linea = br.readLine()) != null ) {   
                 String info[] = linea.split("#");  
                 if(!info[0].equals("-1")){
                     titulo = info[0];
                     genero = info[1];
+                    
+                    DefaultTableModel modelo = (DefaultTableModel) frame.pPeliculas.tablePeliculas.getModel();
+                    modelo.addRow(new Object[]{
+                            info[0], info[1], info[2], info[3] + " $", info[5]});
+                    
                     Pelicula pelGenero = new Pelicula(RRN, genero);
                     Pelicula pelTitulo = new Pelicula((int)RRN, titulo);
                     indexGenero.add(pelGenero);
@@ -1246,18 +1380,34 @@ public class Controlador {
                 RRN++;
             }
             
-            System.out.println("Desordenado");
-            for (int i = 0; i < indexGenero.size(); i++) {
-                System.out.println(indexGenero.get(i).getRRN() + "  " + indexGenero.get(i).getGenero());
-            }
+//            System.out.println("Desordenado");
+//            for (int i = 0; i < indexGenero.size(); i++) {
+//                System.out.println(indexGenero.get(i).getRRN() + "  " + indexGenero.get(i).getGenero());
+//            }
             
-            //Ordenamos el indice de cedulas
+            //Ordenamos el indice de generos
             Collections.sort(indexGenero, comparatorGenero);
             
-            System.out.println("Ordenado");
-            for (int i = 0; i < indexGenero.size(); i++) {
-                System.out.println(indexGenero.get(i).getRRN() + "  " + indexGenero.get(i).getGenero());
-            }
+//            System.out.println("Ordenado");
+//            for (int i = 0; i < indexGenero.size(); i++) {
+//                System.out.println(indexGenero.get(i).getRRN() + "  " + indexGenero.get(i).getGenero());
+//            }
+            
+            
+            
+//            System.out.println("\n\n");
+//            System.out.println("Desordenado");
+//            for (int i = 0; i < indexTitulo.size(); i++) {
+//                System.out.println(indexTitulo.get(i).getRRN() + "  " + indexTitulo.get(i).getTitulo());
+//            }
+            
+            //Ordenamos el indice de titulos
+            Collections.sort(indexTitulo, comparatorTitulo);
+            
+//            System.out.println("Ordenado");
+//            for (int i = 0; i < indexTitulo.size(); i++) {
+//                System.out.println(indexTitulo.get(i).getRRN() + "  " + indexTitulo.get(i).getTitulo());
+//            }
             
             fr.close();
             br.close();
@@ -1266,8 +1416,6 @@ public class Controlador {
             Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
     
     
     public void cargarIndexID(FramePrincipal frame){
@@ -1283,35 +1431,31 @@ public class Controlador {
             while ( (linea = br.readLine()) != null ) {         
                 String info[] = linea.split("#");  
                 if(!info[0].equals("-1")){
-                    //Cargamos la tabla
-                    DefaultTableModel modelo = (DefaultTableModel) frame.pPeliculas.tablePeliculas.getModel();
-                    String titulo = info[3];
-                    modelo.addRow(new Object[]{
-                            info[0], info[1], info[2], info[3]});
-                    
+                   
                     ID = Long.parseLong(info[0]);
-                    frame.pPrincipal.comboClientes.addItem(String.valueOf(ID));
                     DVD dvd = new DVD(RRN, ID);
                     indexID.add(dvd);
                 }   
+                
                 RRN++;
+                this.totales = indexID.size();
             }
             
             
-            //System.out.println("Desordenado");
-            //for (int i = 0; i < indexCedula.size(); i++) {
-            //    System.out.println(indexCedula.get(i).getRRN() + "  " + indexCedula.get(i).getCedula());
-            //}
+            System.out.println("Desordenado");
+            for (int i = 0; i < indexID.size(); i++) {
+                System.out.println(indexID.get(i).getRRN() + "  " + indexID.get(i).getID());
+            }
             
-            //Ordenamos el indice de cedulas
+            //Ordenamos el indice de IDs
             Collections.sort(indexID, new Comparator<DVD>() {
-                @Override public int compare(DVD d1, DVD d2) {
-                    return (int) (d1.getID() - d2.getID());}});
+                @Override public int compare(DVD c1, DVD c2) {
+                    return (int) (c1.getID()- c2.getID());}});
             
-            //System.out.println("Desordenado");
-            //for (int i = 0; i < indexCedula.size(); i++) {
-            //    System.out.println(indexCedula.get(i).getRRN() + "  " + indexCedula.get(i).getCedula());
-            //}
+            System.out.println("Desordenado");
+            for (int i = 0; i < indexID.size(); i++) {
+                System.out.println(indexID.get(i).getRRN() + "  " + indexID.get(i).getID());
+            }
             
             fr.close();
             br.close();
