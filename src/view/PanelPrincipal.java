@@ -82,6 +82,7 @@ public class PanelPrincipal extends javax.swing.JPanel {
         tablePeliculaCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tablePeliculaCliente.setFocusable(false);
         tablePeliculaCliente.setGridColor(new java.awt.Color(204, 204, 204));
+        tablePeliculaCliente.setRowSelectionAllowed(false);
         tablePeliculaCliente.setSelectionBackground(new java.awt.Color(70, 24, 30));
         tablePeliculaCliente.setSelectionForeground(new java.awt.Color(204, 204, 204));
         tablePeliculaCliente.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -312,7 +313,7 @@ public class PanelPrincipal extends javax.swing.JPanel {
     }//GEN-LAST:event_comboClientesActionPerformed
 
     private void botonAlquilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAlquilarActionPerformed
-        
+        controlador.alquilar(this);
     }//GEN-LAST:event_botonAlquilarActionPerformed
 
     private void botonDevolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonDevolverActionPerformed

@@ -226,6 +226,32 @@ public class Controlador {
         }
     }
     
+    public void alquilar(PanelPrincipal panel){
+        
+        if( String.valueOf(panel.comboClientes.getSelectedItem()).equals("Seleccione") ){
+            JOptionPane.showMessageDialog(panel, "Seleccione a un cliente para alquilar", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if(panel.calendario.getDate() == null){
+            JOptionPane.showMessageDialog(panel, "Seleccione una fecha de devolución", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        //Pedimos la pelicula que alquilar
+        String[] pelicula = new String[indexTitulo.size()];
+        
+        for (int i = 0; i < indexTitulo.size(); i++) {
+            pelicula[i] = indexTitulo.get(i).getTitulo();
+        }
+        
+        
+        String peliculas = (String)JOptionPane.showInputDialog(panel, "   Elija la pelicula que desee alquilar", "Selección Película", JOptionPane.QUESTION_MESSAGE, null, pelicula, pelicula[0]);
+        
+    }
+
+    
+    
     public void buscarClienteP(PanelPrincipal panel){
         // Se verifica si se ingresó alguna cédula
         if(panel.textFieldCedulaP.getText().equals("Cédula del cliente")){
