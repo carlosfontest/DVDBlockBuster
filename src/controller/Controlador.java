@@ -278,11 +278,11 @@ public class Controlador {
             if(cliente.getID() != 0){
                 DVD dvd = busquedaID(cliente.getID());
                 modelo.addRow(new Object[]{
-                    cliente.getNombre(), cliente.getNombre(), cliente.getCedula(), cliente.getID(),dvd.getFechaAlquiler(), dvd.getFechaDevolucion()
+                    cliente.getNombre(), cliente.getApellido(), cliente.getCedula(), cliente.getID(),dvd.getFechaAlquiler(), dvd.getFechaDevolucion()
                 });
             }else{
                 modelo.addRow(new Object[]{
-                    cliente.getNombre(), cliente.getNombre(), cliente.getCedula(), "No Aplica","No Aplica", "No Aplica"
+                    cliente.getNombre(), cliente.getApellido(), cliente.getCedula(), "No Aplica","No Aplica", "No Aplica"
                 });
             }
             
@@ -462,7 +462,7 @@ public class Controlador {
         
     }
     
-    public void editarCliente(PanelClientes panel){
+    public void editarCliente(PanelClientes panel, FramePrincipal frame){
         DefaultTableModel modelo = (DefaultTableModel) panel.tableClientes.getModel();
         //Se valida si se seleccionó alguna fila
         if(panel.tableClientes.getSelectedRow() == -1){
@@ -470,6 +470,9 @@ public class Controlador {
             return;
         }
         String modificar = String.valueOf(panel.comboEditarCliente.getSelectedItem());
+        String cedula = String.valueOf(modelo.getValueAt(panel.tableClientes.getSelectedRow(), 2));
+        long RRN = this.busquedaRRNCedula(Long.parseLong(cedula));
+        
         if(modificar.equals("Seleccione")){
             JOptionPane.showMessageDialog(panel, "Seleccione que desea modificar", "Error", JOptionPane.ERROR_MESSAGE);
         }else if(modificar.equals("Nombre")){
@@ -488,14 +491,42 @@ public class Controlador {
             panel.tableClientes.clearSelection();
             panel.comboEditarCliente.setSelectedIndex(0);
             // Modificar el nombre del cliente en el archivo de texto
-            // ##
-            // ##
-            // ##
-            // ##
-            // ##
-            // ##
-            // ##
-            // ##
+
+            try {
+                fr = new FileReader(clientes);
+                br = new BufferedReader(fr);
+                fw = new FileWriter(clientes, true);
+                bw = new BufferedWriter(fw);
+
+                for (int i = 0; i < RRN; i++) {
+                    br.readLine();
+                }
+                String infoA = br.readLine();
+                String[] infoAux = infoA.split("#");
+                infoAux[1] = nombreNuevo;
+                String infoN = infoAux[0] + "#" + infoAux[1] + "#" + infoAux[2] + "#" + infoAux[3];
+
+                modificarArchivo(clientes, infoA, infoN);
+
+                fr.close();
+                br.close();
+                bw.close();
+                fw.close();
+
+                int x=-1;
+                for (int i = 0; i < indexCedula.size(); i++) {
+                    if(Long.parseLong(cedula) == indexCedula.get(i).getCedula()){
+                        x = i;
+                    }
+                }
+                if(x != -1){
+                indexCedula.get(x).setNombre(nombreNuevo);
+                }
+
+            } catch (IOException ex) {
+                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         }else if(modificar.equals("Apellido")){
             String apellidoViejo = String.valueOf( modelo.getValueAt(panel.tableClientes.getSelectedRow(), 1) );
             apellidoViejo = apellidoViejo.toUpperCase();
@@ -511,16 +542,43 @@ public class Controlador {
             panel.tableClientes.clearSelection();
             panel.comboEditarCliente.setSelectedIndex(0);
             // Modificar el apellido del cliente en el archivo de texto
-            // ##
-            // ##
-            // ##
-            // ##
-            // ##
-            // ##
-            // ##
-            // ##
+            try {
+                fr = new FileReader(clientes);
+                br = new BufferedReader(fr);
+                fw = new FileWriter(clientes, true);
+                bw = new BufferedWriter(fw);
+
+                for (int i = 0; i < RRN; i++) {
+                    br.readLine();
+                }
+                String infoA = br.readLine();
+                String[] infoAux = infoA.split("#");
+                infoAux[2] = apellidoNuevo;
+                String infoN = infoAux[0] + "#" + infoAux[1] + "#" + infoAux[2] + "#" + infoAux[3];
+
+                modificarArchivo(clientes, infoA, infoN);
+
+                fr.close();
+                br.close();
+                bw.close();
+                fw.close();
+
+                int x=-1;
+                for (int i = 0; i < indexCedula.size(); i++) {
+                    if(Long.parseLong(cedula) == indexCedula.get(i).getCedula()){
+                        x = i;
+                    }
+                }
+                if(x != -1){
+                indexCedula.get(x).setApellido(apellidoNuevo);
+                }
+
+            } catch (IOException ex) {
+                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
+        frame.pPrincipal.comboClientes.setSelectedIndex(0);
     }
     
     public void agregarPelicula(PanelPeliculas panel, FramePrincipal frame){        

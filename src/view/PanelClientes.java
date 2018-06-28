@@ -21,7 +21,7 @@ public class PanelClientes extends javax.swing.JPanel {
         panel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableClientes = new javax.swing.JTable();
-        comboEditarCliente = new javax.swing.JComboBox<>();
+        comboEditarCliente = new javax.swing.JComboBox<String>();
         botonAgregarCliente = new javax.swing.JButton();
         botonEditarCliente = new javax.swing.JButton();
         botonEliminarCliente = new javax.swing.JButton();
@@ -66,7 +66,7 @@ public class PanelClientes extends javax.swing.JPanel {
         comboEditarCliente.setBackground(new java.awt.Color(70, 24, 30));
         comboEditarCliente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         comboEditarCliente.setForeground(new java.awt.Color(255, 255, 255));
-        comboEditarCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Nombre", "Apellido" }));
+        comboEditarCliente.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione", "Nombre", "Apellido" }));
         comboEditarCliente.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         comboEditarCliente.setFocusable(false);
         comboEditarCliente.setMinimumSize(new java.awt.Dimension(73, 32));
@@ -168,6 +168,7 @@ public class PanelClientes extends javax.swing.JPanel {
         panelLayout.setHorizontalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLayout.createSequentialGroup()
+                .addGap(4, 4, 4)
                 .addComponent(botonAux, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(panelLayout.createSequentialGroup()
@@ -258,7 +259,7 @@ public class PanelClientes extends javax.swing.JPanel {
     }//GEN-LAST:event_botonEliminarClienteActionPerformed
 
     private void botonEditarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarClienteActionPerformed
-        controlador.editarCliente(this);
+        controlador.editarCliente(this, this.frame);
     }//GEN-LAST:event_botonEditarClienteActionPerformed
 
     private void textFieldCedulaCFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textFieldCedulaCFocusGained

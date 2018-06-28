@@ -52,6 +52,14 @@ public class Cliente implements Serializable{
     public long getRRN() {
         return RRN;
     }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
     
     
     

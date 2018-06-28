@@ -22,7 +22,7 @@ public class PanelPrincipal extends javax.swing.JPanel {
     private void initComponents() {
 
         panel = new javax.swing.JPanel();
-        comboClientes = new javax.swing.JComboBox<>();
+        comboClientes = new javax.swing.JComboBox<String>();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablePeliculaCliente = new javax.swing.JTable();
         calendario = new com.toedter.calendar.JDateChooser();
@@ -48,7 +48,7 @@ public class PanelPrincipal extends javax.swing.JPanel {
         comboClientes.setBackground(new java.awt.Color(70, 24, 30));
         comboClientes.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         comboClientes.setForeground(new java.awt.Color(255, 255, 255));
-        comboClientes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione" }));
+        comboClientes.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione" }));
         comboClientes.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         comboClientes.setFocusable(false);
         comboClientes.addActionListener(new java.awt.event.ActionListener() {
@@ -186,6 +186,7 @@ public class PanelPrincipal extends javax.swing.JPanel {
         panelLayout.setHorizontalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLayout.createSequentialGroup()
+                .addGap(4, 4, 4)
                 .addComponent(botonAux, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(panelLayout.createSequentialGroup()
@@ -230,6 +231,7 @@ public class PanelPrincipal extends javax.swing.JPanel {
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLayout.createSequentialGroup()
+                .addGap(6, 6, 6)
                 .addComponent(botonAux, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -242,7 +244,7 @@ public class PanelPrincipal extends javax.swing.JPanel {
                     .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(labelCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(comboClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(39, 39, 39)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -310,6 +312,7 @@ public class PanelPrincipal extends javax.swing.JPanel {
     }//GEN-LAST:event_comboClientesActionPerformed
 
     private void botonAlquilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAlquilarActionPerformed
+        
     }//GEN-LAST:event_botonAlquilarActionPerformed
 
     private void botonDevolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonDevolverActionPerformed
