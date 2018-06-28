@@ -271,17 +271,20 @@ public class Controlador {
         DefaultTableModel modelo = (DefaultTableModel) panel.tablePeliculaCliente.getModel();
         
         String cedula = String.valueOf(panel.comboClientes.getSelectedItem());
+        
         if(!cedula.equals("Seleccione")){
-            
-            // BUSCAR CLIENTE EN EL ARCHIVO Y PONERLO EN LA TABLA
-            // ##
-            // ##
-            // ##
-            // ##
-            // ##
-            // ##
-            // ##
-            // ##
+            long cedulaN = Long.parseLong(cedula);
+            Cliente cliente = busquedaCedula(cedulaN);
+            if(cliente.getID() != 0){
+                DVD dvd = busquedaID(cliente.getID());
+                modelo.addRow(new Object[]{
+                    cliente.getNombre(), cliente.getNombre(), cliente.getCedula(), cliente.getID(),dvd.getFechaAlquiler(), dvd.getFechaDevolucion()
+                });
+            }else{
+                modelo.addRow(new Object[]{
+                    cliente.getNombre(), cliente.getNombre(), cliente.getCedula(), "No Aplica","No Aplica", "No Aplica"
+                });
+            }
             
             
         }else{
