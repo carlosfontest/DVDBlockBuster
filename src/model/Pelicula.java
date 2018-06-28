@@ -69,7 +69,22 @@ public class Pelicula implements Serializable{
     public long getRRN() {
         return RRN;
     }
-    
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
+
+    public void setPrecioDia(int precioDia) {
+        this.precioDia = precioDia;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
     
     
     

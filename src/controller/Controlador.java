@@ -735,6 +735,9 @@ public class Controlador {
             JOptionPane.showMessageDialog(panel, "Seleccione la película que desee modificar", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        
+        long RRN = busquedaRRNTitulo(String.valueOf( modelo.getValueAt(panel.tablePeliculas.getSelectedRow(), 0) ));
+        
         String modificar = String.valueOf(panel.comboEditarPelicula.getSelectedItem());
         if(modificar.equals("Seleccione")){
             JOptionPane.showMessageDialog(panel, "Seleccione que desea modificar", "Error", JOptionPane.ERROR_MESSAGE);
@@ -754,14 +757,42 @@ public class Controlador {
             panel.tablePeliculas.clearSelection();
             panel.comboEditarPelicula.setSelectedIndex(0);
             // Modificar el título de la película en el archivo de texto
-            // ##
-            // ##
-            // ##
-            // ##
-            // ##
-            // ##
-            // ##
-            // ##
+            
+            try {
+                fr = new FileReader(peliculas);
+                br = new BufferedReader(fr);
+                fw = new FileWriter(peliculas, true);
+                bw = new BufferedWriter(fw);
+
+                for (int i = 0; i < RRN; i++) {
+                    br.readLine();
+                }
+                String infoA = br.readLine();
+                String[] infoAux = infoA.split("#");
+                infoAux[0] = nombreNuevo;
+                String infoN = infoAux[0] + "#" + infoAux[1] + "#" + infoAux[2] + "#" + infoAux[3] + "#" + infoAux[4] + "#" + infoAux[5];
+
+                modificarArchivo(peliculas, infoA, infoN);
+
+                fr.close();
+                br.close();
+                bw.close();
+                fw.close();
+
+                int x=-1;
+                for (int i = 0; i < indexTitulo.size(); i++) {
+                    if(infoAux[0].equals(indexTitulo.get(i).getTitulo())){
+                        x = i;
+                    }
+                }
+                if(x != -1){
+                indexTitulo.get(x).setTitulo(nombreNuevo);
+                }
+
+            } catch (IOException ex) {
+                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         }else if(modificar.equals("Género")){
             String[] generos = {"Acción", "Amor", "Suspenso", "Aventura", "Terror", "Comedia"};
             String generoViejo = String.valueOf( modelo.getValueAt(panel.tablePeliculas.getSelectedRow(), 1) );
@@ -774,14 +805,42 @@ public class Controlador {
             panel.tablePeliculas.clearSelection();
             panel.comboEditarPelicula.setSelectedIndex(0);
             // Modificar el apellido del cliente en el archivo de texto
-            // ##
-            // ##
-            // ##
-            // ##
-            // ##
-            // ##
-            // ##
-            // ##
+            
+            try {
+                fr = new FileReader(peliculas);
+                br = new BufferedReader(fr);
+                fw = new FileWriter(peliculas, true);
+                bw = new BufferedWriter(fw);
+
+                for (int i = 0; i < RRN; i++) {
+                    br.readLine();
+                }
+                String infoA = br.readLine();
+                String[] infoAux = infoA.split("#");
+                infoAux[1] = generoNuevo;
+                String infoN = infoAux[0] + "#" + infoAux[1] + "#" + infoAux[2] + "#" + infoAux[3] + "#" + infoAux[4] + "#" + infoAux[5];
+
+                modificarArchivo(peliculas, infoA, infoN);
+
+                fr.close();
+                br.close();
+                bw.close();
+                fw.close();
+
+                int x=-1;
+                for (int i = 0; i < indexGenero.size(); i++) {
+                    if(infoAux[1].equals(indexGenero.get(i).getGenero())){
+                        x = i;
+                    }
+                }
+                if(x != -1){
+                indexGenero.get(x).setGenero(generoNuevo);
+                }
+
+            } catch (IOException ex) {
+                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         }else if(modificar.equals("Precio")){
             String precioViejo = String.valueOf( modelo.getValueAt(panel.tablePeliculas.getSelectedRow(), 3) );
             boolean flag1, flag2;
@@ -809,14 +868,31 @@ public class Controlador {
             panel.tablePeliculas.clearSelection();
             panel.comboEditarPelicula.setSelectedIndex(0);
             // Modificar el apellido del cliente en el archivo de texto
-            // ##
-            // ##
-            // ##
-            // ##
-            // ##
-            // ##
-            // ##
-            // ##
+            try {
+                fr = new FileReader(peliculas);
+                br = new BufferedReader(fr);
+                fw = new FileWriter(peliculas, true);
+                bw = new BufferedWriter(fw);
+
+                for (int i = 0; i < RRN; i++) {
+                    br.readLine();
+                }
+                String infoA = br.readLine();
+                String[] infoAux = infoA.split("#");
+                infoAux[3] = precioNuevo;
+                String infoN = infoAux[0] + "#" + infoAux[1] + "#" + infoAux[2] + "#" + infoAux[3] + "#" + infoAux[4] + "#" + infoAux[5];
+
+                modificarArchivo(peliculas, infoA, infoN);
+
+                fr.close();
+                br.close();
+                bw.close();
+                fw.close();
+
+            } catch (IOException ex) {
+                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         }else if(modificar.equals("Rating")){
             String[] ratings = {"1", "2", "3", "4", "5"};
             String ratingNuevo = (String)JOptionPane.showInputDialog(panel, "   Elija el rating de la Película", "Selección Rating", JOptionPane.QUESTION_MESSAGE, null, ratings, ratings[0]);
@@ -826,14 +902,41 @@ public class Controlador {
             panel.tablePeliculas.clearSelection();
             panel.comboEditarPelicula.setSelectedIndex(0);
             // Modificar el apellido del cliente en el archivo de texto
-            // ##
-            // ##
-            // ##
-            // ##
-            // ##
-            // ##
-            // ##
-            // ##
+            
+            try {
+                fr = new FileReader(peliculas);
+                br = new BufferedReader(fr);
+                fw = new FileWriter(peliculas, true);
+                bw = new BufferedWriter(fw);
+
+                for (int i = 0; i < RRN; i++) {
+                    br.readLine();
+                }
+                String infoA = br.readLine();
+                String[] infoAux = infoA.split("#");
+                infoAux[1] = ratingNuevo;
+                String infoN = infoAux[0] + "#" + infoAux[1] + "#" + infoAux[2] + "#" + infoAux[3] + "#" + infoAux[4] + "#" + infoAux[5];
+
+                modificarArchivo(peliculas, infoA, infoN);
+
+                fr.close();
+                br.close();
+                bw.close();
+                fw.close();
+
+                int x=-1;
+                for (int i = 0; i < indexRating.size(); i++) {
+                    if(Integer.parseInt(infoAux[2]) == indexRating.get(i).getRating()){
+                        x = i;
+                    }
+                }
+                if(x != -1){
+                indexRating.get(x).setRating(Integer.parseInt(ratingNuevo));
+                }
+
+            } catch (IOException ex) {
+                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
     }
