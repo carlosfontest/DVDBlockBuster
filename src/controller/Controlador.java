@@ -376,7 +376,7 @@ public class Controlador {
         long idDVD = 0;
         
         for (int i = 0; i < indexID.size(); i++) {
-            if(busquedaID(indexID.get(i).getID()).getFechaDevolucion() == null && devolucion.after(busquedaID(indexID.get(i).getID()).getFechaDevolucion())){
+            if(busquedaID(indexID.get(i).getID()).getFechaDevolucion() != null && devolucion.after(busquedaID(indexID.get(i).getID()).getFechaDevolucion())){
                 devolucion = busquedaID(indexID.get(i).getID()).getFechaDevolucion();
                 idDVD = indexID.get(i).getID();
             }
@@ -892,7 +892,7 @@ public class Controlador {
         System.out.println("Lineas: " + lNumeroLineas + " y titulo: " + titulo);
         
         //La metemos en IndexTitulo
-        indexTitulo.add(new Pelicula(lNumeroLineas, titulo));
+        indexTitulo.add(new Pelicula((int)lNumeroLineas, titulo));
         
         cargarIndexPeliculas(frame);
         
