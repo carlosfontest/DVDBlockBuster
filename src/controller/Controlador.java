@@ -878,27 +878,80 @@ public class Controlador {
         
         
         //Se eliminan todos los DVDs de esa película que estan en el arrayList
-        // ##
-        // ##
-        // ##
-        // ##
-        // ##
-        // ##
-        // ##
-        // ##
+        
+        DVD aux;
+        
+        for (int i = 0; i < indexID.size(); i++) {
+            aux = busquedaID(indexID.get(i).getID());
+            if(aux.getPelicula().getTitulo().equals(titulo)){
+                indexID.remove(i);
+                this.totales--;
+            }
+        }
+        
+        //Se eliminan los dvds del archivo de texto
+        
+        try {
+            fr = new FileReader(dvds);
+            br = new BufferedReader(fr);
+            fw = new FileWriter(dvds, true);
+            bw = new BufferedWriter(fw);
+            
+            while(br.readLine() != null){
+                String infoA = br.readLine();
+                String[] infoAux = infoA.split("#");
+                if(infoAux[3].equals(titulo)){
+                    infoAux[0] = "-1";
+                    String infoN = infoAux[0] + "#" + infoAux[1] + "#" + infoAux[2] + "#" + infoAux[3];
+
+                    modificarArchivo(dvds, infoA, infoN);
+
+                    fr.close();
+                    br.close();
+                    bw.close();
+                    fw.close();
+                }
+            }
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         //Se elimina la película de la tabla de películas
         modelo.removeRow(panel.tablePeliculas.getSelectedRow());
         
         //Se elimina la película del archivo de texto
-        // ##
-        // ##
-        // ##
-        // ##
-        // ##
-        // ##
-        // ##
-        // ##
+        
+        long RRN = this.busquedaRRNTitulo(titulo);
+        
+        try {
+            fr = new FileReader(peliculas);
+            br = new BufferedReader(fr);
+            fw = new FileWriter(peliculas, true);
+            bw = new BufferedWriter(fw);
+            
+            for (int i = 0; i < RRN; i++) {
+                br.readLine();
+            }
+            
+            String infoA = br.readLine();
+            String[] infoAux = infoA.split("#");
+            infoAux[0] = "-1";
+            String infoN = infoAux[0] + "#" + infoAux[1] + "#" + infoAux[2] + "#" + infoAux[3] + "#" + infoAux[4] + "#" + infoAux[5];
+            
+            modificarArchivo(peliculas, infoA, infoN);
+            
+            fr.close();
+            br.close();
+            bw.close();
+            fw.close();
+            
+            cargarIndexPeliculas(frame);
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
     
     public void editarPelicula(PanelPeliculas panel){
