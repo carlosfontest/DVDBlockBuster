@@ -756,9 +756,15 @@ public class Controlador {
     
     public void agregarPelicula(PanelPeliculas panel, FramePrincipal frame){        
         //Pedimos el título
-        String titulo = JOptionPane.showInputDialog("     Ingrese el título de la película\n        (No más de 30 caracteres)");
-        titulo = titulo.toUpperCase();
-        titulo = titulo.trim();
+        String titulo = "";
+        try {
+            titulo = JOptionPane.showInputDialog("     Ingrese el título de la película\n        (No más de 30 caracteres)");
+            titulo = titulo.toUpperCase();
+            titulo = titulo.trim();
+        } catch (Exception e) {
+            return;
+        }
+        
         try {
             if(titulo.length() > 30 || titulo.length() == 0){
                 JOptionPane.showMessageDialog(panel, "Ingrese el título de la película siguiendo las instrucciones", "Error", JOptionPane.ERROR_MESSAGE);
@@ -779,12 +785,29 @@ public class Controlador {
         
         //Pedimos el género
         String[] generos = {"Acción", "Amor", "Suspenso", "Aventura", "Terror", "Comedia"};
-        String genero = (String)JOptionPane.showInputDialog(panel, "   Elija el género de la Película", "Selección Género", JOptionPane.QUESTION_MESSAGE, null, generos, generos[0]);
-        genero = genero.toUpperCase();
-        genero = genero.trim();
+        String genero = "";
+        
+        try {
+            genero = (String)JOptionPane.showInputDialog(panel, "   Elija el género de la Película", "Selección Género", JOptionPane.QUESTION_MESSAGE, null, generos, generos[0]);
+            genero = genero.toUpperCase();
+            genero = genero.trim();
+        } catch (Exception e) {
+            return;
+        }
+        
+        
         //Pedimos el Rating
         String[] ratings = {"1", "2", "3", "4", "5"};
-        String rating = (String)JOptionPane.showInputDialog(panel, "   Elija el rating de la Película", "Selección Rating", JOptionPane.QUESTION_MESSAGE, null, ratings, ratings[0]);
+        String rating = "";
+        
+        try {
+            rating = String.valueOf(JOptionPane.showInputDialog(panel, "   Elija el rating de la Película", "Selección Rating", JOptionPane.QUESTION_MESSAGE, null, ratings, ratings[0]));
+            if(rating.equals("null")){
+                return;
+            }
+        } catch (Exception e) {
+            return;
+        }
         
         //Pedimos el precio
         boolean flag1, flag2;
