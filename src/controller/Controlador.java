@@ -234,6 +234,11 @@ public class Controlador {
             return;
         }
         
+        if(!String.valueOf(panel.tablePeliculaCliente.getValueAt(0, 3)).equals("No Aplica")){
+            JOptionPane.showMessageDialog(panel, "Ya este cliente tiene una pelicula", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         if(panel.calendario.getDate() == null){
             JOptionPane.showMessageDialog(panel, "Seleccione una fecha de devolución", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -252,21 +257,25 @@ public class Controlador {
         
         String peliculaEscogida = (String)JOptionPane.showInputDialog(panel, "   Elija la pelicula que desee alquilar", "Selección Película", JOptionPane.QUESTION_MESSAGE, null, pelicula, pelicula[0]);
         
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         
+        
+        //Validaciones de stock de DVDs
         if(indexID.size() == 0 ){
-            JOptionPane.showMessageDialog(panel, "No hay stock para esa película (Generar Stock)", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(panel, "No se ha quemado ningún DVD", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }else if(busquedaTitulo(peliculaEscogida).getStock() == 0){ 
+            JOptionPane.showMessageDialog(panel, "No hay stock para esa película", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
+        DVD dvd;
+        
         for (int i = 0; i < indexID.size(); i++){
             try {
-                DVD dvd = busquedaID(indexID.get(i).getID());
+                dvd = busquedaID(indexID.get(i).getID());
+                System.out.println("escogiste: " + peliculaEscogida + " pero este id tiene " + dvd.getPelicula().getTitulo());
                 if(dvd.getPelicula().getTitulo().equals(peliculaEscogida)){
-                    if(dvd.getPelicula().getStock() == 0){ 
-                        JOptionPane.showMessageDialog(panel, "No hay stock para esa película", "Error", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
                     if(dvd.getFechaAlquiler() == null){
                         //Actualizamos el DVD
                         dvd.setFechaAlquiler(new Date());
@@ -286,6 +295,7 @@ public class Controlador {
                         for (int j = 0; j < RRN; j++) {
                             br.readLine();
                         }
+                        
                         String infoA = br.readLine();
                         String[] infoAux = infoA.split("#");
                         String fechaAlquiler = sdf.format(dvd.getFechaAlquiler());
@@ -295,12 +305,9 @@ public class Controlador {
                         infoAux[2] = fechaDevolucion;
                         String infoN = infoAux[0] + "#" + infoAux[1] + "#" + infoAux[2] + "#" + infoAux[3];
 
+                        
                         modificarArchivo(dvds, infoA, infoN);
 
-                        fr.close();
-                        br.close();
-                        bw.close();
-                        fw.close();
                         
                         //Modificamos el archivo de peliculas
                         
@@ -314,19 +321,17 @@ public class Controlador {
                         for (int j = 0; j < RRN; j++) {
                             br.readLine();
                         }
+                        
                         infoA = br.readLine();
                         infoAux = infoA.split("#");
                         infoAux[5] = String.valueOf(dvd.getPelicula().getStock());
                         infoN = infoAux[0] + "#" + infoAux[1] + "#" + infoAux[2] + "#" + infoAux[3] + "#" + infoAux[4] + "#" + infoAux[5];
-
+                        
                         modificarArchivo(peliculas, infoA, infoN);
-
-                        fr.close();
-                        br.close();
-                        bw.close();
-                        fw.close();
                         
                         //Modificamos el ID del DVD en el archivo del cliente
+                        
+                        RRN = busquedaRRNCedula(Long.parseLong(String.valueOf(panel.comboClientes.getSelectedItem())));
                         
                         fr = new FileReader(clientes);
                         br = new BufferedReader(fr);
@@ -340,27 +345,14 @@ public class Controlador {
                         infoAux = infoA.split("#");
                         infoAux[3] = String.valueOf(dvd.getID());
                         infoN = infoAux[0] + "#" + infoAux[1] + "#" + infoAux[2] + "#" + infoAux[3];
-
+                        
                         modificarArchivo(clientes, infoA, infoN);
-
-                        fr.close();
-                        br.close();
-                        bw.close();
-                        fw.close();
                         
                         //Reiniciamos tabla cliente
-                        
-                        DefaultTableModel modelo = (DefaultTableModel) frame.pClientes.tableClientes.getModel();
-                        
-                        modelo.setRowCount(0);
                         
                         cargarIndexCedula(frame);
                         
                         //Reiniciamos tabla principal
-                        modelo = (DefaultTableModel) panel.tablePeliculaCliente.getModel();
-                        
-                        modelo.setRowCount(0);
-                        
                         this.buscarClienteEnArchivo(panel);
                         
                         return;
@@ -448,7 +440,11 @@ public class Controlador {
     public void buscarClienteEnArchivo(PanelPrincipal panel){
         DefaultTableModel modelo = (DefaultTableModel) panel.tablePeliculaCliente.getModel();
         
+        modelo.setRowCount(0);
+        
         String cedula = String.valueOf(panel.comboClientes.getSelectedItem());
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         
         if(!cedula.equals("Seleccione")){
             long cedulaN = Long.parseLong(cedula);
@@ -456,7 +452,7 @@ public class Controlador {
             if(cliente.getID() != 0){
                 DVD dvd = busquedaID(cliente.getID());
                 modelo.addRow(new Object[]{
-                    cliente.getNombre(), cliente.getApellido(), cliente.getCedula(), cliente.getID(),dvd.getFechaAlquiler(), dvd.getFechaDevolucion()
+                    cliente.getNombre(), cliente.getApellido(), cliente.getCedula(), cliente.getID(),sdf.format(dvd.getFechaAlquiler()), sdf.format(dvd.getFechaDevolucion())
                 });
             }else{
                 modelo.addRow(new Object[]{
@@ -893,8 +889,6 @@ public class Controlador {
         //La metemos en IndexTitulo
         indexTitulo.add(new Pelicula((int)lNumeroLineas, titulo));
         
-        cargarIndexPeliculas(frame);
-        
         //Ordenamos el ArrayList
         Collections.sort(indexTitulo);
         
@@ -905,8 +899,6 @@ public class Controlador {
         Collections.sort(indexRating, new Comparator<Pelicula>() {
                 @Override public int compare(Pelicula c1, Pelicula c2) {
                     return (int) (c1.getRating()- c2.getRating());}});
-        
-        System.out.println("nos fuimos");
         return;
     }
     
@@ -981,11 +973,6 @@ public class Controlador {
                 String infoN = infoAux[0] + "#" + infoAux[1] + "#" + infoAux[2] + "#" + infoAux[3];
 
                 modificarArchivo(dvds, infoA, infoN);
-
-                fr.close();
-                br.close();
-                bw.close();
-                fw.close();
                 
             } catch (Exception e) {
             }
@@ -1846,6 +1833,7 @@ public class Controlador {
         if(RRN == -1){return dvd;}
         
         try {
+            //Se declaran nuevos, para que no interrumpan en otros métodos
             fr = new FileReader(dvds);
             br = new BufferedReader(fr);
             
@@ -1882,6 +1870,7 @@ public class Controlador {
         return dvd;
         
     }
+    
     public long busquedaRRNID(long ID){
         int low = 0;
         int high = indexID.size()-1;
@@ -1917,6 +1906,11 @@ public class Controlador {
     
     
     public void cargarIndexCedula(FramePrincipal frame){
+        
+        //Reiniciamos la tabla por si se llama después de abierto
+        DefaultTableModel modelo = (DefaultTableModel) frame.pClientes.tableClientes.getModel();
+        modelo.setRowCount(0);
+        
         long cedula = 0;
         long RRN = 0;
         String linea = "";
@@ -1927,14 +1921,12 @@ public class Controlador {
             br = new BufferedReader(fr);
             
             while ( (linea = br.readLine()) != null ) {  
-                String info[] = linea.split("#");  
+                String info[] = linea.split("#");
+                
                 if(!info[0].equals("-1")){
                     //Cargamos la tabla
-                    DefaultTableModel modelo = (DefaultTableModel) frame.pClientes.tableClientes.getModel();
                     String titulo = "No Aplica";
-                    if(!info[3].equals("0")){
-                        titulo = busquedaID(Long.parseLong(info[3])).getPelicula().getTitulo();
-                    }
+                    
                     modelo.addRow(new Object[]{
                             info[1], info[2], info[0], info[3], titulo});
                     
@@ -1946,24 +1938,14 @@ public class Controlador {
                 RRN++;
             }
             
-            
-            //System.out.println("Desordenado");
-            //for (int i = 0; i < indexCedula.size(); i++) {
-            //    System.out.println(indexCedula.get(i).getRRN() + "  " + indexCedula.get(i).getCedula());
-            //}
+            fr.close();
+            br.close();
             
             //Ordenamos el indice de cedulas
             Collections.sort(indexCedula, new Comparator<Cliente>() {
                 @Override public int compare(Cliente c1, Cliente c2) {
                     return (int) (c1.getCedula() - c2.getCedula());}});
             
-            //System.out.println("Desordenado");
-            //for (int i = 0; i < indexCedula.size(); i++) {
-            //    System.out.println(indexCedula.get(i).getRRN() + "  " + indexCedula.get(i).getCedula());
-            //}
-            
-            fr.close();
-            br.close();
             
         } catch (IOException ex) {
             Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
@@ -1977,11 +1959,11 @@ public class Controlador {
         String linea = "";
         
         try {
+            //Abrimos readers auxiliares, porque estarán abiertos dentro de un while
+            FileReader fr1 = new FileReader(peliculas);
+            BufferedReader br1 = new BufferedReader(fr1);
             
-            fr = new FileReader(peliculas);
-            br = new BufferedReader(fr);
-            
-            while ( (linea = br.readLine()) != null ) {   
+            while ( (linea = br1.readLine()) != null ) {   
                 String info[] = linea.split("#");  
                 if(!info[0].equals("-1")){
                     titulo = info[0];
@@ -1999,38 +1981,16 @@ public class Controlador {
                 RRN++;
             }
             
-//            System.out.println("Desordenado");
-//            for (int i = 0; i < indexGenero.size(); i++) {
-//                System.out.println(indexGenero.get(i).getRRN() + "  " + indexGenero.get(i).getGenero());
-//            }
+            //Cerramos los readers
+            fr1.close();
+            br1.close();
             
             //Ordenamos el indice de generos
             Collections.sort(indexGenero, comparatorGenero);
             
-//            System.out.println("Ordenado");
-//            for (int i = 0; i < indexGenero.size(); i++) {
-//                System.out.println(indexGenero.get(i).getRRN() + "  " + indexGenero.get(i).getGenero());
-//            }
-            
-            
-            
-//            System.out.println("\n\n");
-//            System.out.println("Desordenado");
-//            for (int i = 0; i < indexTitulo.size(); i++) {
-//                System.out.println(indexTitulo.get(i).getRRN() + "  " + indexTitulo.get(i).getTitulo());
-//            }
-            
             //Ordenamos el indice de titulos
             Collections.sort(indexTitulo);
             
-            
-//            System.out.println("Ordenado");
-//            for (int i = 0; i < indexTitulo.size(); i++) {
-//                System.out.println(indexTitulo.get(i).getRRN() + "  " + indexTitulo.get(i).getTitulo());
-//            }
-            
-            fr.close();
-            br.close();
             
         } catch (IOException ex) {
             Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);

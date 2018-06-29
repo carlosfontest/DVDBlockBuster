@@ -94,7 +94,6 @@ public class Pelicula implements Comparable<Pelicula> {
     
     @Override
     public int compareTo(Pelicula o) {
-        System.out.println("dc");
         return this.titulo.compareTo(o.getTitulo()); // dog name sort in ascending order 
         //return o.getName().compareTo(this.name); use this line for dog name sort in descending order 
     }
