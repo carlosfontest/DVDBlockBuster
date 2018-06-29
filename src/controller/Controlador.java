@@ -1039,9 +1039,7 @@ public class Controlador {
                     return;
             }
         }
-        
-        
-        //Se eliminan todos los DVDs de esa película que estan en el arrayList
+       
         
         //Se eliminan los dvds del archivo de texto
         
@@ -1057,6 +1055,8 @@ public class Controlador {
                 j++;
             }
         }
+        
+        //Se eliminan todos los DVDs de esa película que estan en el arrayList
         
         for (int i = 0; i < indexID.size(); i++) {
             aux = busquedaID(indexID.get(i).getID());
@@ -1202,6 +1202,65 @@ public class Controlador {
             } catch (IOException ex) {
                 Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
+            //Modificamos los DVDs en los archivos de texto
+        
+            DVD aux;
+
+            int j=0;
+            
+            System.out.println(indexID.size() + " Tamaño del IndexID");
+            
+            for (int i = 0; i < indexID.size(); i++) {
+                System.out.println("En la i numero: " + (i+1) + "/" + indexID.size() + " el titulo es: " + busquedaID(indexID.get(i).getID()).getPelicula().getTitulo());
+                if((busquedaID(indexID.get(i).getID()).getPelicula().getTitulo().equals(nombreNuevo))){
+                    System.out.println("gottiiitt");
+                    j++;
+                }
+            }
+            
+            long[] RRNs = new long[j];
+            
+            j = 0;
+            
+            for (int i = 0; i < indexID.size(); i++) {
+                if((busquedaID(indexID.get(i).getID()).getPelicula().getTitulo().equals(nombreNuevo))){
+                    RRNs[j] = indexID.get(i).getRRN();
+                    j++;
+                }
+            }
+            
+            System.out.println("Conseguimos los siguientes resultados");
+            
+            for (int i = 0; i < RRNs.length; i++) {
+                System.out.println(RRNs[i]);           
+            }
+
+            for (int i = 0; i < RRNs.length; i++) {
+
+                try {
+                    fr = new FileReader(dvds);
+                    br = new BufferedReader(fr);
+                    fw = new FileWriter(dvds, true);
+                    bw = new BufferedWriter(fw);
+
+                    for (int r = 0; r < RRNs[i]; r++) {
+                        br.readLine();
+                    }
+
+                    String infoA = br.readLine();
+                    String[] infoAux = infoA.split("#");
+                    infoAux[3] = nombreNuevo;
+                    String infoN = infoAux[0] + "#" + infoAux[1] + "#" + infoAux[2] + "#" + infoAux[3];
+
+                    modificarArchivo(dvds, infoA, infoN);
+
+                } catch (Exception e) {
+                }
+
+            }
+            
+            
             
         }else if(modificar.equals("Género")){
             String[] generos = {"Acción", "Amor", "Suspenso", "Aventura", "Terror", "Comedia"};
