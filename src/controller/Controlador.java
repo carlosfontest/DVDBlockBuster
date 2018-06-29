@@ -34,6 +34,8 @@ public class Controlador {
     private BufferedWriter bw;
     private FileReader fr;
     private BufferedReader br;
+    //Bandera para evitar que se repitan procesos del inicio
+    private boolean flag = false;
 
     public Controlador() throws FileNotFoundException {
         clientes = new File("BaseDeDatos/Clientes.txt");
@@ -264,9 +266,6 @@ public class Controlador {
         if(indexID.size() == 0 ){
             JOptionPane.showMessageDialog(panel, "No se ha quemado ningún DVD", "Error", JOptionPane.ERROR_MESSAGE);
             return;
-        }else if(busquedaTitulo(peliculaEscogida).getStock() == 0){ 
-            JOptionPane.showMessageDialog(panel, "No hay stock para esa película", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
         }
         
         DVD dvd;
@@ -363,7 +362,9 @@ public class Controlador {
         }
         
         //Fecha de devolución próxima
-        devolucion = busquedaID(indexID.get(0).getID()).getFechaDevolucion();
+        devolucion = new Date();
+        devolucion = sumarDiasAFecha(devolucion, 9);
+        
         long idDVD = 0;
         
         for (int i = 0; i < indexID.size(); i++) {
@@ -373,17 +374,12 @@ public class Controlador {
             }
         }
         
-        //Pa proba xd
-        if(idDVD == 0){
-            System.out.println("bug xd");
-            return;
-        }
-        
+        //JAJA conseguiste el Easter Egg 
         String cliente = "Carlushi el chupa conchushi";
         
         for (int i = 0; i < frame.pClientes.tableClientes.getRowCount(); i++) {
             if(String.valueOf(frame.pClientes.tableClientes.getValueAt(i, 3)).contains(String.valueOf(idDVD))){
-                cliente = String.valueOf(frame.pClientes.tableClientes.getValueAt(i, 0)) + String.valueOf(frame.pClientes.tableClientes.getValueAt(i, 1));
+                cliente = String.valueOf(frame.pClientes.tableClientes.getValueAt(i, 0))+ " " + String.valueOf(frame.pClientes.tableClientes.getValueAt(i, 1));
                 break;
             }
         }
@@ -1310,11 +1306,6 @@ public class Controlador {
             Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        
-        
-        
-        
-        
         panel.tablePeliculas.clearSelection();
         panel.sliderStock.setValue(0);
         
@@ -1335,13 +1326,17 @@ public class Controlador {
                 fw.close();
                 fr.close();
                 br.close();
+                
+                indexID.add(new DVD((Long)this.totales, this.totales));
+                
             } catch (Exception e) {
             }
         }
-        //Crear la cantidad deseada de nuevos DVDs (Sabiendo ya que pelicula hay que agregarle) y agregarlos al array de DVDS
         
-        
-        
+        //Una vez listo el nuevo ArrayList de stock, lo ordenamos
+        Collections.sort(indexID, new Comparator<DVD>() {
+                @Override public int compare(DVD c1, DVD c2) {
+                    return (int) (c1.getID()- c2.getID());}});
     }
     
     public void verDescripcion(PanelPeliculas panel){
@@ -1919,7 +1914,7 @@ public class Controlador {
             
             fr = new FileReader(clientes);
             br = new BufferedReader(fr);
-            
+                               
             while ( (linea = br.readLine()) != null ) {  
                 String info[] = linea.split("#");
                 
@@ -1931,12 +1926,16 @@ public class Controlador {
                             info[1], info[2], info[0], info[3], titulo});
                     
                     cedula = Long.parseLong(info[0]);
-                    frame.pPrincipal.comboClientes.addItem(String.valueOf(cedula));
+                    if(!flag){
+                        frame.pPrincipal.comboClientes.addItem(String.valueOf(cedula));
+                    }
                     Cliente cliente = new Cliente(RRN, cedula);
                     indexCedula.add(cliente);
                 }   
                 RRN++;
             }
+            
+            flag = true;
             
             fr.close();
             br.close();
@@ -2021,21 +2020,10 @@ public class Controlador {
                 this.totales = indexID.size();
             }
             
-            
-//            System.out.println("Desordenado");
-//            for (int i = 0; i < indexID.size(); i++) {
-//                System.out.println(indexID.get(i).getRRN() + "  " + indexID.get(i).getID());
-//            }
-            
             //Ordenamos el indice de IDs
             Collections.sort(indexID, new Comparator<DVD>() {
                 @Override public int compare(DVD c1, DVD c2) {
                     return (int) (c1.getID()- c2.getID());}});
-            
-//            System.out.println("Desordenado");
-//            for (int i = 0; i < indexID.size(); i++) {
-//                System.out.println(indexID.get(i).getRRN() + "  " + indexID.get(i).getID());
-//            }
             
             fr.close();
             br.close();
