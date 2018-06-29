@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -63,11 +62,14 @@ public class Controlador {
         principal.setVisible(true);      
         
         //$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$$#$#$#
-        this.configurarCalendario(principal);
         //Cargamos los index
         this.cargarIndexCedula(principal);
         this.cargarIndexPeliculas(principal);
         this.cargarIndexID(principal);
+        this.configurarCalendario(principal);
+        this.cargarBarraDeProgreso(principal);
+        
+        
     }
     
     public void iniciarSesion(Login inicio){
@@ -118,10 +120,11 @@ public class Controlador {
         principal.setVisible(true);
         
         //$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$$#$#$#
-        //this.configurarCalendario(principal);
         //this.cargarIndexCedula(principal);
         //this.cargarIndexPeliculas(principal);
         //this.cargarIndexID(principal);
+        //this.configurarCalendario(principal);
+        //cargarBarraDeProgreso(principal);
         
     }
     
@@ -818,11 +821,11 @@ public class Controlador {
                         JOptionPane.showMessageDialog(panel, "      Ingresó un número inválido\n  (No ingrese ni letras ni símbolos)", "Error", JOptionPane.ERROR_MESSAGE);
                         flag1= true;
                     }
-                    else if(Long.parseLong(precio) < 0 || Long.parseLong(precio) >30000000 ){
-                        JOptionPane.showMessageDialog(panel, "      Ingresó un número inválido\n  (De 0 a 30millones)", "Error", JOptionPane.ERROR_MESSAGE);
+                    if(Long.parseLong(precio) <= 0 ){
+                        JOptionPane.showMessageDialog(panel, "      Ingresó un número inválido", "Error", JOptionPane.ERROR_MESSAGE);
                         flag2 = true;
                     }
-            } catch (Exception e) {
+            } catch (HeadlessException | NumberFormatException e) {
                 return;
             }
         }while(flag1 == true || flag2 == true);
@@ -1042,6 +1045,7 @@ public class Controlador {
                 JOptionPane.showMessageDialog(panel, "Ingrese el título de la película siguiendo las instrucciones", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            
             
             panel.tablePeliculas.setValueAt(nombreNuevo, panel.tablePeliculas.getSelectedRow(), 0);
             panel.tablePeliculas.clearSelection();
@@ -1357,6 +1361,17 @@ public class Controlador {
         Date date = new Date();
         frame.pPrincipal.calendario.setMaxSelectableDate( sumarDiasAFecha(date,9) );
         frame.pPrincipal.calendario.setMinSelectableDate( sumarDiasAFecha(date,1) );
+        
+        int cont = 0;
+        for (int i = 0; i < frame.pClientes.tableClientes.getRowCount(); i++) {
+            if(!frame.pClientes.tableClientes.getValueAt(i, 3).equals("0")){
+                cont++;
+            }
+        }
+        
+        alquilados = cont;
+        
+        cargarBarraDeProgreso(frame);
     }
     
     public  Date sumarDiasAFecha(Date fecha, int dias){
@@ -2031,6 +2046,15 @@ public class Controlador {
         } catch (IOException ex) {
             Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public void cargarBarraDeProgreso(FramePrincipal panel){
+        long n = ((alquilados * 100)/totales);
+        int m = (int)(100 - n);
+        panel.pPrincipal.barCantidadAlmacen.setValue(m);
+        System.out.println(alquilados);
+        System.out.println(totales);
+        
     }
     
     Comparator<Pelicula> comparatorGenero = new Comparator<Pelicula>() {

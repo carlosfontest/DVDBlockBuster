@@ -22,7 +22,7 @@ public class PanelPrincipal extends javax.swing.JPanel {
     private void initComponents() {
 
         panel = new javax.swing.JPanel();
-        comboClientes = new javax.swing.JComboBox<String>();
+        comboClientes = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablePeliculaCliente = new javax.swing.JTable();
         calendario = new com.toedter.calendar.JDateChooser();
@@ -48,7 +48,7 @@ public class PanelPrincipal extends javax.swing.JPanel {
         comboClientes.setBackground(new java.awt.Color(70, 24, 30));
         comboClientes.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         comboClientes.setForeground(new java.awt.Color(255, 255, 255));
-        comboClientes.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione" }));
+        comboClientes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione" }));
         comboClientes.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         comboClientes.setFocusable(false);
         comboClientes.addActionListener(new java.awt.event.ActionListener() {
@@ -171,7 +171,6 @@ public class PanelPrincipal extends javax.swing.JPanel {
 
         barCantidadAlmacen.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         barCantidadAlmacen.setForeground(new java.awt.Color(70, 24, 30));
-        barCantidadAlmacen.setMaximum(250);
         barCantidadAlmacen.setBorderPainted(false);
         barCantidadAlmacen.setStringPainted(true);
 
@@ -314,9 +313,12 @@ public class PanelPrincipal extends javax.swing.JPanel {
 
     private void botonAlquilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAlquilarActionPerformed
         controlador.alquilar(this, this.frame);
+        controlador.cargarBarraDeProgreso(frame);
     }//GEN-LAST:event_botonAlquilarActionPerformed
 
     private void botonDevolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonDevolverActionPerformed
+        
+        controlador.cargarBarraDeProgreso(frame);
     }//GEN-LAST:event_botonDevolverActionPerformed
 
     private void textFieldCedulaPKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldCedulaPKeyPressed

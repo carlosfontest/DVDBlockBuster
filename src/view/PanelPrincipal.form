@@ -233,7 +233,7 @@
                   </TableColumnModel>
                 </Property>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                  <Color id="Default Cursor"/>
+                  <Color id="Cursor Por defecto"/>
                 </Property>
                 <Property name="focusable" type="boolean" value="false"/>
                 <Property name="gridColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -413,7 +413,6 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="1e" green="18" red="46" type="rgb"/>
             </Property>
-            <Property name="maximum" type="int" value="250"/>
             <Property name="borderPainted" type="boolean" value="false"/>
             <Property name="stringPainted" type="boolean" value="true"/>
           </Properties>
