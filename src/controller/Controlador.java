@@ -252,6 +252,8 @@ public class Controlador {
         
         String peliculaEscogida = (String)JOptionPane.showInputDialog(panel, "   Elija la pelicula que desee alquilar", "Selección Película", JOptionPane.QUESTION_MESSAGE, null, pelicula, pelicula[0]);
         
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+        
         for (int i = 0; i < indexID.size(); i++){
             try {
                 DVD dvd = busquedaID(indexID.get(i).getID());
@@ -281,7 +283,6 @@ public class Controlador {
                         }
                         String infoA = br.readLine();
                         String[] infoAux = infoA.split("#");
-                        SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
                         String fechaAlquiler = sdf.format(dvd.getFechaAlquiler());
                         String fechaDevolucion = sdf.format(dvd.getFechaDevolucion());
                         
@@ -364,7 +365,36 @@ public class Controlador {
             }
         }
         
+        //Fecha de devolución próxima
+        devolucion = busquedaID(indexID.get(0).getID()).getFechaDevolucion();
+        long idDVD = 0;
         
+        for (int i = 0; i < indexID.size(); i++) {
+            if(busquedaID(indexID.get(i).getID()).getFechaDevolucion() == null && devolucion.after(busquedaID(indexID.get(i).getID()).getFechaDevolucion())){
+                devolucion = busquedaID(indexID.get(i).getID()).getFechaDevolucion();
+                idDVD = indexID.get(i).getID();
+            }
+        }
+        
+        //Pa proba xd
+        if(idDVD == 0){
+            System.out.println("bug xd");
+            return;
+        }
+        
+        String cliente = "Carlushi el chupa conchushi";
+        
+        for (int i = 0; i < frame.pClientes.tableClientes.getRowCount(); i++) {
+            if(String.valueOf(frame.pClientes.tableClientes.getValueAt(i, 3)).contains(String.valueOf(idDVD))){
+                cliente = String.valueOf(frame.pClientes.tableClientes.getValueAt(i, 0)) + String.valueOf(frame.pClientes.tableClientes.getValueAt(i, 1));
+                break;
+            }
+        }
+        
+        String fecha = sdf.format(devolucion);
+        
+        JOptionPane.showMessageDialog(panel, "No hay DVDs disponible, el más próximo lo tiene: " + cliente + " y lo entregará en la fecha: " + fecha , "Error", JOptionPane.ERROR_MESSAGE);
+        return;
     }
 
     
