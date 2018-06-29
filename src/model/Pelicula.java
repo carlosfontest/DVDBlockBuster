@@ -2,7 +2,7 @@ package model;
 
 import java.io.Serializable;
 
-public class Pelicula implements Serializable {
+public class Pelicula implements Comparable<Pelicula> {
     private String titulo;
     private String genero;
     private String descripcion;
@@ -92,6 +92,17 @@ public class Pelicula implements Serializable {
     
     public void alquilarPelicula() {
         this.stock--;
+    }
+    
+    @Override
+    public int compareTo(Pelicula o) {
+        return this.titulo.compareTo(o.getTitulo()); // dog name sort in ascending order 
+        //return o.getName().compareTo(this.name); use this line for dog name sort in descending order 
+    }
+
+    @Override
+    public String toString() {
+        return this.titulo;
     }
     
     

@@ -247,12 +247,18 @@ public class Controlador {
         
         for (int i = 0; i < indexTitulo.size(); i++) {
             pelicula[i] = indexTitulo.get(i).getTitulo();
+            System.out.println(indexTitulo.get(i).getTitulo());
         }
         
         
         String peliculaEscogida = (String)JOptionPane.showInputDialog(panel, "   Elija la pelicula que desee alquilar", "Selección Película", JOptionPane.QUESTION_MESSAGE, null, pelicula, pelicula[0]);
         
         SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+        
+        if(indexID.size() == 0 ){
+            JOptionPane.showMessageDialog(panel, "No hay stock para esa película", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         
         for (int i = 0; i < indexID.size(); i++){
             try {
@@ -883,16 +889,26 @@ public class Controlador {
         } catch (Exception e) {
         }
         
+        System.out.println("Lineas: " + lNumeroLineas + " y titulo: " + titulo);
+        
+        //La metemos en IndexTitulo
         indexTitulo.add(new Pelicula(lNumeroLineas, titulo));
-        Collections.sort(indexTitulo, comparatorTitulo);
+        
+        cargarIndexPeliculas(frame);
+        
+        //Ordenamos el ArrayList
+        Collections.sort(indexTitulo);
+        
         indexGenero.add(new Pelicula(lNumeroLineas, genero));
+        
         Collections.sort(indexGenero, comparatorGenero);
         indexRating.add(new Pelicula(lNumeroLineas, rating));
         Collections.sort(indexRating, new Comparator<Pelicula>() {
                 @Override public int compare(Pelicula c1, Pelicula c2) {
                     return (int) (c1.getRating()- c2.getRating());}});
         
-        
+        System.out.println("nos fuimos");
+        return;
     }
     
     public void eliminarPelicula(PanelPeliculas panel, FramePrincipal frame){
@@ -2006,7 +2022,7 @@ public class Controlador {
 //            }
             
             //Ordenamos el indice de titulos
-            Collections.sort(indexTitulo, comparatorTitulo);
+            Collections.sort(indexTitulo);
             
             
 //            System.out.println("Ordenado");
@@ -2069,14 +2085,6 @@ public class Controlador {
             Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
-    
-    
-    Comparator<Pelicula> comparatorTitulo = new Comparator<Pelicula>() {
-        public int compare( Pelicula a, Pelicula b ) {
-            int resultado = a.getTitulo().compareTo(b.getTitulo());
-            return resultado;}};
     
     Comparator<Pelicula> comparatorGenero = new Comparator<Pelicula>() {
         public int compare( Pelicula a, Pelicula b ) {
