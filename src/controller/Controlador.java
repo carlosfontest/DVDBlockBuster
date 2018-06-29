@@ -328,6 +328,10 @@ public class Controlador {
                         
                         modificarArchivo(peliculas, infoA, infoN);
                         
+                        //Actualizamos la tabla
+                        
+                        cargarIndexPeliculas(frame);
+                        
                         //Modificamos el ID del DVD en el archivo del cliente
                         
                         RRN = busquedaRRNCedula(Long.parseLong(String.valueOf(panel.comboClientes.getSelectedItem())));
@@ -393,7 +397,119 @@ public class Controlador {
     
   
     public void devolver(PanelPrincipal panel, FramePrincipal frame){
+        if( String.valueOf(panel.comboClientes.getSelectedItem()).equals("Seleccione") ){
+            JOptionPane.showMessageDialog(panel, "Seleccione a un cliente para devolver", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         
+        if(String.valueOf(panel.tablePeliculaCliente.getValueAt(0, 3)).equals("No Aplica")){
+            JOptionPane.showMessageDialog(panel, "Este cliente no tiene una pelicula", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        //Reestablecemos los contadores y la fecha a null
+        
+        this.alquilados--;
+        
+        long id = Long.parseLong(String.valueOf(panel.tablePeliculaCliente.getValueAt(0, 3)));
+        
+        long cedula = Long.parseLong(String.valueOf(panel.tablePeliculaCliente.getValueAt(0, 2)));
+        
+        DVD dvd = busquedaID(id);
+        
+        dvd.getPelicula().devolverPelicula();
+        
+        String peliculaEscogida = busquedaID(id).getPelicula().getTitulo();
+        
+        int i=0;
+        
+        for (int j = 0; j < indexID.size(); j++) {
+            if(indexID.get(j).getID() == id){
+                indexID.get(j).setFechaAlquiler(null);
+                indexID.get(j).setFechaDevolucion(null);
+                i = j;
+            }
+        }
+        
+        try {
+            //Modificamos el archivo de peliculas
+            long RRN = indexID.get(i).getRRN();
+
+            fr = new FileReader(dvds);
+            br = new BufferedReader(fr);
+            fw = new FileWriter(dvds, true);
+            bw = new BufferedWriter(fw);
+
+            for (int j = 0; j < RRN; j++) {
+                br.readLine();
+            }
+
+            String infoA = br.readLine();
+            String[] infoAux = infoA.split("#");
+            String fechaAlquiler = "0";
+            String fechaDevolucion = "0";
+
+            infoAux[1]= fechaAlquiler;
+            infoAux[2] = fechaDevolucion;
+            String infoN = infoAux[0] + "#" + infoAux[1] + "#" + infoAux[2] + "#" + infoAux[3];
+
+
+            modificarArchivo(dvds, infoA, infoN);
+            
+            //Modificamos el archivo de peliculas
+                        
+            RRN = this.busquedaRRNTitulo(peliculaEscogida);
+
+            fr = new FileReader(peliculas);
+            br = new BufferedReader(fr);
+            fw = new FileWriter(peliculas, true);
+            bw = new BufferedWriter(fw);
+
+            for (int j = 0; j < RRN; j++) {
+                br.readLine();
+            }
+
+            infoA = br.readLine();
+            infoAux = infoA.split("#");
+            infoAux[5] = String.valueOf(dvd.getPelicula().getStock());
+            infoN = infoAux[0] + "#" + infoAux[1] + "#" + infoAux[2] + "#" + infoAux[3] + "#" + infoAux[4] + "#" + infoAux[5];
+
+            modificarArchivo(peliculas, infoA, infoN);
+            
+            //Actualizamos la tabla
+            
+            cargarIndexPeliculas(frame);
+            
+            //Modificamos el ID del DVD en el archivo del cliente
+                        
+            RRN = busquedaRRNCedula(cedula);
+
+            fr = new FileReader(clientes);
+            br = new BufferedReader(fr);
+            fw = new FileWriter(clientes, true);
+            bw = new BufferedWriter(fw);
+
+            for (int j = 0; j < RRN; j++) {
+                br.readLine();
+            }
+            infoA = br.readLine();
+            infoAux = infoA.split("#");
+            infoAux[3] = "0";
+            infoN = infoAux[0] + "#" + infoAux[1] + "#" + infoAux[2] + "#" + infoAux[3];
+
+            modificarArchivo(clientes, infoA, infoN);
+            
+            //Reiniciamos tabla cliente
+                        
+            cargarIndexCedula(frame);
+
+            //Reiniciamos tabla principal
+            this.buscarClienteEnArchivo(panel);
+
+            return;
+            
+        } catch (Exception e) {
+        }
     }
     
     public void buscarClienteP(PanelPrincipal panel){
@@ -1959,6 +2075,10 @@ public class Controlador {
     }
     
     public void cargarIndexPeliculas(FramePrincipal frame){
+        
+        //Reiniciamos la tabla, en caso de volver a ser llamada la funcion
+        ((DefaultTableModel)frame.pPeliculas.tablePeliculas.getModel()).setRowCount(0);
+        
         String genero = "";
         String titulo = "";
         long RRN = 0;

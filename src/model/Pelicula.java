@@ -92,6 +92,10 @@ public class Pelicula implements Comparable<Pelicula> {
         this.stock--;
     }
     
+    public void devolverPelicula() {
+        this.stock++;
+    }
+    
     @Override
     public int compareTo(Pelicula o) {
         return this.titulo.compareTo(o.getTitulo()); // dog name sort in ascending order 
