@@ -262,6 +262,11 @@ public class Controlador {
         
         String peliculaEscogida = (String)JOptionPane.showInputDialog(panel, "   Elija la pelicula que desee alquilar", "Selección Película", JOptionPane.QUESTION_MESSAGE, null, pelicula, pelicula[0]);
         
+        //Validacion del JOptionPane
+        if(peliculaEscogida == null){
+            return;
+        }
+        
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         
         
@@ -271,12 +276,21 @@ public class Controlador {
             return;
         }
         
+        for (int i = 0; i < indexID.size(); i++) {
+            if (busquedaID(indexID.get(i).getID()).getPelicula().getTitulo().equals(peliculaEscogida)) {
+                break;
+            }else if(i==(indexID.size()-1) && !busquedaID(indexID.get(i).getID()).getPelicula().getTitulo().equals(peliculaEscogida)){
+                JOptionPane.showMessageDialog(panel, "Esta pelicula aún no está disponible", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+        }
+        
         DVD dvd;
         
         for (int i = 0; i < indexID.size(); i++){
             try {
                 dvd = busquedaID(indexID.get(i).getID());
-                System.out.println("escogiste: " + peliculaEscogida + " pero este id tiene " + dvd.getPelicula().getTitulo());
                 if(dvd.getPelicula().getTitulo().equals(peliculaEscogida)){
                     if(dvd.getFechaAlquiler() == null){
                         //Actualizamos el DVD
@@ -1003,8 +1017,6 @@ public class Controlador {
         } catch (Exception e) {
         }
         
-        System.out.println("Lineas: " + lNumeroLineas + " y titulo: " + titulo);
-        
         //La metemos en IndexTitulo
         indexTitulo.add(new Pelicula((int)lNumeroLineas, titulo));
         
@@ -1068,10 +1080,6 @@ public class Controlador {
                 this.totales--;
                 i--;
             }
-        }
-        
-        for (int i = 0; i < RRNs.length; i++) {
-            System.out.println(RRNs[i]);           
         }
         
         for (int i = 0; i < RRNs.length; i++) {
@@ -1213,12 +1221,8 @@ public class Controlador {
 
             int j=0;
             
-            System.out.println(indexID.size() + " Tamaño del IndexID");
-            
             for (int i = 0; i < indexID.size(); i++) {
-                System.out.println("En la i numero: " + (i+1) + "/" + indexID.size() + " el titulo es: " + busquedaID(indexID.get(i).getID()).getPelicula().getTitulo());
                 if((busquedaID(indexID.get(i).getID()).getPelicula().getTitulo().equals(nombreNuevo))){
-                    System.out.println("gottiiitt");
                     j++;
                 }
             }
@@ -1232,12 +1236,6 @@ public class Controlador {
                     RRNs[j] = indexID.get(i).getRRN();
                     j++;
                 }
-            }
-            
-            System.out.println("Conseguimos los siguientes resultados");
-            
-            for (int i = 0; i < RRNs.length; i++) {
-                System.out.println(RRNs[i]);           
             }
 
             for (int i = 0; i < RRNs.length; i++) {
@@ -2163,6 +2161,9 @@ public class Controlador {
             FileReader fr1 = new FileReader(peliculas);
             BufferedReader br1 = new BufferedReader(fr1);
             
+            indexGenero.clear();
+            indexTitulo.clear();
+            
             while ( (linea = br1.readLine()) != null ) {   
                 String info[] = linea.split("#");  
                 if(!info[0].equals("-1")){
@@ -2235,12 +2236,13 @@ public class Controlador {
     }
     
     public void cargarBarraDeProgreso(FramePrincipal panel){
+        if(totales == 0){
+            panel.pPrincipal.barCantidadAlmacen.setValue(0);
+            return;
+        }
         long n = ((alquilados * 100)/totales);
         int m = (int)(100 - n);
         panel.pPrincipal.barCantidadAlmacen.setValue(m);
-        System.out.println(alquilados);
-        System.out.println(totales);
-        
     }
     
     Comparator<Pelicula> comparatorGenero = new Comparator<Pelicula>() {
