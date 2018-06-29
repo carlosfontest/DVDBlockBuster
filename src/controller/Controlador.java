@@ -858,7 +858,10 @@ public class Controlador {
             titulo, genero, rating, precio + " $", 0
         });
         
+        
+        
         //Se añade al archivo de películas
+        long lNumeroLineas = 0;
         try {
             fw = new FileWriter(peliculas, true);
             bw = new BufferedWriter(fw);
@@ -868,12 +871,27 @@ public class Controlador {
                 bw.newLine();
             }
             bw.write(titulo + "#" + genero + "#" + rating + "#" + precio + "#" + descripcion + "#0" );
+            
+            while (br.readLine() != null) {
+                lNumeroLineas++;
+            }
+            
             bw.close();
             fw.close();
             fr.close();
             br.close();
         } catch (Exception e) {
         }
+        
+        indexTitulo.add(new Pelicula(lNumeroLineas, titulo));
+        Collections.sort(indexTitulo, comparatorTitulo);
+        indexGenero.add(new Pelicula(lNumeroLineas, genero));
+        Collections.sort(indexGenero, comparatorGenero);
+        indexRating.add(new Pelicula(lNumeroLineas, rating));
+        Collections.sort(indexRating, new Comparator<Pelicula>() {
+                @Override public int compare(Pelicula c1, Pelicula c2) {
+                    return (int) (c1.getRating()- c2.getRating());}});
+        
         
     }
     
@@ -1623,6 +1641,7 @@ public class Controlador {
         
     }
     public long busquedaRRNTitulo(String titulo){
+        putita();
         int low = 0;
         int high = indexTitulo.size()-1;
         int mid = -1;
@@ -1969,9 +1988,11 @@ public class Controlador {
 //                System.out.println(indexTitulo.get(i).getRRN() + "  " + indexTitulo.get(i).getTitulo());
 //            }
             
+    putita();
             //Ordenamos el indice de titulos
-            Collections.sort(indexTitulo, comparatorTitulo);
-            
+            Collections.sort(indexTitulo, Pelicula.comparatorTitu);
+            System.out.println("");
+            putita();
 //            System.out.println("Ordenado");
 //            for (int i = 0; i < indexTitulo.size(); i++) {
 //                System.out.println(indexTitulo.get(i).getRRN() + "  " + indexTitulo.get(i).getTitulo());
@@ -2045,6 +2066,12 @@ public class Controlador {
         public int compare( Pelicula a, Pelicula b ) {
             int resultado = a.getGenero().compareTo(b.getGenero());
             return resultado;}};
+    
+    public void putita(){
+        for (int i = 0; i < indexTitulo.size(); i++) {
+            System.out.println(indexTitulo.get(i).getRRN() + " " + indexTitulo.get(i).getTitulo());
+        }
+    }
         
 }
 
