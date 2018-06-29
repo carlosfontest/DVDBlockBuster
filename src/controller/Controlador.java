@@ -932,32 +932,44 @@ public class Controlador {
         
         //Se eliminan los dvds del archivo de texto
         
-        try {
-            fr = new FileReader(dvds);
-            br = new BufferedReader(fr);
-            fw = new FileWriter(dvds, true);
-            bw = new BufferedWriter(fw);
+        long[] RRNs = new long[(busquedaTitulo(titulo)).getStock()];
+        
+        int j=0;
+        
+        for (int i = 0; i < indexID.size(); i++) {
+            if((busquedaID(indexID.get(i).getID()).getPelicula().getTitulo().equals(titulo))){
+                RRNs[j] = indexID.get(i).getRRN();
+                j++;
+            }
+        }
+        
+        for (int i = 0; i < RRNs.length; i++) {
             
-            while(br.readLine() != null){
+            try {
+                fr = new FileReader(dvds);
+                br = new BufferedReader(fr);
+                fw = new FileWriter(dvds, true);
+                bw = new BufferedWriter(fw);
+
+                for (int r = 0; r < RRNs[i]; r++) {
+                    br.readLine();
+                }
+
                 String infoA = br.readLine();
                 String[] infoAux = infoA.split("#");
-                if(infoAux[3].equals(titulo)){
-                    infoAux[0] = "-1";
-                    String infoN = infoAux[0] + "#" + infoAux[1] + "#" + infoAux[2] + "#" + infoAux[3];
+                infoAux[0] = "-1";
+                String infoN = infoAux[0] + "#" + infoAux[1] + "#" + infoAux[2] + "#" + infoAux[3];
 
-                    modificarArchivo(dvds, infoA, infoN);
-                }
+                modificarArchivo(dvds, infoA, infoN);
+
+                fr.close();
+                br.close();
+                bw.close();
+                fw.close();
+                
+            } catch (Exception e) {
             }
             
-            
-            
-            fr.close();
-            br.close();
-            bw.close();
-            fw.close();
-            
-        } catch (IOException ex) {
-            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         //Se elimina la película de la tabla de películas
