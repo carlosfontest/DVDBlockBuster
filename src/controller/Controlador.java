@@ -920,6 +920,7 @@ public class Controlador {
         
         //Se eliminan todos los DVDs de esa película que estan en el arrayList
         
+        
         DVD aux;
         
         for (int i = 0; i < indexID.size(); i++) {
@@ -1000,6 +1001,12 @@ public class Controlador {
             br.close();
             bw.close();
             fw.close();
+            
+            ((DefaultTableModel)panel.tablePeliculas.getModel()).setRowCount(0);
+            
+            indexGenero = new ArrayList<>();
+            indexRating = new ArrayList<>();
+            indexTitulo = new ArrayList<>();
             
             cargarIndexPeliculas(frame);
             
@@ -1848,10 +1855,11 @@ public class Controlador {
                 
             }
             
-            dvd = new DVD(Long.parseLong(info[0]), fechaAlquiler, fechaDevolucion, busquedaTitulo(info[3]), RRN);
-            
             fr.close();
             br.close();
+            
+            dvd = new DVD(Long.parseLong(info[0]), fechaAlquiler, fechaDevolucion, busquedaTitulo(info[3]), RRN);
+            
             
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
