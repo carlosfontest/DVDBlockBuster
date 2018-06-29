@@ -920,18 +920,9 @@ public class Controlador {
         
         //Se eliminan todos los DVDs de esa película que estan en el arrayList
         
+        //Se eliminan los dvds del archivo de texto
         
         DVD aux;
-        
-        for (int i = 0; i < indexID.size(); i++) {
-            aux = busquedaID(indexID.get(i).getID());
-            if(aux.getPelicula().getTitulo().equals(titulo)){
-                indexID.remove(i);
-                this.totales--;
-            }
-        }
-        
-        //Se eliminan los dvds del archivo de texto
         
         long[] RRNs = new long[(busquedaTitulo(titulo)).getStock()];
         
@@ -942,6 +933,19 @@ public class Controlador {
                 RRNs[j] = indexID.get(i).getRRN();
                 j++;
             }
+        }
+        
+        for (int i = 0; i < indexID.size(); i++) {
+            aux = busquedaID(indexID.get(i).getID());
+            if(aux.getPelicula().getTitulo().equals(titulo)){
+                indexID.remove(i);
+                this.totales--;
+                i--;
+            }
+        }
+        
+        for (int i = 0; i < RRNs.length; i++) {
+            System.out.println(RRNs[i]);           
         }
         
         for (int i = 0; i < RRNs.length; i++) {
@@ -1622,7 +1626,6 @@ public class Controlador {
             return indexCedula.get(mid).getRRN(); 
         }
         else{
-            System.out.println("No ta aquí xd");
             return -1;
         }
     }
@@ -1661,7 +1664,6 @@ public class Controlador {
         
     }
     public long busquedaRRNTitulo(String titulo){
-        putita();
         int low = 0;
         int high = indexTitulo.size()-1;
         int mid = -1;
@@ -1689,7 +1691,6 @@ public class Controlador {
             return indexTitulo.get(mid).getRRN(); 
         }
         else{
-            System.out.println("No ta aquí xd");
             return -1;
         }
     }
@@ -1753,7 +1754,6 @@ public class Controlador {
             return indexGenero.get(mid).getRRN(); 
         }
         else{
-            System.out.println("No ta aquí xd");
             return -1;
         }
     }
@@ -1816,7 +1816,6 @@ public class Controlador {
             return indexGenero.get(mid).getRRN(); 
         }
         else{
-            System.out.println("No ta aquí xd");
             return -1;
         }
     }
@@ -1828,8 +1827,6 @@ public class Controlador {
         long RRN = busquedaRRNID(ID);
         
         DVD dvd = null;
-        
-        System.out.println("RRN " + RRN);
         
         if(RRN == -1){return dvd;}
         
@@ -1898,7 +1895,6 @@ public class Controlador {
             return indexID.get(mid).getRRN(); 
         }
         else{
-            System.out.println("No ta aquí xd");
             return -1;
         }
 
@@ -2086,12 +2082,6 @@ public class Controlador {
         public int compare( Pelicula a, Pelicula b ) {
             int resultado = a.getGenero().compareTo(b.getGenero());
             return resultado;}};
-    
-    public void putita(){
-        for (int i = 0; i < indexTitulo.size(); i++) {
-            System.out.println(indexTitulo.get(i).getRRN() + " " + indexTitulo.get(i).getTitulo());
-        }
-    }
    
         
 }
