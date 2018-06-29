@@ -391,6 +391,10 @@ public class Controlador {
     }
 
     
+  
+    public void devolver(PanelPrincipal panel, FramePrincipal frame){
+        
+    }
     
     public void buscarClienteP(PanelPrincipal panel){
         // Se verifica si se ingresó alguna cédula
@@ -1911,17 +1915,20 @@ public class Controlador {
         String linea = "";
         
         try {
-            
-            fr = new FileReader(clientes);
-            br = new BufferedReader(fr);
+            //Abrimos readers auxiliares, porque estarán abiertos dentro de un while
+            FileReader fr1 = new FileReader(clientes);
+            BufferedReader br1 = new BufferedReader(fr1);
                                
-            while ( (linea = br.readLine()) != null ) {  
+            while ( (linea = br1.readLine()) != null ) {  
                 String info[] = linea.split("#");
                 
                 if(!info[0].equals("-1")){
                     //Cargamos la tabla
                     String titulo = "No Aplica";
                     
+                    if(!(info[3].equals("0")) && flag){
+                        titulo = busquedaID(Long.parseLong(info[3])).getPelicula().getTitulo();
+                    }
                     modelo.addRow(new Object[]{
                             info[1], info[2], info[0], info[3], titulo});
                     
@@ -1937,8 +1944,8 @@ public class Controlador {
             
             flag = true;
             
-            fr.close();
-            br.close();
+            fr1.close();
+            br1.close();
             
             //Ordenamos el indice de cedulas
             Collections.sort(indexCedula, new Comparator<Cliente>() {

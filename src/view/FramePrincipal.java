@@ -372,6 +372,7 @@ public class FramePrincipal extends javax.swing.JFrame {
 
     private void botonClientesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonClientesMousePressed
         controlador.abrirPanelClientes(pPrincipal, pClientes, pPeliculas, this);
+        controlador.cargarIndexCedula(this);
     }//GEN-LAST:event_botonClientesMousePressed
 
     private void botonPeliculasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonPeliculasMousePressed

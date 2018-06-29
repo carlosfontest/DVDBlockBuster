@@ -317,6 +317,7 @@ public class PanelPrincipal extends javax.swing.JPanel {
     }//GEN-LAST:event_botonAlquilarActionPerformed
 
     private void botonDevolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonDevolverActionPerformed
+        controlador.alquilar(this, this.frame);
     }//GEN-LAST:event_botonDevolverActionPerformed
 
     private void textFieldCedulaPKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldCedulaPKeyPressed
