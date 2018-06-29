@@ -313,7 +313,7 @@ public class PanelPrincipal extends javax.swing.JPanel {
     }//GEN-LAST:event_comboClientesActionPerformed
 
     private void botonAlquilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAlquilarActionPerformed
-        controlador.alquilar(this);
+        controlador.alquilar(this, this.frame);
     }//GEN-LAST:event_botonAlquilarActionPerformed
 
     private void botonDevolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonDevolverActionPerformed

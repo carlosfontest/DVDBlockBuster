@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -226,7 +227,7 @@ public class Controlador {
         }
     }
     
-    public void alquilar(PanelPrincipal panel){
+    public void alquilar(PanelPrincipal panel, FramePrincipal frame){
         
         if( String.valueOf(panel.comboClientes.getSelectedItem()).equals("Seleccione") ){
             JOptionPane.showMessageDialog(panel, "Seleccione a un cliente para alquilar", "Error", JOptionPane.ERROR_MESSAGE);
@@ -238,6 +239,9 @@ public class Controlador {
             return;
         }
         
+        //Guardamos la fecha
+        Date devolucion = panel.calendario.getDate();
+        
         //Pedimos la pelicula que alquilar
         String[] pelicula = new String[indexTitulo.size()];
         
@@ -246,7 +250,120 @@ public class Controlador {
         }
         
         
-        String peliculas = (String)JOptionPane.showInputDialog(panel, "   Elija la pelicula que desee alquilar", "Selección Película", JOptionPane.QUESTION_MESSAGE, null, pelicula, pelicula[0]);
+        String peliculaEscogida = (String)JOptionPane.showInputDialog(panel, "   Elija la pelicula que desee alquilar", "Selección Película", JOptionPane.QUESTION_MESSAGE, null, pelicula, pelicula[0]);
+        
+        for (int i = 0; i < indexID.size(); i++){
+            try {
+                DVD dvd = busquedaID(indexID.get(i).getID());
+                if(dvd.getPelicula().getTitulo().equals(peliculaEscogida)){
+                    if(dvd.getPelicula().getStock() == 0){ 
+                        JOptionPane.showMessageDialog(panel, "No hay stock para esa película", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    if(dvd.getFechaAlquiler() == null){
+                        //Actualizamos el DVD
+                        dvd.setFechaAlquiler(new Date());
+                        dvd.setFechaDevolucion(devolucion);
+                        dvd.getPelicula().alquilarPelicula();
+                        this.alquilados++;
+                        
+                        
+                        //Modificamos el archivo de peliculas
+                        long RRN = indexID.get(i).getRRN();
+                        
+                        fr = new FileReader(dvds);
+                        br = new BufferedReader(fr);
+                        fw = new FileWriter(dvds, true);
+                        bw = new BufferedWriter(fw);
+
+                        for (int j = 0; j < RRN; j++) {
+                            br.readLine();
+                        }
+                        String infoA = br.readLine();
+                        String[] infoAux = infoA.split("#");
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+                        String fechaAlquiler = sdf.format(dvd.getFechaAlquiler());
+                        String fechaDevolucion = sdf.format(dvd.getFechaDevolucion());
+                        
+                        infoAux[1]= fechaAlquiler;
+                        infoAux[2] = fechaDevolucion;
+                        String infoN = infoAux[0] + "#" + infoAux[1] + "#" + infoAux[2] + "#" + infoAux[3];
+
+                        modificarArchivo(dvds, infoA, infoN);
+
+                        fr.close();
+                        br.close();
+                        bw.close();
+                        fw.close();
+                        
+                        //Modificamos el archivo de peliculas
+                        
+                        RRN = this.busquedaRRNTitulo(peliculaEscogida);
+                        
+                        fr = new FileReader(peliculas);
+                        br = new BufferedReader(fr);
+                        fw = new FileWriter(peliculas, true);
+                        bw = new BufferedWriter(fw);
+
+                        for (int j = 0; j < RRN; j++) {
+                            br.readLine();
+                        }
+                        infoA = br.readLine();
+                        infoAux = infoA.split("#");
+                        infoAux[5] = String.valueOf(dvd.getPelicula().getStock());
+                        infoN = infoAux[0] + "#" + infoAux[1] + "#" + infoAux[2] + "#" + infoAux[3] + "#" + infoAux[4] + "#" + infoAux[5];
+
+                        modificarArchivo(peliculas, infoA, infoN);
+
+                        fr.close();
+                        br.close();
+                        bw.close();
+                        fw.close();
+                        
+                        //Modificamos el ID del DVD en el archivo del cliente
+                        
+                        fr = new FileReader(clientes);
+                        br = new BufferedReader(fr);
+                        fw = new FileWriter(clientes, true);
+                        bw = new BufferedWriter(fw);
+
+                        for (int j = 0; j < RRN; j++) {
+                            br.readLine();
+                        }
+                        infoA = br.readLine();
+                        infoAux = infoA.split("#");
+                        infoAux[3] = String.valueOf(dvd.getID());
+                        infoN = infoAux[0] + "#" + infoAux[1] + "#" + infoAux[2] + "#" + infoAux[3];
+
+                        modificarArchivo(clientes, infoA, infoN);
+
+                        fr.close();
+                        br.close();
+                        bw.close();
+                        fw.close();
+                        
+                        //Reiniciamos tabla cliente
+                        
+                        DefaultTableModel modelo = (DefaultTableModel) frame.pClientes.tableClientes.getModel();
+                        
+                        modelo.setRowCount(0);
+                        
+                        cargarIndexCedula(frame);
+                        
+                        //Reiniciamos tabla principal
+                        modelo = (DefaultTableModel) panel.tablePeliculaCliente.getModel();
+                        
+                        modelo.setRowCount(0);
+                        
+                        this.buscarClienteEnArchivo(panel);
+                        
+                        return;
+                    }
+                }
+            } catch (Exception e) {
+            }
+        }
+        
         
     }
 
@@ -1011,6 +1128,7 @@ public class Controlador {
         int stock = Integer.parseInt(String.valueOf(panel.tablePeliculas.getValueAt(panel.tablePeliculas.getSelectedRow(), 4)));
         int nuevoStock = stock + cant;
         panel.tablePeliculas.setValueAt(nuevoStock, panel.tablePeliculas.getSelectedRow(), 4);
+        
         
         //Modificamos el archivo de texto de Peliculas con el nuevo stock
         

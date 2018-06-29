@@ -85,10 +85,14 @@ public class Pelicula implements Serializable{
     public void setRating(int rating) {
         this.rating = rating;
     }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
     
-    
-    
-    
+    public void alquilarPelicula() {
+        this.stock--;
+    }
     
     
 }

@@ -52,4 +52,12 @@ public class DVD implements Serializable{
     public long getRRN() {
         return RRN;
     }
+
+    public void setFechaAlquiler(Date fechaAlquiler) {
+        this.fechaAlquiler = fechaAlquiler;
+    }
+
+    public void setFechaDevolucion(Date fechaDevolucion) {
+        this.fechaDevolucion = fechaDevolucion;
+    }
 }
