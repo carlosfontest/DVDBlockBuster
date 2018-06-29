@@ -247,7 +247,6 @@ public class Controlador {
         
         for (int i = 0; i < indexTitulo.size(); i++) {
             pelicula[i] = indexTitulo.get(i).getTitulo();
-            System.out.println(indexTitulo.get(i).getTitulo());
         }
         
         
@@ -256,7 +255,7 @@ public class Controlador {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
         
         if(indexID.size() == 0 ){
-            JOptionPane.showMessageDialog(panel, "No hay stock para esa película", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(panel, "No hay stock para esa película (Generar Stock)", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
