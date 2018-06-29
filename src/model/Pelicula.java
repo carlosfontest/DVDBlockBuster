@@ -1,9 +1,8 @@
 package model;
 
 import java.io.Serializable;
-import java.util.Comparator;
 
-public class Pelicula implements Serializable{
+public class Pelicula implements Serializable {
     private String titulo;
     private String genero;
     private String descripcion;
@@ -94,18 +93,6 @@ public class Pelicula implements Serializable{
     public void alquilarPelicula() {
         this.stock--;
     }
-    
-    public static Comparator<Pelicula> comparatorTitu = new Comparator<Pelicula>() {
-
-	public int compare(Pelicula s1, Pelicula s2) {
-	   String StudentName1 = s1.getTitulo().toUpperCase();
-	   String StudentName2 = s2.getTitulo().toUpperCase();
-
-	   return StudentName1.compareTo(StudentName2);
-
-	   //descending order
-	   //return StudentName2.compareTo(StudentName1);
-    }};
     
     
 }

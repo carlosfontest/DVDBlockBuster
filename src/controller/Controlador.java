@@ -946,13 +946,15 @@ public class Controlador {
                     String infoN = infoAux[0] + "#" + infoAux[1] + "#" + infoAux[2] + "#" + infoAux[3];
 
                     modificarArchivo(dvds, infoA, infoN);
-
-                    fr.close();
-                    br.close();
-                    bw.close();
-                    fw.close();
                 }
             }
+            
+            
+            
+            fr.close();
+            br.close();
+            bw.close();
+            fw.close();
             
         } catch (IOException ex) {
             Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
@@ -1481,7 +1483,6 @@ public class Controlador {
         }
     }
     
-    
     public void escribirArchivo(File Ffichero,String SCadena, boolean ult){
       try {
               //Si no Existe el fichero lo crea
@@ -1988,11 +1989,10 @@ public class Controlador {
 //                System.out.println(indexTitulo.get(i).getRRN() + "  " + indexTitulo.get(i).getTitulo());
 //            }
             
-    putita();
             //Ordenamos el indice de titulos
-            Collections.sort(indexTitulo, Pelicula.comparatorTitu);
-            System.out.println("");
-            putita();
+            Collections.sort(indexTitulo, comparatorTitulo);
+            
+            
 //            System.out.println("Ordenado");
 //            for (int i = 0; i < indexTitulo.size(); i++) {
 //                System.out.println(indexTitulo.get(i).getRRN() + "  " + indexTitulo.get(i).getTitulo());
@@ -2072,6 +2072,7 @@ public class Controlador {
             System.out.println(indexTitulo.get(i).getRRN() + " " + indexTitulo.get(i).getTitulo());
         }
     }
+   
         
 }
 
