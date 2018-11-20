@@ -317,7 +317,7 @@ public class PanelPrincipal extends javax.swing.JPanel {
     }//GEN-LAST:event_botonAlquilarActionPerformed
 
     private void botonDevolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonDevolverActionPerformed
-        
+        controlador.devolver(this, this.frame);
         controlador.cargarBarraDeProgreso(frame);
     }//GEN-LAST:event_botonDevolverActionPerformed
 
