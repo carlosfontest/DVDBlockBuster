@@ -21,7 +21,7 @@ public class PanelClientes extends javax.swing.JPanel {
         panel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableClientes = new javax.swing.JTable();
-        comboEditarCliente = new javax.swing.JComboBox<String>();
+        comboEditarCliente = new javax.swing.JComboBox<>();
         botonAgregarCliente = new javax.swing.JButton();
         botonEditarCliente = new javax.swing.JButton();
         botonEliminarCliente = new javax.swing.JButton();
@@ -30,11 +30,13 @@ public class PanelClientes extends javax.swing.JPanel {
         textFieldCedulaC = new javax.swing.JTextField();
         separador1 = new javax.swing.JSeparator();
         botonBuscarCedulaC = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
 
         panel.setBackground(new java.awt.Color(65, 65, 65));
         panel.setPreferredSize(new java.awt.Dimension(620, 350));
         panel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                panelMouseClicked(evt);
+            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 panelMousePressed(evt);
             }
@@ -66,7 +68,7 @@ public class PanelClientes extends javax.swing.JPanel {
         comboEditarCliente.setBackground(new java.awt.Color(70, 24, 30));
         comboEditarCliente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         comboEditarCliente.setForeground(new java.awt.Color(255, 255, 255));
-        comboEditarCliente.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione", "Nombre", "Apellido" }));
+        comboEditarCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Nombre", "Apellido" }));
         comboEditarCliente.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         comboEditarCliente.setFocusable(false);
         comboEditarCliente.setMinimumSize(new java.awt.Dimension(73, 32));
@@ -156,13 +158,6 @@ public class PanelClientes extends javax.swing.JPanel {
             }
         });
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
@@ -179,11 +174,9 @@ public class PanelClientes extends javax.swing.JPanel {
                     .addGroup(panelLayout.createSequentialGroup()
                         .addGap(25, 25, 25)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 568, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 17, Short.MAX_VALUE))
+                        .addGap(0, 21, Short.MAX_VALUE))
                     .addGroup(panelLayout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(panelLayout.createSequentialGroup()
                                 .addGap(4, 4, 4)
@@ -230,9 +223,7 @@ public class PanelClientes extends javax.swing.JPanel {
                             .addGroup(panelLayout.createSequentialGroup()
                                 .addComponent(textFieldCedulaC, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(separador1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton1))))
+                                .addComponent(separador1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
@@ -295,9 +286,9 @@ public class PanelClientes extends javax.swing.JPanel {
         controlador.buscarClienteC(this);
     }//GEN-LAST:event_botonBuscarCedulaCActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void panelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_panelMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -307,7 +298,6 @@ public class PanelClientes extends javax.swing.JPanel {
     private javax.swing.JButton botonEditarCliente;
     private javax.swing.JButton botonEliminarCliente;
     public javax.swing.JComboBox<String> comboEditarCliente;
-    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panel;
     private javax.swing.JSeparator separador1;

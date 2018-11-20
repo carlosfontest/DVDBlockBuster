@@ -119,6 +119,11 @@ public class Login extends javax.swing.JFrame {
                 userFocusLost(evt);
             }
         });
+        user.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentHidden(java.awt.event.ComponentEvent evt) {
+                userComponentHidden(evt);
+            }
+        });
         user.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 userKeyTyped(evt);
@@ -362,6 +367,10 @@ public class Login extends javax.swing.JFrame {
     private void passActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_passActionPerformed
+
+    private void userComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_userComponentHidden
+        // TODO add your handling code here:
+    }//GEN-LAST:event_userComponentHidden
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAcceder;

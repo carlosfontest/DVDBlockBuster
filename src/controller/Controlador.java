@@ -57,17 +57,17 @@ public class Controlador {
     
     
     public void iniciarPrograma(){
-        FramePrincipal principal = new FramePrincipal(this);
-        //Login principal = new Login(this);
+        //FramePrincipal principal = new FramePrincipal(this);
+        Login principal = new Login(this);
         principal.setVisible(true);      
         
         //$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$$#$#$#
         //Cargamos los index
-        this.cargarIndexCedula(principal);
-        this.cargarIndexPeliculas(principal);
-        this.cargarIndexID(principal);
-        this.configurarCalendario(principal);
-        this.cargarBarraDeProgreso(principal);
+        //this.cargarIndexCedula(principal);
+        //this.cargarIndexPeliculas(principal);
+        //this.cargarIndexID(principal);
+        //this.configurarCalendario(principal);
+        //this.cargarBarraDeProgreso(principal);
         
         
     }
@@ -120,11 +120,11 @@ public class Controlador {
         principal.setVisible(true);
         
         //$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$$#$#$#
-        //this.cargarIndexCedula(principal);
-        //this.cargarIndexPeliculas(principal);
-        //this.cargarIndexID(principal);
-        //this.configurarCalendario(principal);
-        //cargarBarraDeProgreso(principal);
+        this.cargarIndexCedula(principal);
+        this.cargarIndexPeliculas(principal);
+        this.cargarIndexID(principal);
+        this.configurarCalendario(principal);
+        cargarBarraDeProgreso(principal);
         
     }
     
